@@ -1,4 +1,4 @@
-# Disallow unsafe `window.open()`
+# Disallow unsafe `window.open()` (`no-unsafe-window-open`)
 
 `window.open()` will mount the new window with the parent window in one process by default, which will make the parent accessible in the child by visiting `window.opener`. In some cases, this makes phishing attacks possible, or brings some performance issues.
 

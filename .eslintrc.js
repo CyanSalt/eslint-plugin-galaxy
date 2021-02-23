@@ -6,7 +6,4 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.tools.json',
   },
-  ignorePatterns: [
-    '.eslintrc.js',
-  ],
 }

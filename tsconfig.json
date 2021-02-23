@@ -1,14 +1,5 @@
 {
-  "compilerOptions": {
-    "outDir": "dist",
-    "target": "ES2019",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true
-  },
+  "extends": "@cyansalt/tsconfig/tsconfig.base",
   "exclude": [
     "**/dist",
     "**/node_modules",

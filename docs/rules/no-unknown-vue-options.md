@@ -1,4 +1,4 @@
-# Disallow unknown options in Vue SFC
+# Disallow unknown options in Vue SFC (`no-unknown-vue-options`)
 
 Unknown options are often a result of misspelling. For example, `beforeDestroyed` ought to be `beforeDestroy`.
 

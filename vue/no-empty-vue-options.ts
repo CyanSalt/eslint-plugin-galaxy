@@ -51,11 +51,12 @@ export default createRule({
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const ignoredOptions = context.options[0]?.ignores ?? []
     const source = context.getSourceCode()
-    return utils.executeOnVue(context, (obj) => {
+    return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       for (const property of obj.properties) {
-        const name = utils.getStaticPropertyName(property)
+        const name: string | null = utils.getStaticPropertyName(property)
         if (
           property.type === 'Property'
+          && name
           && !ignoredOptions.includes(name)
           && isEmpty(property.value, source)
         ) {
