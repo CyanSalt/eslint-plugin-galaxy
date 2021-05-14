@@ -11,7 +11,7 @@ export default {
     Popover,
     Button,
   },
-};
+}
 ```
 
 ```js
@@ -21,7 +21,7 @@ export default {
     a: 'a',
     b: 'b',
   },
-};
+}
 ```
 
 ## Pass
@@ -33,7 +33,7 @@ export default {
     Button,
     Popover,
   },
-};
+}
 ```
 
 ```js
@@ -43,7 +43,7 @@ export default {
     'my-button': Button,
     'my-popover': Popover,
   },
-};
+}
 ```
 
 ```js
@@ -54,7 +54,7 @@ export default {
     c: 'c',
     a: 'a',
   },
-};
+}
 ```
 
 ```js
@@ -67,7 +67,7 @@ export default {
       a: 'a',
     }
   },
-};
+}
 ```
 
 ```js
@@ -77,5 +77,5 @@ export default {
     ...component, // spread elements will be skipped
     Button,
   },
-};
+}
 ```

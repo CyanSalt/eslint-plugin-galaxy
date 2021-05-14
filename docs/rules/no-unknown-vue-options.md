@@ -9,7 +9,7 @@ This rule also supports several community packages such as `vuex`, `vue-router`,
 ```js
 export default {
   foo: {},
-};
+}
 ```
 
 ## Pass
@@ -17,18 +17,18 @@ export default {
 ```js
 export default {
   components: {},
-};
+}
 ```
 
 ```js
 export default {
   fetch() {},
-};
+}
 ```
 
 ```js
 /* eslint galaxy/no-unknown-vue-options: ["error", { "allows": ["foo"] }]*/
 export default {
   foo: {},
-};
+}
 ```

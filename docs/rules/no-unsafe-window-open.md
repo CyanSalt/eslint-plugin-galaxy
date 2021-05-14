@@ -9,20 +9,20 @@ This rule is partly fixable.
 ## Fail
 
 ```js
-window.open(url);
+window.open(url)
 ```
 
 ```js
 // Won't be fixed automatically
-const child = window.open(url);
+const child = window.open(url)
 ```
 
 ## Pass
 
 ```js
-window.open(url, '_blank', 'noopener');
+window.open(url, '_blank', 'noopener')
 ```
 
 ```js
-window.open(url, '_blank', ''); // will be skipped
+window.open(url, '_blank', '') // will be skipped
 ```

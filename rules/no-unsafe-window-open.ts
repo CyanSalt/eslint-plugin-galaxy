@@ -4,7 +4,7 @@ import { createRule } from '../utils'
 const MESSAGE_ID_DEFAULT = 'no-unsafe-window-open'
 
 const METHOD_SELECTOR = [
-  `[type="CallExpression"]`,
+  `CallExpression`,
   `[callee.object.name="window"]`,
   `[callee.property.name="open"]`,
   `[arguments.length<=2]`,

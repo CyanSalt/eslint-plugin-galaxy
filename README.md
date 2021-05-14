@@ -23,6 +23,8 @@ module.exports = {
 
 ## Rules
 
+- [multi-branch-curly](./docs/rules/multi-branch-curly.md) - Require following curly brace conventions for statements with multiple branches 🔧
+
 - [no-unsafe-window-open](./docs/rules/no-unsafe-window-open.md) - Disallow unsafe `window.open()` ✅ 🔧
 
 ### For Vue

@@ -9,19 +9,19 @@ This rule will not check empty functions and objects with comments. You can leav
 ```js
 export default {
   methods: {},
-};
+}
 ```
 
 ```js
 export default {
   created() {},
-};
+}
 ```
 
 ```js
 export default {
   created: () => {},
-};
+}
 ```
 
 ## Pass
@@ -31,7 +31,7 @@ export default {
   components: {
     Popover,
   },
-};
+}
 ```
 
 ```js
@@ -39,7 +39,7 @@ export default {
   components: {
     // pass
   },
-};
+}
 ```
 
 ```js
@@ -47,12 +47,12 @@ export default {
   created() {
     // pass
   },
-};
+}
 ```
 
 ```js
 /* eslint galaxy/no-empty-vue-options: ["error", { "ignores": ["methods"] }]*/
 export default {
   methods: {},
-};
+}
 ```
