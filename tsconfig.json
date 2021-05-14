@@ -2,7 +2,8 @@
   "extends": "@cyansalt/tsconfig/tsconfig.base",
   "compilerOptions": {
     "noEmit": false,
-    "outDir": "dist"
+    "outDir": "dist",
+    "module": "CommonJS"
   },
   "exclude": [
     "**/dist",
