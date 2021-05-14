@@ -1,5 +1,9 @@
 {
   "extends": "@cyansalt/tsconfig/tsconfig.base",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist"
+  },
   "exclude": [
     "**/dist",
     "**/node_modules",
