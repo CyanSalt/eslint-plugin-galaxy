@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-galaxy",
   "version": "1.2.2",
-  "description": "ESLint plugin for star team.",
+  "description": "Various ESLint rules in one plugin.",
   "files": [
     "dist",
     "docs"
