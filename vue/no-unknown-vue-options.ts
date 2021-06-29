@@ -23,6 +23,9 @@ const communityOptions = [
   'fetch',
   'head',
   'watchQuery',
+  // vue-apollo
+  'apolloProvider',
+  'apollo',
 ]
 
 const builtinOptions = [
