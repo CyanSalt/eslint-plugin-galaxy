@@ -8,6 +8,7 @@
   "exclude": [
     "**/dist",
     "**/node_modules",
-    "**/tests"
+    "**/tests",
+    "jest.config.js"
   ]
 }
