@@ -1,5 +1,5 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils'
-import rule from '../../vue/order-in-vue-options'
+import rule from '../../src/vue/order-in-vue-options'
 
 const ruleTester = new TSESLint.RuleTester({
   parser: require.resolve('espree'),

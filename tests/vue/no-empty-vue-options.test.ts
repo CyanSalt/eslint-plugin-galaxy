@@ -1,5 +1,5 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils'
-import rule from '../../vue/no-empty-vue-options'
+import rule from '../../src/vue/no-empty-vue-options'
 
 const ruleTester = new TSESLint.RuleTester({
   parser: require.resolve('espree'),

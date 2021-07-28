@@ -1,5 +1,5 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils'
-import rule from '../rules/no-unsafe-window-open'
+import rule from '../../src/rules/no-unsafe-window-open'
 
 const ruleTester = new TSESLint.RuleTester({
   parser: require.resolve('espree'),

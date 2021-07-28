@@ -29,11 +29,11 @@ module.exports = {
 
 ### For Vue
 
-- [no-empty-vue-options](./docs/rules/no-empty-vue-options.md) - Disallow using empty functions or objects as option values in Vue SFC ✅
+- [no-empty-vue-options](./docs/vue/no-empty-vue-options.md) - Disallow using empty functions or objects as option values in Vue SFC ✅
 
-- [no-unknown-vue-options](./docs/rules/no-empty-vue-options.md) - Disallow unknown options in Vue SFC ✅
+- [no-unknown-vue-options](./docs/vue/no-empty-vue-options.md) - Disallow unknown options in Vue SFC ✅
 
-- [order-in-vue-options](./docs/rules/order-in-vue-options.md) - Enforce a convention in the order of specified options in Vue SFC 🔧
+- [order-in-vue-options](./docs/vue/order-in-vue-options.md) - Enforce a convention in the order of specified options in Vue SFC 🔧
 
 *✅ means that the rule is contained in `plugin:galaxy/recommended` or `plugin:galaxy/recommended-vue`*.
 

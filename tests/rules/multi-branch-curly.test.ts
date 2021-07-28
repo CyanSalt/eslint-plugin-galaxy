@@ -1,5 +1,5 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils'
-import rule from '../rules/multi-branch-curly'
+import rule from '../../src/rules/multi-branch-curly'
 
 const ruleTester = new TSESLint.RuleTester({
   parser: require.resolve('espree'),
