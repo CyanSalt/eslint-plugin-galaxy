@@ -67,6 +67,7 @@ const builtinOptions = [
   'renderTriggered',
   'errorCaptured',
   'methods',
+  'expose',
   'template',
   'render',
   'renderError',
