@@ -22,7 +22,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       category: 'Stylistic Issues',
-      description: 'Disallow using empty functions or objects as option values in Vue SFC',
+      description: 'Disallow using empty functions or objects as option values in Vue components',
       recommended: 'error',
     },
     schema: [

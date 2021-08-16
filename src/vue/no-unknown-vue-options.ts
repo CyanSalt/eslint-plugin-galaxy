@@ -79,7 +79,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       category: 'Possible Errors',
-      description: 'Disallow unknown options in Vue SFC',
+      description: 'Disallow unknown options in Vue components',
       recommended: 'error',
     },
     schema: [

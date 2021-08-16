@@ -17,7 +17,7 @@ ruleTester.run('no-unknown-vue-options', rule, {
       code: `
         export default {
           components: {},
-        };
+        }
       `,
     },
     {
@@ -25,7 +25,7 @@ ruleTester.run('no-unknown-vue-options', rule, {
       code: `
         export default {
           fetch() {},
-        };
+        }
       `,
     },
     {
@@ -33,7 +33,7 @@ ruleTester.run('no-unknown-vue-options', rule, {
       code: `
         export default {
           foo: {},
-        };
+        }
       `,
       options: [{ allows: ['foo'] }],
     },
@@ -44,10 +44,21 @@ ruleTester.run('no-unknown-vue-options', rule, {
       code: `
         export default {
           foo: {},
-        };
+        }
       `,
       errors: [
         { message: 'Unknown option: "foo"' } as any,
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        export default {
+          bar() {},
+        }
+      `,
+      errors: [
+        { message: 'Unknown option: "bar"' } as any,
       ],
     },
   ],

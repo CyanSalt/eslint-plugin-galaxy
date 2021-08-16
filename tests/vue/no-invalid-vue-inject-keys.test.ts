@@ -1,5 +1,5 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils'
-import rule from '../../src/vue/no-empty-vue-options'
+import rule from '../../src/vue/no-invalid-vue-inject-keys'
 
 const ruleTester = new TSESLint.RuleTester({
   parser: require.resolve('espree'),
@@ -10,14 +10,16 @@ const ruleTester = new TSESLint.RuleTester({
   },
 })
 
-ruleTester.run('no-empty-vue-options', rule, {
+ruleTester.run('no-invalid-vue-inject-keys', rule, {
   valid: [
     {
       filename: 'test.vue',
       code: `
         export default {
-          components: {
-            Popover,
+          inject: {
+            foo: {
+              default: '',
+            },
           },
         }
       `,
@@ -26,8 +28,10 @@ ruleTester.run('no-empty-vue-options', rule, {
       filename: 'test.vue',
       code: `
         export default {
-          components: {
-            // pass
+          props: {
+            foo: {
+              from: 'bar',
+            },
           },
         }
       `,
@@ -36,9 +40,7 @@ ruleTester.run('no-empty-vue-options', rule, {
       filename: 'test.vue',
       code: `
         export default {
-          created() {
-            // pass
-          },
+          inject: ['foo'],
         }
       `,
     },
@@ -46,10 +48,16 @@ ruleTester.run('no-empty-vue-options', rule, {
       filename: 'test.vue',
       code: `
         export default {
-          methods: {},
+          inject: {
+            foo: {
+              from: 'bar',
+              default: '',
+              comment: 'Foo from parent',
+            },
+          },
         }
       `,
-      options: [{ ignores: ['methods'] }],
+      options: [{ allows: ['comment'] }],
     },
   ],
   invalid: [
@@ -57,33 +65,30 @@ ruleTester.run('no-empty-vue-options', rule, {
       filename: 'test.vue',
       code: `
         export default {
-          methods: {},
+          inject: {
+            foo: {
+              bar: 1,
+            },
+          },
         }
       `,
       errors: [
-        { messageId: 'no-empty-vue-options' },
+        { message: 'Invalid key "bar" in inject options' } as any,
       ],
     },
     {
       filename: 'test.vue',
       code: `
         export default {
-          created() {},
+          inject: {
+            foo: {
+              baz() {},
+            },
+          },
         }
       `,
       errors: [
-        { messageId: 'no-empty-vue-options' },
-      ],
-    },
-    {
-      filename: 'test.vue',
-      code: `
-        export default {
-          created: () => {},
-        }
-      `,
-      errors: [
-        { messageId: 'no-empty-vue-options' },
+        { message: 'Invalid key "baz" in inject options' } as any,
       ],
     },
   ],

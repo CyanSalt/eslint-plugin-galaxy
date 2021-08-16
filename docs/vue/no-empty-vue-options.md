@@ -1,4 +1,4 @@
-# Disallow using empty functions or objects as option values in Vue SFC (`no-empty-vue-options`)
+# Disallow using empty functions or objects as option values in Vue components (`no-empty-vue-options`)
 
 Empty options, much like unused variables, are often a result of incomplete refactoring and may confuse readers.
 

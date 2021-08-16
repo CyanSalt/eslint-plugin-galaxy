@@ -20,7 +20,7 @@ ruleTester.run('order-in-vue-options', rule, {
             Popover,
             Button,
           },
-        };
+        }
       `,
     },
     {
@@ -31,7 +31,7 @@ ruleTester.run('order-in-vue-options', rule, {
             Button,
             Popover,
           },
-        };
+        }
       `,
       options: ['components'],
     },
@@ -43,7 +43,7 @@ ruleTester.run('order-in-vue-options', rule, {
             'my-button': Button,
             'my-popover': Popover,
           },
-        };
+        }
       `,
       options: [{ name: 'components' }],
     },
@@ -56,7 +56,7 @@ ruleTester.run('order-in-vue-options', rule, {
             c: 'c',
             a: 'a',
           },
-        };
+        }
       `,
       options: [{ name: 'foo', order: ['b', 'a'] }],
     },
@@ -71,7 +71,7 @@ ruleTester.run('order-in-vue-options', rule, {
               a: 'a',
             }
           },
-        };
+        }
       `,
       options: ['foo'],
     },
@@ -83,7 +83,7 @@ ruleTester.run('order-in-vue-options', rule, {
             ...component,
             Button,
           },
-        };
+        }
       `,
       options: ['components'],
     },
@@ -98,7 +98,7 @@ ruleTester.run('order-in-vue-options', rule, {
             ...components,
             Button,
           },
-        };
+        }
       `,
       options: ['components'],
       errors: [
@@ -111,7 +111,7 @@ ruleTester.run('order-in-vue-options', rule, {
             Popover,
             ...components,
           },
-        };
+        }
       `,
     },
     {
@@ -123,7 +123,7 @@ ruleTester.run('order-in-vue-options', rule, {
             b: 'b',
             c: 'c',
           },
-        };
+        }
       `,
       options: [{ name: 'foo', order: ['b', 'a'] }],
       errors: [
@@ -136,7 +136,7 @@ ruleTester.run('order-in-vue-options', rule, {
             a: 'a',
             c: 'c',
           },
-        };
+        }
       `,
     },
   ],

@@ -1,4 +1,4 @@
-# Enforce a convention in the order of specified options in Vue SFC (`order-in-vue-options`)
+# Enforce a convention in the order of specified options in Vue components (`order-in-vue-options`)
 
 Sometimes you may want to control the order of properties which are declared in certain component options. For example, when you are using the `import/order` rule, you might want the order of components to be the same as the order of imports.
 

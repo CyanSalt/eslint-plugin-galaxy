@@ -1,4 +1,4 @@
-# Require following curly brace conventions for statements with multiple branches
+# Require following curly brace conventions for statements with multiple branches (`multi-branch-curly`)
 
 Omitting the curly braces in an IfStatement can make code clearer sometimes, such as "return early". However, in cases where multiple branches are used, this can easily lead to misunderstandings due to inconsistencies.
 

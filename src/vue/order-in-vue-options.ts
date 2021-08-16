@@ -87,7 +87,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       category: 'Stylistic Issues',
-      description: 'Enforce a convention in the order of specified options in Vue SFC',
+      description: 'Enforce a convention in the order of specified options in Vue components',
       recommended: false,
     },
     fixable: 'code',
