@@ -52,7 +52,7 @@ export default createRule({
         return
       }
       for (const item of propsProperty.value.properties) {
-        if (item.value.type === 'ObjectExpression') {
+        if (item.value && item.value.type === 'ObjectExpression') {
           for (const property of item.value.properties) {
             const name = utils.getStaticPropertyName(property)
             if (!allowedOptions.includes(name)) {

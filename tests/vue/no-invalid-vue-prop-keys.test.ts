@@ -51,6 +51,16 @@ ruleTester.run('no-invalid-vue-prop-keys', rule, {
       code: `
         export default {
           props: {
+            ...properties,
+          },
+        }
+      `,
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        export default {
+          props: {
             foo: {
               type: Object,
               required: true,

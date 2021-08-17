@@ -49,6 +49,16 @@ ruleTester.run('no-invalid-vue-inject-keys', rule, {
       code: `
         export default {
           inject: {
+            ...injections,
+          },
+        }
+      `,
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        export default {
+          inject: {
             foo: {
               from: 'bar',
               default: '',
