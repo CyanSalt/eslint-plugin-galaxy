@@ -21,7 +21,7 @@ export default {
     foo: {
       type: Object,
       validate(value) {
-        return !value.disabled;
+        return !value.disabled
       },
     },
   },

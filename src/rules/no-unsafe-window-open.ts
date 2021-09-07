@@ -36,7 +36,7 @@ export default createRule({
           fix(fixer) {
             const argumentsSource = node.arguments.map(argument => code.getText(argument))
             const argumentsText = argumentsSource.concat(
-              ['', `'_blank'`, `'noopener'`].slice(argumentsSource.length)
+              ['', `'_blank'`, `'noopener'`].slice(argumentsSource.length),
             ).join(', ')
             if (node.parent?.type === 'ExpressionStatement') {
               return fixer.replaceText(node, `window.open(${argumentsText})`)

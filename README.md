@@ -25,7 +25,15 @@ module.exports = {
 
 - [multi-branch-curly](./docs/rules/multi-branch-curly.md) - Require following curly brace conventions for statements with multiple branches 🔧
 
+- [max-nested-destructuring](./docs/rules/max-nested-destructuring) - Enforce a maximum depth that destructuring can be nested
+
+- [no-for-in](./docs/rules/no-for-in) - Disallow for-in statements
+
 - [no-unsafe-window-open](./docs/rules/no-unsafe-window-open.md) - Disallow unsafe `window.open()` ✅ 🔧
+
+- [non-return-statement-curly](./docs/rules/non-return-statement-curly.md) - Require following curly brace conventions for non-return statements 🔧
+
+- [valid-indexof-return](./docs/rules/valid-indexof-return.md) - Disallow boolean cast of returning value of `.indexOf()` ✅
 
 ### For Vue
 
