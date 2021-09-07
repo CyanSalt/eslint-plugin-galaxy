@@ -1,5 +1,5 @@
 import { TSESLint } from '@typescript-eslint/experimental-utils'
-import rule from '../../src/rules/non-return-statement-curly'
+import rule from '../../src/rules/non-control-statement-curly'
 
 const ruleTester = new TSESLint.RuleTester({
   parser: require.resolve('espree'),
@@ -9,7 +9,7 @@ const ruleTester = new TSESLint.RuleTester({
   },
 })
 
-ruleTester.run('non-return-statement-curly', rule, {
+ruleTester.run('non-control-statement-curly', rule, {
   valid: [
     {
       code: `
@@ -21,12 +21,15 @@ ruleTester.run('non-return-statement-curly', rule, {
     {
       code: `function demo() { if (foo) return; }`,
     },
+    {
+      code: `if (foo) throw new Error('An error occurred.')`,
+    },
   ],
   invalid: [
     {
       code: `if (foo) bar();`,
       errors: [
-        { messageId: 'non-return-statement-curly' },
+        { messageId: 'non-control-statement-curly' },
       ],
       output: `if (foo) { bar(); }`,
     },

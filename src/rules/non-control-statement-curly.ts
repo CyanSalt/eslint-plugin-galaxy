@@ -1,15 +1,15 @@
 import type { TSESTree } from '@typescript-eslint/experimental-utils'
 import { createRule } from '../utils'
 
-const MESSAGE_ID_DEFAULT = 'non-return-statement-curly'
+const MESSAGE_ID_DEFAULT = 'non-control-statement-curly'
 
 const NON_RETURN_STATEMENT_SELECTOR = [
   'IfStatement',
-  ':not(',
-  '[consequent.type="BlockStatement"]',
-  ',',
-  '[consequent.type="ReturnStatement"]',
-  ')',
+  ':not([consequent.type="BlockStatement"])',
+  ':not([consequent.type="BreakStatement"])',
+  ':not([consequent.type="ContinueStatement"])',
+  ':not([consequent.type="ReturnStatement"])',
+  ':not([consequent.type="ThrowStatement"])',
 ].join('')
 
 export default createRule({
@@ -18,13 +18,13 @@ export default createRule({
     type: 'suggestion',
     docs: {
       category: 'Stylistic Issues',
-      description: 'Require following curly brace conventions for non-return statements',
+      description: 'Require following curly brace conventions for non-control statements',
       recommended: false,
     },
     fixable: 'code',
     schema: [],
     messages: {
-      [MESSAGE_ID_DEFAULT]: 'Expected curly braces for non-return statements',
+      [MESSAGE_ID_DEFAULT]: 'Expected curly braces for non-control statements',
     },
   },
   defaultOptions: [],

@@ -31,7 +31,7 @@ module.exports = {
 
 - [no-unsafe-window-open](./docs/rules/no-unsafe-window-open.md) - Disallow unsafe `window.open()` ✅ 🔧
 
-- [non-return-statement-curly](./docs/rules/non-return-statement-curly.md) - Require following curly brace conventions for non-return statements 🔧
+- [non-control-statement-curly](./docs/rules/non-control-statement-curly.md) - Require following curly brace conventions for non-control statements 🔧
 
 - [valid-indexof-return](./docs/rules/valid-indexof-return.md) - Disallow boolean cast of returning value of `.indexOf()` ✅
 
