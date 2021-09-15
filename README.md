@@ -39,9 +39,9 @@ module.exports = {
 
 - [no-empty-vue-options](./docs/vue/no-empty-vue-options.md) - Disallow using empty functions or objects as option values in Vue components ✅
 
-- [no-invalid-vue-inject-keys](./docs/vue/no-invalid-vue-inject-keys.md) - Require valid keys in Vue inject options ✅
+- [no-invalid-vue-inject-keys](./docs/vue/no-invalid-vue-inject-keys.md) - Require valid keys in Vue `inject` options ✅
 
-- [no-invalid-vue-prop-keys](./docs/vue/no-invalid-vue-prop-keys.md) - Require valid keys in Vue props options ✅
+- [no-invalid-vue-prop-keys](./docs/vue/no-invalid-vue-prop-keys.md) - Require valid keys in Vue `props` options ✅
 
 - [no-unknown-vue-options](./docs/vue/no-empty-vue-options.md) - Disallow unknown options in Vue components ✅
 
