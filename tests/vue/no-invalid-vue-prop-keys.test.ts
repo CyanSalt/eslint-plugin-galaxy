@@ -1,14 +1,5 @@
-import { TSESLint } from '@typescript-eslint/experimental-utils'
 import rule from '../../src/vue/no-invalid-vue-prop-keys'
-
-const ruleTester = new TSESLint.RuleTester({
-  parser: require.resolve('espree'),
-  parserOptions: {
-    // TODO: @typescript-eslint/experimental-utils does not support ES2021+
-    ecmaVersion: 2020,
-    sourceType: 'module',
-  },
-})
+import { ruleTester } from '../tester'
 
 ruleTester.run('no-invalid-vue-prop-keys', rule, {
   valid: [

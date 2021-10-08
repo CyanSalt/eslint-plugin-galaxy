@@ -1,13 +1,5 @@
-import { TSESLint } from '@typescript-eslint/experimental-utils'
 import rule from '../../src/rules/non-control-statement-curly'
-
-const ruleTester = new TSESLint.RuleTester({
-  parser: require.resolve('espree'),
-  parserOptions: {
-    // TODO: @typescript-eslint/experimental-utils does not support ES2021+
-    ecmaVersion: 2020,
-  },
-})
+import { ruleTester } from '../tester'
 
 ruleTester.run('non-control-statement-curly', rule, {
   valid: [
