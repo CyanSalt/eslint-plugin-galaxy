@@ -6,12 +6,12 @@ ruleTester.run('non-control-statement-curly', rule, {
     {
       code: `
         if (foo) {
-          bar();
+          bar()
         }
       `,
     },
     {
-      code: `function demo() { if (foo) return; }`,
+      code: `function demo() { if (foo) return }`,
     },
     {
       code: `if (foo) throw new Error('An error occurred.')`,
@@ -19,11 +19,11 @@ ruleTester.run('non-control-statement-curly', rule, {
   ],
   invalid: [
     {
-      code: `if (foo) bar();`,
+      code: `if (foo) bar()`,
       errors: [
         { messageId: 'non-control-statement-curly' },
       ],
-      output: `if (foo) { bar(); }`,
+      output: `if (foo) { bar() }`,
     },
   ],
 })

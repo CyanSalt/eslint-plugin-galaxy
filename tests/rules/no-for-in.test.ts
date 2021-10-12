@@ -6,15 +6,15 @@ ruleTester.run('no-for-in', rule, {
     {
       code: `
         for (let key of Object.keys(foo)) {
-          bar[key] = String(foo[key]);
+          bar[key] = String(foo[key])
         }
       `,
     },
     {
       code: `
         Object.keys(foo).forEach(key => {
-          bar[key] = String(foo[key]);
-        });
+          bar[key] = String(foo[key])
+        })
       `,
     },
   ],
@@ -22,7 +22,7 @@ ruleTester.run('no-for-in', rule, {
     {
       code: `
         for (let key in foo) {
-          bar[key] = String(foo[key]);
+          bar[key] = String(foo[key])
         }
       `,
       errors: [
@@ -33,7 +33,7 @@ ruleTester.run('no-for-in', rule, {
       code: `
         for (let key in foo) {
           if (Object.prototype.hasOwnProperty.call(foo, key)) {
-            bar[key] = String(foo[key]);
+            bar[key] = String(foo[key])
           }
         }
       `,
