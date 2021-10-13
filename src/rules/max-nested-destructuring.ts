@@ -8,7 +8,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Stylistic Issues',
       description: 'Enforce a maximum depth that destructuring can be nested',
       recommended: false,
     },

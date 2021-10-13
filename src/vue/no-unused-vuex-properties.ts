@@ -28,7 +28,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Stylistic Issues',
       description: 'Disallow unused properties from Vuex',
       recommended: 'error',
     },

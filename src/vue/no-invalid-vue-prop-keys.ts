@@ -14,7 +14,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Possible Errors',
       description: 'Require valid keys in Vue props options',
       recommended: 'error',
     },

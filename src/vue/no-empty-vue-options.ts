@@ -21,7 +21,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Stylistic Issues',
       description: 'Disallow using empty functions or objects as option values in Vue components',
       recommended: 'error',
     },

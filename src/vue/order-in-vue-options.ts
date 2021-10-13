@@ -86,7 +86,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Stylistic Issues',
       description: 'Enforce a convention in the order of specified options in Vue components',
       recommended: false,
     },

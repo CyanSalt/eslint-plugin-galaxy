@@ -24,4 +24,8 @@ module.exports = {
       isolatedModules: true,
     },
   },
+  // TODO: only for NodeJS <16
+  moduleNameMapper: {
+    '@eslint/eslintrc/universal': '@eslint/eslintrc/dist/eslintrc-universal.cjs',
+  },
 }

@@ -15,7 +15,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Best Practices',
       description: 'Disallow unsafe `window.open`',
       recommended: 'error',
     },

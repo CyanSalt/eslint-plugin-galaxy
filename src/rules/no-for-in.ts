@@ -8,7 +8,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Stylistic Issues',
       description: 'Disallow for-in statements',
       recommended: false,
     },

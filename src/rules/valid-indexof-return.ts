@@ -8,7 +8,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Best Practices',
       description: 'Disallow boolean cast of returning value of `.indexOf()`',
       recommended: 'error',
     },

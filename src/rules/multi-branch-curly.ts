@@ -24,7 +24,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Stylistic Issues',
       description: 'Require following curly brace conventions for statements with multiple branches',
       recommended: false,
     },

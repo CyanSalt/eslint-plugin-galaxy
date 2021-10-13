@@ -12,7 +12,6 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      category: 'Possible Errors',
       description: 'Require valid keys in Vue inject options',
       recommended: 'error',
     },
