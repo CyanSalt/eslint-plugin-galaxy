@@ -1,3 +1,10 @@
+## [1.7.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.6.0...v1.7.0) (2021-10-13)
+
+
+### Features
+
+* support ESLint 8 ([c808b9a](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c808b9a54ea0cad2bfea6d6bbe6e42f9eb08ce8a))
+
 ## [1.6.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.5.0...v1.6.0) (2021-10-12)
 
 
