@@ -1,3 +1,10 @@
+### [1.7.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.7.0...v1.7.1) (2021-10-15)
+
+
+### Bug Fixes
+
+* vuex mappings with functions ([307513e](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/307513ef6b282b01dfdbd8375a5a95c16eb43ca3))
+
 ## [1.7.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.6.0...v1.7.0) (2021-10-13)
 
 
