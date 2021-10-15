@@ -96,13 +96,13 @@ export default createRule({
 
     const scriptVisitor = utils.compositingVisitors(
       {
-        [`${mappingSelector} ObjectExpression Property`](node: TSESTree.PropertyNonComputedName) {
+        [`${mappingSelector} > ObjectExpression > Property`](node: TSESTree.PropertyNonComputedName) {
           container.properties.push({
             name: node.key.type === 'Identifier' ? node.key.name : node.key.value,
             node,
           })
         },
-        [`${mappingSelector} > ArrayExpression Literal`](node: TSESTree.Literal) {
+        [`${mappingSelector} > ArrayExpression > Literal`](node: TSESTree.Literal) {
           container.properties.push({
             name: node.value,
             node,
