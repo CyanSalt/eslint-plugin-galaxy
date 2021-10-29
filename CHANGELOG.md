@@ -1,3 +1,10 @@
+## [1.8.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.7.1...v1.8.0) (2021-10-29)
+
+
+### Features
+
+* add no-shared-vue-provide ([13ec03d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/13ec03d9e0e76789f56a5ce38a7379e8d23e0f21))
+
 ### [1.7.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.7.0...v1.7.1) (2021-10-15)
 
 
