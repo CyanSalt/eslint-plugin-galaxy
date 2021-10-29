@@ -49,7 +49,7 @@ export default createRule({
     const utils = require('eslint-plugin-vue/lib/utils')
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const ignoredOptions = context.options[0]?.ignores ?? []
-    const source = context.getSourceCode()
+    const code = context.getSourceCode()
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       for (const property of obj.properties) {
         const name: string | null = utils.getStaticPropertyName(property)
@@ -57,7 +57,7 @@ export default createRule({
           property.type === 'Property'
           && name
           && !ignoredOptions.includes(name)
-          && isEmpty(property.value, source)
+          && isEmpty(property.value, code)
         ) {
           context.report({
             node: property,
