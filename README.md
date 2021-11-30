@@ -25,9 +25,9 @@ module.exports = {
 
 - [multi-branch-curly](./docs/rules/multi-branch-curly.md) - Require following curly brace conventions for statements with multiple branches 🔧
 
-- [max-nested-destructuring](./docs/rules/max-nested-destructuring) - Enforce a maximum depth that destructuring can be nested
+- [max-nested-destructuring](./docs/rules/max-nested-destructuring.md) - Enforce a maximum depth that destructuring can be nested
 
-- [no-for-in](./docs/rules/no-for-in) - Disallow for-in statements
+- [no-for-in](./docs/rules/no-for-in.md) - Disallow for-in statements
 
 - [no-unsafe-window-open](./docs/rules/no-unsafe-window-open.md) - Disallow unsafe `window.open()` ✅ 🔧
 
