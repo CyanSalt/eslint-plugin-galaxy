@@ -1,3 +1,10 @@
+### [1.8.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.8.0...v1.8.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* allow more community options ([928088d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/928088dfc5fc78e0f0e515a45d3ac81eef6ef3f3))
+
 ## [1.8.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.7.1...v1.8.0) (2021-10-29)
 
 
