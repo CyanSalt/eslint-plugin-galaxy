@@ -11,6 +11,11 @@ const communityOptions = [
   'beforeRouteEnter',
   'beforeRouteUpdate',
   'beforeRouteLeave',
+  // vue-rx
+  'subscriptions',
+  'observableMethods',
+  // @vue/compat
+  'compatConfig',
   // nuxt
   'key',
   'layout',
