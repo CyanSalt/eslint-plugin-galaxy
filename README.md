@@ -51,6 +51,8 @@ module.exports = {
 
 - [order-in-vue-options](./docs/vue/order-in-vue-options.md) - Enforce a convention in the order of specified options in Vue components 🔧
 
+- [vue-attribute-spacing](./docs/vue/vue-attribute-spacing.md) - Enforce unified spacing around binding attributes ✅
+
 *✅ means that the rule is contained in `plugin:galaxy/recommended` or `plugin:galaxy/recommended-vue`*.
 
 *🔧 means that the rule could be fixed automatically*.
