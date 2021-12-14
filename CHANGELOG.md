@@ -1,3 +1,10 @@
+### [1.9.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.9.0...v1.9.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* remove vue-attribute-spacing from ([b9c18b1](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/b9c18b199b57d7a5e54516bdcf089606d2833211))
+
 ## [1.9.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.8.1...v1.9.0) (2021-12-14)
 
 
