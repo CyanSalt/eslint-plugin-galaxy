@@ -13,7 +13,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Enforce unified spacing around binding attributes',
-      recommended: 'warn',
+      recommended: false,
     },
     fixable: 'code',
     schema: [
