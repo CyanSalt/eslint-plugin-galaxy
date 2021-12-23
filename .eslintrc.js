@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: [
-    '@cyansalt',
+    '@cyansalt/preset',
   ],
   parserOptions: {
     project: './tsconfig.tools.json',
