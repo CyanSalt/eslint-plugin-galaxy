@@ -126,7 +126,7 @@ export default createRule({
             fix(fixer) {
               let fixedPath = importPath + extension
               if (resolve(fixedPath, context) !== resolvedPath) {
-                fixedPath = path.join(importPath, 'index' + extension)
+                fixedPath = path.format({ dir: importPath, name: 'index', ext: extension })
               }
               const query = importPathWithQueryString.slice(importPath.length)
               return fixer.replaceText(source, `'${fixedPath}${query}'`)
