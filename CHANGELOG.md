@@ -1,3 +1,10 @@
+### [1.10.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.10.0...v1.10.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* import path fixer ([7b2dfff](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/7b2dfffe2765afcbfd86a52f8fbac058be7c00a6))
+
 ## [1.10.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.9.1...v1.10.0) (2022-01-06)
 
 

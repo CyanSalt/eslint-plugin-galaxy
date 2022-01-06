@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-galaxy",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Various ESLint rules in one plugin.",
   "files": [
     "dist",
