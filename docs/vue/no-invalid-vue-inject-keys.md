@@ -34,7 +34,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/no-invalid-vue-inject-keys: ["error", { "allows": ["comment"] }]*/
+/* eslint galaxy/no-invalid-vue-inject-keys: ["error", { "allows": ["comment"] }] */
 export default {
   inject: {
     foo: {

@@ -51,7 +51,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/no-empty-vue-options: ["error", { "ignores": ["methods"] }]*/
+/* eslint galaxy/no-empty-vue-options: ["error", { "ignores": ["methods"] }] */
 export default {
   methods: {},
 }

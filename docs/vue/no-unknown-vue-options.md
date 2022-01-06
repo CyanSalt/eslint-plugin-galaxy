@@ -27,7 +27,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/no-unknown-vue-options: ["error", { "allows": ["foo"] }]*/
+/* eslint galaxy/no-unknown-vue-options: ["error", { "allows": ["foo"] }] */
 export default {
   foo: {},
 }

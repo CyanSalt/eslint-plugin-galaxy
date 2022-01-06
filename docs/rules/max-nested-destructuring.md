@@ -15,7 +15,7 @@ const { foo: { bar: [{ baz }] } } = qux
 ```
 
 ```js
-/* eslint galaxy/max-nested-destructuring: ["error", { "max": 2 }]*/
+/* eslint galaxy/max-nested-destructuring: ["error", { "max": 2 }] */
 const { foo: { bar: { baz } } } = qux
 ```
 
@@ -26,6 +26,6 @@ const { foo: { bar: { baz } } } = qux
 ```
 
 ```js
-/* eslint galaxy/max-nested-destructuring: ["error", { "max": 2 }]*/
+/* eslint galaxy/max-nested-destructuring: ["error", { "max": 2 }] */
 const { foo: { bar: baz } } = qux
 ```

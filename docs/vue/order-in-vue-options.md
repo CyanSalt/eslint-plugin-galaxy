@@ -5,7 +5,7 @@ Sometimes you may want to control the order of properties which are declared in 
 ## Fail
 
 ```js
-/* eslint galaxy/order-in-vue-options: ["error", "components"]*/
+/* eslint galaxy/order-in-vue-options: ["error", "components"] */
 export default {
   components: {
     Popover,
@@ -15,7 +15,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/order-in-vue-options: ["error", { "name": "foo", "order": ["b", "a"] }]*/
+/* eslint galaxy/order-in-vue-options: ["error", { "name": "foo", "order": ["b", "a"] }] */
 export default {
   foo: {
     a: 'a',
@@ -27,7 +27,7 @@ export default {
 ## Pass
 
 ```js
-/* eslint galaxy/order-in-vue-options: ["error", "components"]*/
+/* eslint galaxy/order-in-vue-options: ["error", "components"] */
 export default {
   components: {
     Button,
@@ -37,7 +37,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/order-in-vue-options: ["error", { "name": "components" }]*/
+/* eslint galaxy/order-in-vue-options: ["error", { "name": "components" }] */
 export default {
   components: {
     'my-button': Button,
@@ -47,7 +47,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/order-in-vue-options: ["error", { "name": "foo", "order": ["b", "a"] }]*/
+/* eslint galaxy/order-in-vue-options: ["error", { "name": "foo", "order": ["b", "a"] }] */
 export default {
   foo: {
     b: 'b',
@@ -58,7 +58,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/order-in-vue-options: ["error", { "name": "foo", "order": ["b", "a"] }]*/
+/* eslint galaxy/order-in-vue-options: ["error", { "name": "foo", "order": ["b", "a"] }] */
 export default {
   foo() { // won't be checked since it is not an object expression
     return {
@@ -71,7 +71,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/order-in-vue-options: ["error", "components"]*/
+/* eslint galaxy/order-in-vue-options: ["error", "components"] */
 export default {
   components: {
     ...component, // spread elements will be skipped

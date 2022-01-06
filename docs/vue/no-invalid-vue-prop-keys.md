@@ -59,7 +59,7 @@ export default {
 ```
 
 ```js
-/* eslint galaxy/no-invalid-vue-prop-keys: ["error", { "allows": ["comment"] }]*/
+/* eslint galaxy/no-invalid-vue-prop-keys: ["error", { "allows": ["comment"] }] */
 export default {
   props: {
     foo: {
