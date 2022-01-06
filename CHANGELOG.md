@@ -1,3 +1,15 @@
+## [1.10.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.9.1...v1.10.0) (2022-01-06)
+
+
+### Features
+
+* add import-extensions rule ([f29ce54](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/f29ce54c0b6bcdc043b1fa6fd1e56848721e0eca))
+
+
+### Bug Fixes
+
+* bad fixable flag ([06a2f0d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/06a2f0d80b71ab65457b6201333c2ad64fa54737))
+
 ### [1.9.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.9.0...v1.9.1) (2021-12-14)
 
 
