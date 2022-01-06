@@ -11,7 +11,6 @@ export default createRule({
       description: 'Disallow boolean cast of returning value of `.indexOf()`',
       recommended: 'error',
     },
-    fixable: 'code',
     schema: [],
     messages: {
       [MESSAGE_ID_DEFAULT]: 'Unexpected boolean cast of returning value of `.indexOf()`',
