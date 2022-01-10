@@ -7,6 +7,10 @@
     "docs"
   ],
   "main": "dist/index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore --fix .",
     "prepack": "rm -rf dist && tsc",
@@ -15,8 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CyanSalt/eslint-plugin-galaxy.git"
+    "url": "git+https://github.com/CyanSalt/eslint-plugin-galaxy.git"
   },
+  "bugs": {
+    "url": "https://github.com/CyanSalt/eslint-plugin-galaxy/issues"
+  },
+  "homepage": "https://github.com/CyanSalt/eslint-plugin-galaxy#readme",
   "keywords": [
     "eslint",
     "eslintplugin"
