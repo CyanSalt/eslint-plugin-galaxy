@@ -112,7 +112,6 @@ export default createRule({
     const allowedOptions = [
       ...builtinOptions,
       ...communityOptions,
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       ...context.options[0]?.allows ?? [],
     ]
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {

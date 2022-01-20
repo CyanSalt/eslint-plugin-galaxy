@@ -42,7 +42,6 @@ export default createRule({
     const utils = require('eslint-plugin-vue/lib/utils')
     const allowedOptions = [
       ...builtinOptions,
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       ...context.options[0]?.allows ?? [],
     ]
     return utils.executeOnVue(context, (obj) => {

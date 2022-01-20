@@ -30,7 +30,6 @@ export default createRule({
     { max: 3 },
   ],
   create(context) {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const max = context.options[0]?.max ?? 3
     const destructuringStack: TSESTree.Node[] = []
     function checkFunction(node: TSESTree.Node) {

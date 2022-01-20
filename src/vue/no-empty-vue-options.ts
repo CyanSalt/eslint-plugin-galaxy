@@ -47,7 +47,6 @@ export default createRule({
   ],
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const ignoredOptions = context.options[0]?.ignores ?? []
     const code = context.getSourceCode()
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {

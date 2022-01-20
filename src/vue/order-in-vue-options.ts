@@ -71,7 +71,6 @@ function checkOrder(
           const propertyCode
             = source.text.slice(codeStart, codeEnd)
             + (hasAfterComma ? '' : ',')
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const insertTarget = source.getTokenBefore(unorderedProperty.node)!
 
           yield fixer.insertTextAfter(insertTarget, propertyCode)
