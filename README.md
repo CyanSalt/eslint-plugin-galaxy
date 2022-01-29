@@ -25,9 +25,9 @@ module.exports = {
 
 - [`import-extensions`](./docs/rules/import-extensions.md) - Ensure consistent use of file extension within the import path 🔧
 
-- [`multi-branch-curly`](./docs/rules/multi-branch-curly.md) - Require following curly brace conventions for statements with multiple branches 🔧
-
 - [`max-nested-destructuring`](./docs/rules/max-nested-destructuring.md) - Enforce a maximum depth that destructuring can be nested
+
+- [`multi-branch-curly`](./docs/rules/multi-branch-curly.md) - Require following curly brace conventions for statements with multiple branches 🔧
 
 - [`no-for-in`](./docs/rules/no-for-in.md) - Disallow for-in statements
 
