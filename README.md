@@ -51,7 +51,7 @@ module.exports = {
 
 - [`no-unused-vuex-properties`](./docs/vue/no-unused-vuex-properties.md) - Disallow unused properties from Vuex ✅
 
-- [`vue-attribute-spacing`](./docs/vue/vue-attribute-spacing.md) - Enforce unified spacing around binding attributes
+- [`vue-attribute-spacing`](./docs/vue/vue-attribute-spacing.md) - Enforce unified spacing around binding attributes 🔧
 
 *✅ means that the rule is contained in `plugin:galaxy/recommended` or `plugin:galaxy/recommended-vue`*.
 
