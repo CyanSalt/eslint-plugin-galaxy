@@ -1,3 +1,10 @@
+## [1.11.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.10.1...v1.11.0) (2022-01-29)
+
+
+### Features
+
+* remove `order-in-vue-options` ([efeb69f](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/efeb69fee7c82068cfe9650f6dcb467a04bc8d38))
+
 ### [1.10.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.10.0...v1.10.1) (2022-01-06)
 
 
