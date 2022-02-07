@@ -23,12 +23,12 @@ ruleTester.run('import-extensions', rule, {
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/experimental-utils/package.json'`,
+      code: `import Foo from '@typescript-eslint/utils/package.json'`,
       options: ['ignorePackages'],
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/experimental-utils/package'`,
+      code: `import Foo from '@typescript-eslint/utils/package'`,
       options: ['ignorePackages'],
     },
     {
@@ -49,20 +49,20 @@ ruleTester.run('import-extensions', rule, {
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/experimental-utils/package'`,
+      code: `import Foo from '@typescript-eslint/utils/package'`,
       errors: [
-        { message: 'Missing file extension ".json" for "@typescript-eslint/experimental-utils/package"' } as any,
+        { message: 'Missing file extension ".json" for "@typescript-eslint/utils/package"' } as any,
       ],
-      output: `import Foo from '@typescript-eslint/experimental-utils/package.json'`,
+      output: `import Foo from '@typescript-eslint/utils/package.json'`,
       options: ['always'],
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/experimental-utils/dist'`,
+      code: `import Foo from '@typescript-eslint/utils/dist'`,
       errors: [
-        { message: 'Missing file extension ".js" for "@typescript-eslint/experimental-utils/dist"' } as any,
+        { message: 'Missing file extension ".js" for "@typescript-eslint/utils/dist"' } as any,
       ],
-      output: `import Foo from '@typescript-eslint/experimental-utils/dist/index.js'`,
+      output: `import Foo from '@typescript-eslint/utils/dist/index.js'`,
       options: ['always'],
     },
     {
@@ -85,11 +85,11 @@ ruleTester.run('import-extensions', rule, {
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/experimental-utils/dist/index.js'`,
+      code: `import Foo from '@typescript-eslint/utils/dist/index.js'`,
       errors: [
-        { message: 'Unexpected use of file extension ".js" for "@typescript-eslint/experimental-utils/dist/index.js"' } as any,
+        { message: 'Unexpected use of file extension ".js" for "@typescript-eslint/utils/dist/index.js"' } as any,
       ],
-      output: `import Foo from '@typescript-eslint/experimental-utils/dist'`,
+      output: `import Foo from '@typescript-eslint/utils/dist'`,
       options: ['never'],
     },
   ],

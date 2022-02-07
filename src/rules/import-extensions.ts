@@ -1,5 +1,5 @@
 import * as path from 'path'
-import type { TSESTree } from '@typescript-eslint/experimental-utils'
+import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_REQUIRED = 'import-extensions.required'

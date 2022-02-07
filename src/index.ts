@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import type { TSESLint } from '@typescript-eslint/experimental-utils'
+import type { TSESLint } from '@typescript-eslint/utils'
 
 type RuleModule = TSESLint.RuleModule<string, unknown[]> & {
   meta: Required<Pick<TSESLint.RuleMetaData<string>, 'docs'>>,
