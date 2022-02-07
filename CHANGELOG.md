@@ -1,3 +1,10 @@
+### [1.11.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.11.0...v1.11.1) (2022-02-07)
+
+
+### Bug Fixes
+
+* update experimental-utils to utils ([df05ab6](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/df05ab653cd416a7f8a1d397dcc5f556fb560225))
+
 ## [1.11.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.10.1...v1.11.0) (2022-01-29)
 
 
