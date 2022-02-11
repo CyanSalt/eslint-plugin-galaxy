@@ -13,7 +13,7 @@ const METHOD_SELECTOR = [
 export default createRule({
   name: __filename,
   meta: {
-    type: 'suggestion',
+    type: 'problem',
     docs: {
       description: 'Disallow unsafe `window.open`',
       recommended: 'error',

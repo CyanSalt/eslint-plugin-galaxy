@@ -10,7 +10,7 @@ const builtinOptions = [
 export default createRule({
   name: __filename,
   meta: {
-    type: 'suggestion',
+    type: 'problem',
     docs: {
       description: 'Require valid keys in Vue inject options',
       recommended: 'error',

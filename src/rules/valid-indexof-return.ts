@@ -6,7 +6,7 @@ const MESSAGE_ID_DEFAULT = 'valid-indexof-return'
 export default createRule({
   name: __filename,
   meta: {
-    type: 'suggestion',
+    type: 'problem',
     docs: {
       description: 'Disallow boolean cast of returning value of `.indexOf()`',
       recommended: 'error',

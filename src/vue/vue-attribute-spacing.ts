@@ -10,7 +10,7 @@ function isAttributeQuote(token: TSESTree.Token | undefined) {
 export default createRule({
   name: __filename,
   meta: {
-    type: 'suggestion',
+    type: 'layout',
     docs: {
       description: 'Enforce unified spacing around binding attributes',
       recommended: false,
