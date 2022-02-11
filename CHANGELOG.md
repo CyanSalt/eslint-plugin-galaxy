@@ -1,3 +1,15 @@
+## [1.12.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.11.1...v1.12.0) (2022-02-11)
+
+
+### Features
+
+* add `valid-vue-v-if-with-v-slot` ([9b4713e](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/9b4713e74d8b2c4e06548acb45c59ce231afe86f))
+
+
+### Bug Fixes
+
+* update meta types ([3572f5a](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/3572f5ac4a90a05518d5d3fe927484b11f35ad22))
+
 ### [1.11.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.11.0...v1.11.1) (2022-02-07)
 
 
