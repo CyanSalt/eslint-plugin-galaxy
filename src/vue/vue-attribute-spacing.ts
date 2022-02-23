@@ -15,7 +15,7 @@ export default createRule({
       description: 'Enforce unified spacing around binding attributes',
       recommended: false,
     },
-    fixable: 'code',
+    fixable: 'whitespace',
     schema: [
       {
         enum: ['always', 'never'],
