@@ -34,7 +34,6 @@ export default createRule({
     // @ts-expect-error eslint-plugin-vue API
     const template = context.parserServices!.getTemplateBodyTokenStore?.()
     return utils.defineTemplateBodyVisitor(context, {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       VExpressionContainer(node) {
         const openQuote = template.getFirstToken(node)
         const closeQuote = template.getLastToken(node)

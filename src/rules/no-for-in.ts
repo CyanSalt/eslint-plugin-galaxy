@@ -19,7 +19,6 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     return {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       ForInStatement: (node: TSESTree.ForInStatement) => {
         context.report({
           node,

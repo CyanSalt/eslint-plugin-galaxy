@@ -142,7 +142,6 @@ export default createRule({
             }
           }
         },
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'ObjectExpression > Property > :function[params.length>0]'(
           node: (TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression) & { parent: TSESTree.Property },
           vueData,
@@ -204,7 +203,6 @@ export default createRule({
             )
           }
         },
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'ThisExpression, Identifier'(node: TSESTree.ThisExpression | TSESTree.Identifier) {
           if (!utils.isThis(node, context)) return
           const propertyReferences = propertyReferenceExtractor.extractFromExpression(node, false)
@@ -212,7 +210,6 @@ export default createRule({
         },
       }),
       {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Program:exit'(node: TSESTree.Program) {
           const styleVars = getStyleVariablesContext(context)
           if (styleVars) {
@@ -233,7 +230,6 @@ export default createRule({
     )
 
     const templateVisitor = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       VExpressionContainer(node) {
         for (const id of getReferences(node.references)) {
           templatePropertiesContainer.propertyReferences.push(
@@ -244,7 +240,6 @@ export default createRule({
           )
         }
       },
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       'VElement[parent.type!=\'VElement\']:exit'() {
         reportUnusedProperties()
       },

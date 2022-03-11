@@ -19,7 +19,6 @@ export default createRule({
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
     return utils.defineTemplateBodyVisitor(context, {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       'VAttribute[directive=true][key.name.name="if"]'(node) {
         const startTag = node.parent
         const templateElement = startTag.parent

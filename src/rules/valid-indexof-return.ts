@@ -19,7 +19,6 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     return {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       'CallExpression[callee.property.name="indexOf"]': (node: TSESTree.CallExpression) => {
         if (!node.parent) return
         if (
