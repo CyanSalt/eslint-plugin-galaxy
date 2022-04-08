@@ -1,7 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import { removeElement } from '../fixer'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-unused-vuex-properties'
+const MESSAGE_ID_SUGGESTION_REMOVE = 'suggestion@no-unused-vuex-properties.remove'
 
 const mappingFunctions = [
   'mapState',
@@ -31,9 +33,11 @@ export default createRule({
       description: 'Disallow unused properties from Vuex',
       recommended: 'error',
     },
+    hasSuggestions: true,
     schema: [],
     messages: {
       [MESSAGE_ID_DEFAULT]: 'Property "{{name}}" is never used.',
+      [MESSAGE_ID_SUGGESTION_REMOVE]: 'Remove unused property',
     },
   },
   defaultOptions: [],
@@ -44,6 +48,8 @@ export default createRule({
       mergePropertyReferences,
     } = require('eslint-plugin-vue/lib/utils/property-references')
     const { getStyleVariablesContext } = require('eslint-plugin-vue/lib/utils/style-variables')
+
+    const code = context.getSourceCode()
 
     const propertyReferenceExtractor = definePropertyReferenceExtractor(context)
 
@@ -88,6 +94,14 @@ export default createRule({
           data: {
             name: property.name,
           },
+          suggest: [
+            {
+              messageId: MESSAGE_ID_SUGGESTION_REMOVE,
+              fix(fixer) {
+                return removeElement(code, fixer, property.node)
+              },
+            },
+          ],
         })
       }
     }

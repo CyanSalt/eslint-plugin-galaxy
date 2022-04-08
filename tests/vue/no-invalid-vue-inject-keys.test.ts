@@ -74,7 +74,12 @@ ruleTester.run('no-invalid-vue-inject-keys', rule, {
         }
       `,
       errors: [
-        { message: 'Invalid key "bar" in inject options' } as any,
+        {
+          messageId: 'no-invalid-vue-inject-keys',
+          data: {
+            name: 'bar',
+          },
+        },
       ],
     },
     {
@@ -89,7 +94,12 @@ ruleTester.run('no-invalid-vue-inject-keys', rule, {
         }
       `,
       errors: [
-        { message: 'Invalid key "baz" in inject options' } as any,
+        {
+          messageId: 'no-invalid-vue-inject-keys',
+          data: {
+            name: 'baz',
+          },
+        },
       ],
     },
   ],

@@ -77,7 +77,12 @@ ruleTester.run('no-invalid-vue-prop-keys', rule, {
         }
       `,
       errors: [
-        { message: 'Invalid key "bar" in props options' } as any,
+        {
+          messageId: 'no-invalid-vue-prop-keys',
+          data: {
+            name: 'bar',
+          },
+        },
       ],
     },
     {
@@ -93,7 +98,12 @@ ruleTester.run('no-invalid-vue-prop-keys', rule, {
         }
       `,
       errors: [
-        { message: 'Invalid key "baz" in props options' } as any,
+        {
+          messageId: 'no-invalid-vue-prop-keys',
+          data: {
+            name: 'baz',
+          },
+        },
       ],
     },
   ],

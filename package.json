@@ -35,8 +35,8 @@
     "@typescript-eslint/utils": "^5.10.2"
   },
   "devDependencies": {
-    "@cyansalt/eslint-config-preset": "^1.4.2",
-    "@cyansalt/tsconfig": "^2.0.1",
+    "@cyansalt/eslint-config-preset": "^1.4.3",
+    "@cyansalt/tsconfig": "^2.1.0",
     "@release-it/conventional-changelog": "^3.3.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.22",

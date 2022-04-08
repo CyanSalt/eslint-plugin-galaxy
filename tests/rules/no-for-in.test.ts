@@ -26,7 +26,19 @@ ruleTester.run('no-for-in', rule, {
         }
       `,
       errors: [
-        { messageId: 'no-for-in' },
+        {
+          messageId: 'no-for-in',
+          suggestions: [
+            {
+              messageId: 'suggestion@no-for-in.for-of-keys',
+              output: `
+        for (let key of Object.keys(foo)) {
+          bar[key] = String(foo[key])
+        }
+      `,
+            },
+          ],
+        },
       ],
     },
     {
@@ -38,7 +50,21 @@ ruleTester.run('no-for-in', rule, {
         }
       `,
       errors: [
-        { messageId: 'no-for-in' },
+        {
+          messageId: 'no-for-in',
+          suggestions: [
+            {
+              messageId: 'suggestion@no-for-in.for-of-keys',
+              output: `
+        for (let key of Object.keys(foo)) {
+          if (Object.prototype.hasOwnProperty.call(foo, key)) {
+            bar[key] = String(foo[key])
+          }
+        }
+      `,
+            },
+          ],
+        },
       ],
     },
   ],

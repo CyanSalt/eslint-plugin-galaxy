@@ -38,7 +38,12 @@ ruleTester.run('no-unknown-vue-options', rule, {
         }
       `,
       errors: [
-        { message: 'Unknown option: "foo"' } as any,
+        {
+          messageId: 'no-unknown-vue-options',
+          data: {
+            name: 'foo',
+          },
+        },
       ],
     },
     {
@@ -49,7 +54,12 @@ ruleTester.run('no-unknown-vue-options', rule, {
         }
       `,
       errors: [
-        { message: 'Unknown option: "bar"' } as any,
+        {
+          messageId: 'no-unknown-vue-options',
+          data: {
+            name: 'bar',
+          },
+        },
       ],
     },
   ],

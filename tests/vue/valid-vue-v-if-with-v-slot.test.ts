@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import rule from '../../src/vue/valid-vue-v-if-with-v-slot'
 import { vueRuleTester } from '../tester'
 
@@ -49,7 +46,12 @@ vueRuleTester.run('valid-vue-v-if-with-v-slot', rule, {
         </template>
       `,
       errors: [
-        { message: '"bar" was used before it was defined.' } as any,
+        {
+          messageId: 'valid-vue-v-if-with-v-slot',
+          data: {
+            name: 'bar',
+          },
+        },
       ],
     },
     {
@@ -62,7 +64,12 @@ vueRuleTester.run('valid-vue-v-if-with-v-slot', rule, {
         </template>
       `,
       errors: [
-        { message: '"bar" was used before it was defined.' } as any,
+        {
+          messageId: 'valid-vue-v-if-with-v-slot',
+          data: {
+            name: 'bar',
+          },
+        },
       ],
     },
   ],

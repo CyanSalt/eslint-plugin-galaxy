@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import rule from '../../src/rules/import-extensions'
 import { ruleTester } from '../tester'
 
@@ -42,7 +39,13 @@ ruleTester.run('import-extensions', rule, {
       filename: __filename,
       code: `import Foo from '../../package'`,
       errors: [
-        { message: 'Missing file extension ".json" for "../../package"' } as any,
+        {
+          messageId: 'import-extensions.required',
+          data: {
+            extension: '.json',
+            path: '../../package',
+          },
+        },
       ],
       output: `import Foo from '../../package.json'`,
       options: ['always'],
@@ -51,7 +54,13 @@ ruleTester.run('import-extensions', rule, {
       filename: __filename,
       code: `import Foo from '@typescript-eslint/utils/package'`,
       errors: [
-        { message: 'Missing file extension ".json" for "@typescript-eslint/utils/package"' } as any,
+        {
+          messageId: 'import-extensions.required',
+          data: {
+            extension: '.json',
+            path: '@typescript-eslint/utils/package',
+          },
+        },
       ],
       output: `import Foo from '@typescript-eslint/utils/package.json'`,
       options: ['always'],
@@ -60,7 +69,13 @@ ruleTester.run('import-extensions', rule, {
       filename: __filename,
       code: `import Foo from '@typescript-eslint/utils/dist'`,
       errors: [
-        { message: 'Missing file extension ".js" for "@typescript-eslint/utils/dist"' } as any,
+        {
+          messageId: 'import-extensions.required',
+          data: {
+            extension: '.js',
+            path: '@typescript-eslint/utils/dist',
+          },
+        },
       ],
       output: `import Foo from '@typescript-eslint/utils/dist/index.js'`,
       options: ['always'],
@@ -69,7 +84,13 @@ ruleTester.run('import-extensions', rule, {
       filename: __filename,
       code: `import Foo from '../../package'`,
       errors: [
-        { message: 'Missing file extension ".json" for "../../package"' } as any,
+        {
+          messageId: 'import-extensions.required',
+          data: {
+            extension: '.json',
+            path: '../../package',
+          },
+        },
       ],
       output: `import Foo from '../../package.json'`,
       options: ['ignorePackages'],
@@ -78,7 +99,13 @@ ruleTester.run('import-extensions', rule, {
       filename: __filename,
       code: `import Foo from '../../package.json'`,
       errors: [
-        { message: 'Unexpected use of file extension ".json" for "../../package.json"' } as any,
+        {
+          messageId: 'import-extensions.forbidden',
+          data: {
+            extension: '.json',
+            path: '../../package.json',
+          },
+        },
       ],
       output: `import Foo from '../../package'`,
       options: ['never'],
@@ -87,7 +114,13 @@ ruleTester.run('import-extensions', rule, {
       filename: __filename,
       code: `import Foo from '@typescript-eslint/utils/dist/index.js'`,
       errors: [
-        { message: 'Unexpected use of file extension ".js" for "@typescript-eslint/utils/dist/index.js"' } as any,
+        {
+          messageId: 'import-extensions.forbidden',
+          data: {
+            extension: '.js',
+            path: '@typescript-eslint/utils/dist/index.js',
+          },
+        },
       ],
       output: `import Foo from '@typescript-eslint/utils/dist'`,
       options: ['never'],

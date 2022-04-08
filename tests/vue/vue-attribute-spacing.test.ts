@@ -64,7 +64,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
         </template>
       `,
       errors: [
-        { message: 'Expected 0 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 0,
+          },
+        },
       ],
       output: `
         <template>
@@ -80,7 +85,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
         </template>
       `,
       errors: [
-        { message: 'Expected 0 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 0,
+          },
+        },
       ],
       output: `
         <template>
@@ -96,7 +106,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
         </template>
       `,
       errors: [
-        { message: 'Expected 0 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 0,
+          },
+        },
       ],
       output: `
         <template>
@@ -112,7 +127,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
         </template>
       `,
       errors: [
-        { message: 'Expected 0 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 0,
+          },
+        },
       ],
       output: `
         <template>
@@ -129,7 +149,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
       `,
       options: ['always'],
       errors: [
-        { message: 'Expected 1 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 1,
+          },
+        },
       ],
       output: `
         <template>
@@ -146,7 +171,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
       `,
       options: ['always'],
       errors: [
-        { message: 'Expected 1 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 1,
+          },
+        },
       ],
       output: `
         <template>
@@ -163,7 +193,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
       `,
       options: ['always'],
       errors: [
-        { message: 'Expected 1 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 1,
+          },
+        },
       ],
       output: `
         <template>
@@ -180,7 +215,12 @@ vueRuleTester.run('vue-attribute-spacing', rule, {
       `,
       options: ['always'],
       errors: [
-        { message: 'Expected 1 space around the attribute.' } as any,
+        {
+          messageId: 'vue-attribute-spacing',
+          data: {
+            num: 1,
+          },
+        },
       ],
       output: `
         <template>

@@ -45,7 +45,7 @@ ruleTester.run('no-shared-vue-provide', rule, {
         }
       `,
       errors: [
-        { message: 'The `provide` option of component must be a function' } as any,
+        { messageId: 'no-shared-vue-provide' },
       ],
       output: `
         export default {

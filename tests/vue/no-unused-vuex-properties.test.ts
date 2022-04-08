@@ -48,7 +48,12 @@ vueRuleTester.run('no-unused-vuex-properties', rule, {
         </script>
       `,
       errors: [
-        { message: 'Property "foo" is never used.' } as any,
+        {
+          messageId: 'no-unused-vuex-properties',
+          data: {
+            name: 'foo',
+          },
+        },
       ],
     },
     {
@@ -63,7 +68,12 @@ vueRuleTester.run('no-unused-vuex-properties', rule, {
         </script>
       `,
       errors: [
-        { message: 'Property "myBaz" is never used.' } as any,
+        {
+          messageId: 'no-unused-vuex-properties',
+          data: {
+            name: 'myBaz',
+          },
+        },
       ],
     },
     {
@@ -78,7 +88,12 @@ vueRuleTester.run('no-unused-vuex-properties', rule, {
         </script>
       `,
       errors: [
-        { message: 'Property "qux" is never used.' } as any,
+        {
+          messageId: 'no-unused-vuex-properties',
+          data: {
+            name: 'qux',
+          },
+        },
       ],
     },
   ],
