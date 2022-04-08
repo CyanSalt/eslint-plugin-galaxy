@@ -1,3 +1,15 @@
+## [1.13.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.12.0...v1.13.0) (2022-04-08)
+
+
+### Features
+
+* add suggestions ([f435d7f](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/f435d7f82fde1e8ad49bea6e3d721c2401bfe8d7))
+
+
+### Bug Fixes
+
+* better fixable ([ac7e6de](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/ac7e6de3bc53456ba9d67a4d0163b3a0c3412da1))
+
 ## [1.12.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.11.1...v1.12.0) (2022-02-11)
 
 
