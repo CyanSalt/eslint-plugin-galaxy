@@ -2,7 +2,7 @@
 
 In order to provide a consistent use of file extensions across your code base, this rule can enforce or disallow the use of certain file extensions.
 
-This rule is based on [import/extensions](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/extensions.md), which behaves essentially the same way except:
+This rule is based on [`import/extensions`](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/extensions.md), which behaves essentially the same way except:
 
 - This rule has more possibilities for options.
 - This rule is fixable.

@@ -31,6 +31,8 @@ module.exports = {
 
 - [`no-for-in`](./docs/rules/no-for-in.md) - Disallow for-in statements
 
+- [`no-restricted-floating-promises`](./docs/rules/no-restricted-floating-promises.md) - Enforce Promises with specified syntax to be handled appropriately
+
 - [`no-unsafe-window-open`](./docs/rules/no-unsafe-window-open.md) - Disallow unsafe `window.open()` ✅ 🔧
 
 - [`non-control-statement-curly`](./docs/rules/non-control-statement-curly.md) - Require following curly brace conventions for non-control statements 🔧
