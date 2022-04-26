@@ -1,3 +1,10 @@
+## [1.14.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.13.0...v1.14.0) (2022-04-26)
+
+
+### Features
+
+* add `no-restricted-floating-promises` ([a81e136](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/a81e136a24f61fe00c2c6fb90428657ba312a8be))
+
 ## [1.13.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.12.0...v1.13.0) (2022-04-08)
 
 
