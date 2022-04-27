@@ -28,9 +28,9 @@ interface RulePattern {
 
 const TYPE_MAPPING: Record<string, RulePattern> = {
   'vuex-action': {
-    selector: `CallExpression[callee.property.name="dispatch"]:matches(${[
-      '[callee.object.name="store"]',
-      '[callee.object.property.name="$store"]',
+    selector: `CallExpression:matches(${[
+      '[callee.name="dispatch"]',
+      '[callee.property.name="dispatch"]',
     ].join(',')})`,
     message: 'Vuex actions must be handled',
   },
