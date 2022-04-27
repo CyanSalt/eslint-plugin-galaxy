@@ -1,3 +1,10 @@
+### [1.14.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.14.0...v1.14.1) (2022-04-27)
+
+
+### Bug Fixes
+
+* check all `dispatch` for vuex-action ([e67fc16](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/e67fc1669443cde8bfd855d5f13eab858f6deff9))
+
 ## [1.14.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.13.0...v1.14.0) (2022-04-26)
 
 
