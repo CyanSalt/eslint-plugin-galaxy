@@ -1,4 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
@@ -6,15 +7,15 @@ const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
 function isFloatingPromise(node: TSESTree.Node): boolean {
   const parent = node.parent
   if (!parent) return true
-  if (parent.type === 'MemberExpression' && parent.parent?.type === 'CallExpression') {
+  if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent?.type === AST_NODE_TYPES.CallExpression) {
     const method = parent.property
     const call = parent.parent
-    if (method.type !== 'Identifier') return false
+    if (method.type !== AST_NODE_TYPES.Identifier) return false
     if (method.name === 'catch') return false
     if (method.name === 'then' && call.arguments.length > 1) return false
     return isFloatingPromise(call)
   }
-  if (parent.type === 'ExpressionStatement') {
+  if (parent.type === AST_NODE_TYPES.ExpressionStatement) {
     return true
   }
   return false

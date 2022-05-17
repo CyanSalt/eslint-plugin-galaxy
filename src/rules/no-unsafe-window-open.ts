@@ -1,4 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-unsafe-window-open'
@@ -37,7 +38,7 @@ export default createRule({
             const argumentsText = argumentsSource.concat(
               ['', `'_blank'`, `'noopener'`].slice(argumentsSource.length),
             ).join(', ')
-            if (node.parent?.type === 'ExpressionStatement') {
+            if (node.parent?.type === AST_NODE_TYPES.ExpressionStatement) {
               return fixer.replaceText(node, `window.open(${argumentsText})`)
             }
             return null

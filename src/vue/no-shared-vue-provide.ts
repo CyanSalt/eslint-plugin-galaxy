@@ -1,3 +1,5 @@
+import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-shared-vue-provide'
@@ -20,9 +22,13 @@ export default createRule({
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
     const code = context.getSourceCode()
-    return utils.executeOnVue(context, (obj) => {
-      const provideProperty = utils.findProperty(obj, 'provide')
-      const functionOrIdentTypes = ['FunctionExpression', 'ArrowFunctionExpression', 'Identifier']
+    return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
+      const provideProperty: TSESTree.Property | undefined = utils.findProperty(obj, 'provide')
+      const functionOrIdentTypes = [
+        AST_NODE_TYPES.FunctionExpression,
+        AST_NODE_TYPES.ArrowFunctionExpression,
+        AST_NODE_TYPES.Identifier,
+      ]
       if (!provideProperty || functionOrIdentTypes.includes(provideProperty.value.type)) {
         return
       }

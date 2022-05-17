@@ -1,3 +1,4 @@
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'valid-vue-v-if-with-v-slot'
@@ -24,10 +25,12 @@ export default createRule({
         const templateElement = startTag.parent
         const references = node.value.references
         const variables = references
-          .filter(item => item.id.type === 'Identifier')
+          .filter(item => item.id.type === AST_NODE_TYPES.Identifier)
         for (const variable of variables) {
-          if (variable.id.type === 'Identifier') {
-            const definition = templateElement.variables.find(item => item.id.type === 'Identifier' && item.id.name === variable.id.name)
+          if (variable.id.type === AST_NODE_TYPES.Identifier) {
+            const definition = templateElement.variables.find(
+              item => item.id.type === AST_NODE_TYPES.Identifier && item.id.name === variable.id.name,
+            )
             if (definition && definition.kind === 'scope') {
               context.report({
                 loc: variable.id.loc,

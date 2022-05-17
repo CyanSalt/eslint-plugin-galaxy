@@ -1,4 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import type { ArrayOrObjectElement } from '../fixer'
 import { removeElement } from '../fixer'
 import { createRule } from '../utils'
 
@@ -53,10 +55,10 @@ export default createRule({
 
     const propertyReferenceExtractor = definePropertyReferenceExtractor(context)
 
-    const container: any = {
-      properties: [],
-      propertyReferences: [],
-      propertyReferencesForProps: [],
+    const container = {
+      properties: [] as { name: string, node: ArrayOrObjectElement }[],
+      propertyReferences: [] as string[],
+      propertyReferencesForProps: [] as string[],
     }
 
     const templatePropertiesContainer: any = {
@@ -66,7 +68,7 @@ export default createRule({
     function getParentProperty(node: TSESTree.Expression) {
       if (
         !node.parent
-        || node.parent.type !== 'Property'
+        || node.parent.type !== AST_NODE_TYPES.Property
         || node.parent.value !== node
       ) {
         return null
@@ -110,13 +112,15 @@ export default createRule({
 
     const scriptVisitor = utils.compositingVisitors(
       {
-        [`${mappingSelector} > ObjectExpression > Property`](node: TSESTree.PropertyNonComputedName) {
+        [`${mappingSelector} > ObjectExpression > Property`](node: TSESTree.Property) {
           container.properties.push({
-            name: node.key.type === 'Identifier' ? node.key.name : node.key.value,
+            name: node.key.type === AST_NODE_TYPES.Identifier
+              ? node.key.name
+              : (node.key as TSESTree.StringLiteral).value,
             node,
           })
         },
-        [`${mappingSelector} > ArrayExpression > Literal`](node: TSESTree.Literal) {
+        [`${mappingSelector} > ArrayExpression > Literal`](node: TSESTree.StringLiteral) {
           container.properties.push({
             name: node.value,
             node,
@@ -141,8 +145,8 @@ export default createRule({
                   property,
                 )) {
                   if (
-                    handlerValueNode.type === 'Literal'
-                    || handlerValueNode.type === 'TemplateLiteral'
+                    handlerValueNode.type === AST_NODE_TYPES.Literal
+                    || handlerValueNode.type === AST_NODE_TYPES.TemplateLiteral
                   ) {
                     const name = utils.getStringLiteralValue(handlerValueNode)
                     if (name !== undefined && name !== null) {

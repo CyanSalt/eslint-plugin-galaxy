@@ -1,4 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'valid-indexof-return'
@@ -27,9 +28,9 @@ export default createRule({
       ) => {
         if (!node.parent) return
         if (
-          (node.parent.type === 'IfStatement' && node.parent.test === node)
-          || (node.parent.type === 'ConditionalExpression' && node.parent.test === node)
-          || (node.parent.type === 'LogicalExpression' && node.parent.left === node)
+          (node.parent.type === AST_NODE_TYPES.IfStatement && node.parent.test === node)
+          || (node.parent.type === AST_NODE_TYPES.ConditionalExpression && node.parent.test === node)
+          || (node.parent.type === AST_NODE_TYPES.LogicalExpression && node.parent.left === node)
         ) {
           context.report({
             node,

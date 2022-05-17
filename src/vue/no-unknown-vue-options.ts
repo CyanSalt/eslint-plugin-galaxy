@@ -1,4 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-unknown-vue-options'
@@ -116,15 +117,17 @@ export default createRule({
     ]
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       for (const property of obj.properties) {
-        const name: string | null = utils.getStaticPropertyName(property)
-        if (property.type === 'Property' && name && !allowedOptions.includes(name)) {
-          context.report({
-            node: property,
-            messageId: MESSAGE_ID_DEFAULT,
-            data: {
-              name,
-            },
-          })
+        if (property.type === AST_NODE_TYPES.Property) {
+          const name: string = utils.getStaticPropertyName(property)
+          if (!allowedOptions.includes(name)) {
+            context.report({
+              node: property,
+              messageId: MESSAGE_ID_DEFAULT,
+              data: {
+                name,
+              },
+            })
+          }
         }
       }
     })

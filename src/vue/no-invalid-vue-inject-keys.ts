@@ -1,3 +1,5 @@
+import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-invalid-vue-inject-keys'
@@ -42,15 +44,15 @@ export default createRule({
       ...builtinOptions,
       ...context.options[0]?.allows ?? [],
     ]
-    return utils.executeOnVue(context, (obj) => {
-      const injectProperty = utils.findProperty(obj, 'inject')
-      if (!injectProperty || injectProperty.value.type !== 'ObjectExpression') {
+    return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
+      const injectProperty: TSESTree.Property | undefined = utils.findProperty(obj, 'inject')
+      if (!injectProperty || injectProperty.value.type !== AST_NODE_TYPES.ObjectExpression) {
         return
       }
       for (const item of injectProperty.value.properties) {
-        if (item.value && item.value.type === 'ObjectExpression') {
+        if (item.type === AST_NODE_TYPES.Property && item.value.type === AST_NODE_TYPES.ObjectExpression) {
           for (const property of item.value.properties) {
-            const name = utils.getStaticPropertyName(property)
+            const name: string = utils.getStaticPropertyName(property)
             if (!allowedOptions.includes(name)) {
               context.report({
                 node: property,

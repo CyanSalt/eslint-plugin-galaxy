@@ -1,10 +1,11 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'vue-attribute-spacing'
 
 function isAttributeQuote(token: TSESTree.Token | undefined) {
-  return Boolean(token && token.type === 'Punctuator')
+  return Boolean(token && token.type === AST_TOKEN_TYPES.Punctuator)
 }
 
 export default createRule({
