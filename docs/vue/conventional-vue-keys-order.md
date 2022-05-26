@@ -44,7 +44,7 @@ export default {
     event: 'input',
     prop: 'value',
   },
-};
+}
 ```
 
 ```js
@@ -60,7 +60,7 @@ export default {
       required: true,
     },
   },
-};
+}
 ```
 
 ```js
@@ -72,7 +72,7 @@ export default {
       type: String,
     },
   },
-};
+}
 ```
 
 ```js
@@ -84,7 +84,7 @@ export default {
       from: 'bar',
     },
   },
-};
+}
 ```
 
 ```js
@@ -94,7 +94,7 @@ export default {
     foo: () => true,
     'update:foo': () => true,
   },
-};
+}
 ```
 
 ```js
@@ -104,9 +104,9 @@ export default {
     return {
       baz: 1,
       FooBar,
-    };
+    }
   },
-};
+}
 ```
 
 ```js
@@ -114,11 +114,11 @@ export default {
 export default {
   computed: {
     bar() {
-      return true;
+      return true
     },
     ...mapState(['foo']),
   },
-};
+}
 ```
 
 ```js
@@ -128,7 +128,7 @@ export default {
     ...mapGetters(['bar']),
     ...mapState(['foo']),
   },
-};
+}
 ```
 
 ```js
@@ -142,7 +142,7 @@ export default {
       },
     },
   },
-};
+}
 ```
 
 ```js
@@ -150,11 +150,11 @@ export default {
 export default {
   methods: {
     bar() {
-      return true;
+      return true
     },
     ...mapActions(['foo']),
   },
-};
+}
 ```
 
 ```js
@@ -164,7 +164,7 @@ export default {
     ...mapActions(['bar']),
     ...mapMutations(['foo']),
   },
-};
+}
 ```
 
 ```js
@@ -174,7 +174,7 @@ export default {
     baz: 2,
     bar: 1,
   },
-};
+}
 ```
 
 ## Pass
@@ -186,7 +186,7 @@ export default {
     prop: 'value',
     event: 'input',
   },
-};
+}
 ```
 
 ```js
@@ -202,7 +202,7 @@ export default {
       default: '',
     },
   },
-};
+}
 ```
 
 ```js
@@ -214,7 +214,7 @@ export default {
       required: true,
     },
   },
-};
+}
 ```
 
 ```js
@@ -226,7 +226,7 @@ export default {
       default: '',
     },
   },
-};
+}
 ```
 
 ```js
@@ -236,7 +236,7 @@ export default {
     'update:foo': () => true,
     foo: () => true,
   },
-};
+}
 ```
 
 ```js
@@ -246,9 +246,9 @@ export default {
     return {
       FooBar,
       baz: 1,
-    };
+    }
   },
-};
+}
 ```
 
 ```js
@@ -257,10 +257,10 @@ export default {
   computed: {
     ...mapState(['foo']),
     bar() {
-      return true;
+      return true
     },
   },
-};
+}
 ```
 
 ```js
@@ -270,7 +270,7 @@ export default {
     ...mapState(['foo']),
     ...mapGetters(['bar']),
   },
-};
+}
 ```
 
 ```js
@@ -284,7 +284,7 @@ export default {
       deep: true,
     },
   },
-};
+}
 ```
 
 ```js
@@ -293,10 +293,10 @@ export default {
   methods: {
     ...mapActions(['foo']),
     bar() {
-      return true;
+      return true
     },
   },
-};
+}
 ```
 
 ```js
@@ -306,7 +306,7 @@ export default {
     ...mapMutations(['foo']),
     ...mapActions(['bar']),
   },
-};
+}
 ```
 
 ```js
@@ -316,5 +316,5 @@ export default {
     bar: 1,
     baz: 2,
   },
-};
+}
 ```
