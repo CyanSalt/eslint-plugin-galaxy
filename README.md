@@ -41,6 +41,8 @@ module.exports = {
 
 ### For Vue
 
+- [`conventional-vue-keys-order`](./docs/vue/conventional-vue-keys-order.md) - Enforce properties in Vue component options to be sorted in conventional order 🔧
+
 - [`no-empty-vue-options`](./docs/vue/no-empty-vue-options.md) - Disallow using empty functions or objects as option values in Vue components ✅
 
 - [`no-invalid-vue-inject-keys`](./docs/vue/no-invalid-vue-inject-keys.md) - Require valid keys in Vue `inject` options ✅
