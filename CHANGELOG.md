@@ -1,3 +1,15 @@
+## [1.15.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.14.1...v1.15.0) (2022-05-26)
+
+
+### Features
+
+* add `conventional-vue-keys-order` ([3cb86e5](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/3cb86e5eabbed65c90052971fb3b547eaa69c2ce))
+
+
+### Bug Fixes
+
+* refine typings ([23c6014](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/23c601465b8015c749a4c420a03ff50f4a46bcc8))
+
 ### [1.14.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.14.0...v1.14.1) (2022-04-27)
 
 
