@@ -58,7 +58,6 @@ export default createRule({
     const container = {
       properties: [] as { name: string, node: ArrayOrObjectElement }[],
       propertyReferences: [] as string[],
-      propertyReferencesForProps: [] as string[],
     }
 
     const templatePropertiesContainer: any = {
@@ -204,22 +203,6 @@ export default createRule({
           }
           const propertyReferences = propertyReferenceExtractor.extractFromFunctionParam(node, 0)
           container.propertyReferences.push(propertyReferences)
-        },
-        onSetupFunctionEnter(node) {
-          const propertyReferences = propertyReferenceExtractor.extractFromFunctionParam(node, 0)
-          container.propertyReferencesForProps.push(propertyReferences)
-        },
-        onRenderFunctionEnter(node, vueData) {
-          // Check for Vue 3.x render
-          const propertyReferences = propertyReferenceExtractor.extractFromFunctionParam(node, 0)
-          container.propertyReferencesForProps.push(propertyReferences)
-          if (vueData.functional) {
-            // Check for Vue 2.x render & functional
-            const propertyReferencesForV2 = propertyReferenceExtractor.extractFromFunctionParam(node, 1)
-            container.propertyReferencesForProps.push(
-              propertyReferencesForV2.getNest('props'),
-            )
-          }
         },
         'ThisExpression, Identifier'(node: TSESTree.ThisExpression | TSESTree.Identifier) {
           if (!utils.isThis(node, context)) return
