@@ -1,11 +1,35 @@
 import rule from '../../src/rules/import-extensions'
-import { ruleTester } from '../tester'
+import { tsRuleTester } from '../tester'
 
-ruleTester.run('import-extensions', rule, {
+tsRuleTester.run('import-extensions', rule, {
   valid: [
     {
       filename: __filename,
       code: `import Foo from '../../package.json'`,
+      options: ['always'],
+    },
+    // Built-in modules
+    {
+      filename: __filename,
+      code: `import * as Foo from 'fs'`,
+      options: ['always'],
+    },
+    // common modules
+    {
+      filename: __filename,
+      code: `import Foo from 'eslint'`,
+      options: ['always'],
+    },
+    // scoped modules
+    {
+      filename: __filename,
+      code: `import * as Foo from '@typescript-eslint/utils'`,
+      options: ['always'],
+    },
+    // TODO: should we also check type imports?
+    {
+      filename: __filename,
+      code: `import type Foo from '../../package'`,
       options: ['always'],
     },
     {
@@ -32,6 +56,11 @@ ruleTester.run('import-extensions', rule, {
       filename: __filename,
       code: `import Foo from '../../package'`,
       options: ['never'],
+    },
+    {
+      filename: __filename,
+      code: `import Foo from '../../package.json'`,
+      options: [{ '.json': 'always' }],
     },
   ],
   invalid: [

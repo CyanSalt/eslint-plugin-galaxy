@@ -19,6 +19,54 @@ ruleTester.run('conventional-vue-keys-order', rule, {
         }
       `,
     },
+    // Should ignore spread elements and computed properties
+    {
+      filename: 'test.vue',
+      options: [
+        {
+          rules: ['model'],
+        },
+      ],
+      code: `
+        export default {
+          model: {
+            prop: 'value',
+            ...foo,
+            [bar]: baz,
+            event: 'input',
+          },
+        }
+      `,
+    },
+    // Should work properly even if no option set
+    {
+      filename: 'test.vue',
+      code: `
+        export default {
+          model: {
+            event: 'input',
+            prop: 'value',
+          },
+        }
+      `,
+    },
+    // Should only check non-computed properties
+    {
+      filename: 'test.vue',
+      options: [
+        {
+          rules: ['model'],
+        },
+      ],
+      code: `
+        export default {
+          [model]: {
+            event: 'input',
+            prop: 'value',
+          },
+        }
+      `,
+    },
     {
       filename: 'test.vue',
       options: [
@@ -248,6 +296,37 @@ ruleTester.run('conventional-vue-keys-order', rule, {
           model: {
             prop: 'value',
             event: 'input',
+          },
+        }
+      `,
+    },
+    // Should support objects without trailing commas
+    {
+      filename: 'test.vue',
+      options: [
+        {
+          rules: ['model'],
+        },
+      ],
+      code: `
+        export default {
+          model: {
+            event: 'input',
+            prop: 'value'
+          },
+        }
+      `,
+      errors: [
+        {
+          messageId: 'conventional-vue-keys-order',
+          data: { line: 4 },
+        },
+      ],
+      output: `
+        export default {
+          model: {
+            prop: 'value',
+            event: 'input'
           },
         }
       `,

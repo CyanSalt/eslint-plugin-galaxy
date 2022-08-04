@@ -50,7 +50,7 @@ import Foo from './foo.js'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", { "*.js": "never" }]*/
+/* eslint galaxy/import-extensions: ["error", { ".js": "never" }]*/
 import Foo from './foo.js'
 ```
 
@@ -77,7 +77,7 @@ import Foo from './foo'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", { "*.js": "never" }]*/
+/* eslint galaxy/import-extensions: ["error", { ".js": "never" }]*/
 import Foo from './foo'
 import Bar from './bar.json'
 ```

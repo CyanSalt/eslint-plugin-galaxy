@@ -13,6 +13,15 @@ ruleTester.run('no-empty-vue-options', rule, {
         }
       `,
     },
+    // Shorthand is not empty
+    {
+      filename: 'test.vue',
+      code: `
+        export default {
+          components,
+        }
+      `,
+    },
     {
       filename: 'test.vue',
       code: `
