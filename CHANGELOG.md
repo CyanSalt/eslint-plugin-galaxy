@@ -1,3 +1,12 @@
+### [1.15.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.15.0...v1.15.1) (2022-11-28)
+
+
+### Bug Fixes
+
+* check mapWritableState properties ([622bc18](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/622bc184ea3ac7e8581f08f62ac2c5d1582f2874))
+* path separator on windows ([4f2fd14](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/4f2fd1400f17fe28fb76f4dacd5b34a817eb9aac))
+* remove useless references ([6067d12](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/6067d129032b06bfea68eaa18165d5b73413b0f2))
+
 ## [1.15.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.14.1...v1.15.0) (2022-05-26)
 
 
