@@ -9,6 +9,7 @@ const MESSAGE_ID_SUGGESTION_REMOVE = 'suggestion@no-unused-vuex-properties.remov
 
 const mappingFunctions = [
   'mapState',
+  'mapWritableState',
   'mapGetters',
   'mapMutations',
   'mapActions',
