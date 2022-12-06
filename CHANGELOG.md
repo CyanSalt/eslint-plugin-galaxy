@@ -1,3 +1,12 @@
+
+
+## [1.16.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.15.1...v1.16.0) (2022-12-06)
+
+
+### Features
+
+* add `no-deprecated-vue-deep-combinator` ([f975615](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/f9756158e6736993a3a96eed9dfdf7fb3694d086))
+
 ### [1.15.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.15.0...v1.15.1) (2022-11-28)
 
 
@@ -225,4 +234,3 @@
 ### Features
 
 * init with three rules ([842c2d7](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/842c2d79684d323530e9391a5199c351171bb1f5))
-
