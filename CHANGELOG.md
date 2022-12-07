@@ -1,5 +1,12 @@
 
 
+### [1.16.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.16.0...v1.16.1) (2022-12-07)
+
+
+### Bug Fixes
+
+* nesting rule with comma combinator ([0f98162](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/0f98162e8d7bd0b1d452d7d6f3eed9a3035700ae))
+
 ## [1.16.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.15.1...v1.16.0) (2022-12-06)
 
 
