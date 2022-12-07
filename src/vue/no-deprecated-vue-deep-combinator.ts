@@ -87,6 +87,12 @@ function removeCSSNode(fixer: TSESLint.RuleFixer, node: CSSNode) {
   return fixer.remove(node as TSESTree.Node)
 }
 
+function resolveNestingSelector(selector: string, parentSelector: string) {
+  return parentSelector.replace(/(.+?)(\s*,\s*|$)/g, (full, ref, combinator) => {
+    return selector.replace(/&/g, ref) + combinator
+  })
+}
+
 const MESSAGE_ID_DEFAULT = 'no-deprecated-vue-deep-combinator'
 
 export default createRule({
@@ -153,7 +159,7 @@ export default createRule({
                               declarationText = ' {\n' + atRuleText + declarationText + '\n}'
                               currentNode = currentNode.parent
                             }
-                            return selectorText.replace('&', ruleNode.selectorText) + declarationText
+                            return resolveNestingSelector(selectorText, ruleNode.selectorText) + declarationText
                           }).join('\n')
                           const removedNodes = findOverlappedNodes(ruleNode, refRules)
                           for (const rule of removedNodes) {

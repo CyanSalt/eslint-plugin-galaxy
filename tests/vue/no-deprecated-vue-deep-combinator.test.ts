@@ -115,6 +115,26 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
       filename: 'test.vue',
       code: `
         <style scoped>
+        ::v-deep .foo, .bar {
+          display: block;
+        }
+        </style>
+      `,
+      errors: [
+        { messageId: 'no-deprecated-vue-deep-combinator' },
+      ],
+      output: `
+        <style scoped>
+        :deep(.foo), .bar {
+          display: block;
+        }
+        </style>
+      `,
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <style scoped>
         .foo ::v-deep .bar {
           display: block;
           &__baz {
@@ -158,6 +178,28 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
             display: inline;
           }
         .qux {}
+        </style>
+      `,
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <style scoped>
+        ::v-deep .foo, .bar {
+          &__baz {
+            display: inline;
+          }
+        }
+        </style>
+      `,
+      errors: [
+        { messageId: 'no-deprecated-vue-deep-combinator' },
+      ],
+      output: `
+        <style scoped>
+        ::v-deep .foo__baz, .bar__baz {
+            display: inline;
+          }
         </style>
       `,
     },
