@@ -13,12 +13,6 @@ interface CSSStyleRule extends CSSNode {
   selectorText: string,
 }
 
-interface CSSAtRule extends CSSNode {
-  identifier: string,
-  name: string,
-  paramsText: string,
-}
-
 interface CSSSelector extends CSSNode {
   value: string,
   nodes: CSSSelector[],
@@ -31,7 +25,7 @@ function getSelectorNodeValueRange(node: CSSSelector) {
   ] as const
 }
 
-function getSelectorReferences(node: CSSNode): CSSStyleRule[] {
+function getSelectorReferences(node: CSSNode, includingAtRules?: boolean): CSSStyleRule[] {
   return node.nodes.flatMap(item => {
     if (item.type === 'VCSSStyleRule') {
       return (item as CSSStyleRule).selectors.some(selector => {
@@ -43,8 +37,8 @@ function getSelectorReferences(node: CSSNode): CSSStyleRule[] {
           && nextSibling.range[0] === nestingNode.range[1]
       }) ? [item as CSSStyleRule] : []
     }
-    if (item.type === 'VCSSAtRule') {
-      return getSelectorReferences(item)
+    if (includingAtRules && item.type === 'VCSSAtRule') {
+      return getSelectorReferences(item, includingAtRules)
     }
     return []
   })
@@ -91,6 +85,13 @@ function resolveNestingSelector(selector: string, parentSelector: string) {
   return parentSelector.replace(/(.+?)(\s*,\s*|$)/g, (full, ref, combinator) => {
     return selector.replace(/&/g, ref) + combinator
   })
+}
+
+function resolveNestingRule(code: TSESLint.SourceCode, rule: CSSStyleRule, reference: CSSStyleRule) {
+  const text = code.getText(rule as TSESTree.Node)
+  let selectorText = text.slice(0, rule.selectorText.length)
+  let declarationText = text.slice(rule.selectorText.length)
+  return resolveNestingSelector(selectorText, reference.selectorText) + declarationText
 }
 
 const MESSAGE_ID_DEFAULT = 'no-deprecated-vue-deep-combinator'
@@ -143,23 +144,13 @@ export default createRule({
                         ':deep',
                       )
                     } else {
-                      // Restructure nested rules first
+                      // Restructure nested rules
                       const ruleNode = node.parent.parent as CSSStyleRule
                       if (ruleNode.type === 'VCSSStyleRule') {
                         const refRules = getSelectorReferences(ruleNode)
                         if (refRules.length) {
                           const refRulesText = refRules.map(rule => {
-                            const text = code.getText(rule as TSESTree.Node)
-                            let selectorText = text.slice(0, rule.selectorText.length)
-                            let declarationText = text.slice(rule.selectorText.length)
-                            let currentNode: CSSNode = rule
-                            while (currentNode.parent !== ruleNode) {
-                              const atRule = currentNode.parent as CSSAtRule
-                              const atRuleText = atRule.identifier + atRule.name + ' ' + atRule.paramsText
-                              declarationText = ' {\n' + atRuleText + declarationText + '\n}'
-                              currentNode = currentNode.parent
-                            }
-                            return resolveNestingSelector(selectorText, ruleNode.selectorText) + declarationText
+                            return resolveNestingRule(code, rule, ruleNode)
                           }).join('\n')
                           const removedNodes = findOverlappedNodes(ruleNode, refRules)
                           for (const rule of removedNodes) {
@@ -174,23 +165,42 @@ export default createRule({
                           yield fixer.insertTextAfter(ruleNode as TSESTree.Node, sep + refRulesText)
                           return
                         }
+                        // May not be fixed
+                        const refAtRules = getSelectorReferences(ruleNode, true)
+                        if (refAtRules.length) return
                       }
 
-                      // Replace `::v-deep .foo .bar` to `:deep(.foo .bar)`
                       const nodes = (node.parent as CSSSelector).nodes
                       const selectorIndex = nodes.indexOf(node)
                       // Use `galaxy/selector-nested-combinator-position` of stylelint
                       if (selectorIndex === -1 || selectorIndex === nodes.length - 1) return null
-                      const nextNode = nodes[selectorIndex + 1]
 
-                      // Replace `::v-deep` to `:deep`
-                      const combinatorEnd = node.range[0] + node.value.length
-                      const nextNodeStart = nextNode.range[0]
+                      const nextSiblings = nodes.slice(selectorIndex + 1)
+                      const isReferenced = nextSiblings.some(selectorNode => selectorNode.type === 'VCSSNestingSelector')
+                      if (isReferenced) {
+                        const parentRuleNode = ruleNode.parent as CSSStyleRule
+                        // Restructure nested rules
+                        if (ruleNode.type === 'VCSSStyleRule' && parentRuleNode.type === 'VCSSStyleRule') {
+                          const ruleText = resolveNestingRule(code, ruleNode, parentRuleNode)
+                          if (isAllOverlapped(parentRuleNode, [ruleNode])) {
+                            yield fixer.remove(parentRuleNode as TSESTree.Node)
+                          } else {
+                            yield removeCSSNode(fixer, ruleNode)
+                          }
+                          yield fixer.insertTextAfter(parentRuleNode as TSESTree.Node, ruleText)
+                        }
+                        // May not be fixed
+                        return
+                      }
 
+                      // Replace `::v-deep .foo .bar` to `:deep(.foo .bar)`
                       yield fixer.replaceTextRange(
                         getSelectorNodeValueRange(node),
                         ':deep',
                       )
+                      const nextNode = nodes[selectorIndex + 1]
+                      const combinatorEnd = node.range[0] + node.value.length
+                      const nextNodeStart = nextNode.range[0]
                       yield fixer.replaceTextRange([combinatorEnd, nextNodeStart], '(')
 
                       const lastNode = nodes[nodes.length - 1]
