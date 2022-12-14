@@ -1,5 +1,12 @@
 
 
+### [1.16.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.16.1...v1.16.2) (2022-12-14)
+
+
+### Bug Fixes
+
+* deprecated ::v-deep fixes ([04346e1](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/04346e1a4ef4c088e18c7e9b3815ab64ef5aece0))
+
 ### [1.16.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.16.0...v1.16.1) (2022-12-07)
 
 
