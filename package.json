@@ -32,7 +32,8 @@
   "author": "CyanSalt",
   "license": "ISC",
   "dependencies": {
-    "@typescript-eslint/utils": "^5.10.2"
+    "@typescript-eslint/utils": "^5.10.2",
+    "globals": "^13.20.0"
   },
   "devDependencies": {
     "@cyansalt/eslint-config-preset": "^1.4.3",
