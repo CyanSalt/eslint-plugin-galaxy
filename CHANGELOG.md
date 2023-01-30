@@ -1,5 +1,12 @@
 
 
+## [1.17.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.16.2...v1.17.0) (2023-01-30)
+
+
+### Features
+
+* add `no-misused-globals` ([c304b80](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c304b8030d6b1ef1a43c1212bcb5b083dea2138a))
+
 ### [1.16.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.16.1...v1.16.2) (2022-12-14)
 
 
