@@ -83,7 +83,6 @@ export default createRule({
       [`${PROPERTY_METHOD_SELECTOR} > *`](node: TSESTree.BlockStatement | TSESTree.Expression) {
         const parent = node.parent as TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression
         if (parent.body !== node) return
-        if (!parent.params.length) return
         const callNode = getClosestMappingFunctionCall(node)
         if (callNode) {
           const scope = context.getScope()

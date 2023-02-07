@@ -10,8 +10,8 @@ This rule will report an error if `this` keyword is used in a property mapping f
 export default {
   computed: {
     ...mapState({
-      foo() {
-        return this.bar
+      foo(state) {
+        return this.bar + state.baz
       },
     }),
   },

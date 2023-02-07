@@ -26,8 +26,8 @@ ruleTester.run('valid-vuex-properties', rule, {
         export default {
           computed: {
             ...mapState({
-              foo() {
-                return this.bar
+              foo(state) {
+                return this.bar + state.baz
               },
             }),
           },
