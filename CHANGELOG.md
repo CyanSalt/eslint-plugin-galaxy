@@ -1,5 +1,12 @@
 
 
+## [1.18.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.17.0...v1.18.0) (2023-02-07)
+
+
+### Features
+
+* add `valid-vuex-properties` ([4d29ebf](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/4d29ebfe4d2abf680aedcb30af66d7784a6b6739))
+
 ## [1.17.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.16.2...v1.17.0) (2023-01-30)
 
 
