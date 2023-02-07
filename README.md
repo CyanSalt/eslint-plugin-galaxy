@@ -61,6 +61,8 @@ module.exports = {
 
 - [`valid-vue-v-if-with-v-slot`](./docs/vue/valid-vue-v-if-with-v-slot.md) - Enforce valid `v-if` directives when using with `v-slot` ✅
 
+- [`valid-vuex-properties`](./docs/vue/valid-vuex-properties.md) - Enforce valid property mappings with Vuex ✅
+
 - [`vue-attribute-spacing`](./docs/vue/vue-attribute-spacing.md) - Enforce unified spacing around binding attributes 🔧
 
 *✅ means that the rule is contained in `plugin:galaxy/recommended` or `plugin:galaxy/recommended-vue`*.
