@@ -1,5 +1,12 @@
 
 
+### [1.18.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.18.0...v1.18.1) (2023-02-07)
+
+
+### Bug Fixes
+
+* report mapping functions without arguments ([bcb6479](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/bcb6479221d01d4102ab4cb45b80b4c5f96eabec))
+
 ## [1.18.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.17.0...v1.18.0) (2023-02-07)
 
 
