@@ -1,5 +1,12 @@
 
 
+## [1.19.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.18.1...v1.19.0) (2023-02-08)
+
+
+### Features
+
+* add `vue-reactivity-transform-uses-vars` ([ddd9411](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/ddd94119cab51e8385dc665124d92a3893b25b9b))
+
 ### [1.18.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.18.0...v1.18.1) (2023-02-07)
 
 
