@@ -47,8 +47,9 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
-    return utils.defineScriptSetupVisitor(context, {
+    return {
       Program() {
+        if (!utils.isScriptSetup(context)) return
         const scope = context.getScope().childScopes
           .find(item => item.type === 'module')
         if (!scope) return
@@ -65,6 +66,6 @@ export default createRule({
           }
         }
       },
-    })
+    }
   },
 })

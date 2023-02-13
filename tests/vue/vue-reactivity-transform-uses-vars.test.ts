@@ -56,6 +56,20 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
         </script>
       `,
     },
+    {
+      code: `
+        <script setup>
+        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        let foo = $(useFoo())
+        onMounted(() => {
+          foo = 1
+        })
+        </script>
+        <script>
+        export default {}
+        </script>
+      `,
+    },
   ],
   invalid: [
     {
