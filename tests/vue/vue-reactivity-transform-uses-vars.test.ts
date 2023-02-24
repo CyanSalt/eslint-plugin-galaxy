@@ -48,6 +48,18 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
     {
       code: `
         <script setup>
+        import { $ as _$ } from 'vue/macros'
+        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        let foo = _$(useFoo())
+        onMounted(() => {
+          foo = 1
+        })
+        </script>
+      `,
+    },
+    {
+      code: `
+        <script setup>
         /* eslint vue-reactivity-transform-uses-vars: 'error' */
         let { foo } = $(useFoo())
         onMounted(() => {

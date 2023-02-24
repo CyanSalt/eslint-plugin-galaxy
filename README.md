@@ -65,7 +65,7 @@ module.exports = {
 
 - [`vue-attribute-spacing`](./docs/vue/vue-attribute-spacing.md) - Enforce unified spacing around binding attributes 🔧
 
-- [`vue-reactivity-transform-uses-vars`](./docs/vue/vue-reactivity-transform-uses-vars.md) - Prevent variables used in reactivity transform to be marked as unused ✅
+- [`vue-reactivity-transform-uses-vars`](./docs/vue/vue-reactivity-transform-uses-vars.md) - Prevent variables used in reactivity transform to be marked as unused
 
 *✅ means that the rule is contained in `plugin:galaxy/recommended` or `plugin:galaxy/recommended-vue`*.
 
