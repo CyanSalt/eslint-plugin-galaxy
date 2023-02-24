@@ -21,7 +21,7 @@ export default {
   provide() {
     return {
       foo: 'bar',
-    };
+    }
   },
 }
 ```

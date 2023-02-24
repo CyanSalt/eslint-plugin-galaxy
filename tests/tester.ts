@@ -19,6 +19,9 @@ export const tsRuleTester = new TSESLint.RuleTester({
 export const vueRuleTester = new TSESLint.RuleTester({
   parser: require.resolve('vue-eslint-parser'),
   parserOptions: {
+    parser: {
+      ts: require.resolve('@typescript-eslint/parser'),
+    },
     ecmaVersion: 'latest',
     sourceType: 'module',
   },

@@ -32,7 +32,7 @@
   "author": "CyanSalt",
   "license": "ISC",
   "dependencies": {
-    "@typescript-eslint/utils": "^5.10.2",
+    "@typescript-eslint/utils": "^5.38.0",
     "globals": "^13.20.0"
   },
   "devDependencies": {
