@@ -1,5 +1,19 @@
 
 
+## [1.20.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.19.0...v1.20.0) (2023-02-24)
+
+
+### Features
+
+* add `no-ambiguous-vue-default-props` ([7e9439c](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/7e9439c11f1550663b9d633779e9670946657643))
+* add `valid-vue-reactivity-transform-props` ([7422fa1](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/7422fa105d9e7e8b7d589aa15b575f187371b683))
+
+
+### Bug Fixes
+
+* import alias for vue/macros ([7c0dd5d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/7c0dd5d3f46a43d2aea0db0fadc9e7df707cf80b))
+* mixed setup script ([034250e](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/034250e0b6679366083372bccb6205d6f257fd66))
+
 ## [1.19.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.18.1...v1.19.0) (2023-02-08)
 
 
