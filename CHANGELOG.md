@@ -1,5 +1,13 @@
 
 
+## [1.21.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.20.0...v1.21.0) (2023-03-14)
+
+
+### Features
+
+* add `no-restricted-vue-unhandled-promises` ([8eb0e40](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/8eb0e4049c945638e7d754d134c574544c5790e9))
+* floating promises from paths ([bf34a70](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/bf34a70656f24618ec3aab23017f702fe1815ee6))
+
 ## [1.20.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.19.0...v1.20.0) (2023-02-24)
 
 
