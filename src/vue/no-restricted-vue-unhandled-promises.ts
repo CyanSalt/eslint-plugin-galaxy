@@ -368,7 +368,7 @@ export default createRule({
     }
 
     const templateVisitor = {
-      'VAttribute[key.name.name="on"] > VExpressionContainer'(node: TSESTree.Node) {
+      'VAttribute[key.name.name="on"] > VExpressionContainer[expression]'(node: TSESTree.Node) {
         const expression: TSESTree.Expression = node['expression']
         if (expression.type === AST_NODE_TYPES.Identifier) {
           // TODO: identifiers from v-slot, etc.
