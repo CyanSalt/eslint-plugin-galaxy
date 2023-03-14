@@ -262,8 +262,13 @@ export default createRule({
       excludeNames: Set<string> = new Set<string>(),
     ) {
       if (!promiseReferences.length) return
-      const checkingMethodPromises = [...promiseReferences]
-      for (const { name, cause } of checkingMethodPromises) {
+      const checkingPromiseReferences = promiseReferences.reduce<MethodPromiseReference[]>((refs, current) => {
+        if (!refs.some(ref => ref.name === current.name && ref.cause.pattern === current.cause.pattern)) {
+          refs.push(current)
+        }
+        return refs
+      }, [])
+      for (const { name, cause } of checkingPromiseReferences) {
         excludeNames.add(name)
         const filteredReferences = references.filter(ref => ref.name === name)
         for (const reference of filteredReferences) {
