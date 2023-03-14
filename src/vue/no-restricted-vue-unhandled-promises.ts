@@ -3,7 +3,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getModuleScope } from '../context'
 import { isIdentifierOf } from '../estree'
 import type { RulePattern } from '../rules/no-restricted-floating-promises'
-import noRestrictedFloatingPromises, { createPathsMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
+import noRestrictedFloatingPromises, { isCaughtByChain, createPathsMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-vue-unhandled-promises'
@@ -212,6 +212,7 @@ export default createRule({
       if (!functionScope) return true
       const block = functionScope.block
       // Handled promises
+      if (isCaughtByChain(node)) return false
       const tryStatement = getTryStatementBetween(node, block)
       if (tryStatement) return false
 

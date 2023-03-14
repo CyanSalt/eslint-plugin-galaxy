@@ -49,6 +49,19 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         <script>
         export default {
           async created() {
+            await foo().catch(() => {});
+          },
+        };
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script>
+        export default {
+          async created() {
             try {
               await Promise.all([
                 foo(),

@@ -7,15 +7,26 @@ import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
 
+export function isCaughtByChain(node: TSESTree.Node): boolean {
+  const parent = node.parent
+  if (!parent) return false
+  if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent?.type === AST_NODE_TYPES.CallExpression) {
+    const method = parent.property
+    const call = parent.parent
+    if (method.type !== AST_NODE_TYPES.Identifier) return true
+    if (method.name === 'catch') return true
+    if (method.name === 'then' && call.arguments.length > 1) return true
+    return isCaughtByChain(call)
+  }
+  return false
+}
+
 function isFloatingPromise(node: TSESTree.Node): boolean {
   const parent = node.parent
   if (!parent) return true
   if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent?.type === AST_NODE_TYPES.CallExpression) {
-    const method = parent.property
+    if (isCaughtByChain(node)) return false
     const call = parent.parent
-    if (method.type !== AST_NODE_TYPES.Identifier) return false
-    if (method.name === 'catch') return false
-    if (method.name === 'then' && call.arguments.length > 1) return false
     return isFloatingPromise(call)
   }
   if (parent.type === AST_NODE_TYPES.ExpressionStatement) {
