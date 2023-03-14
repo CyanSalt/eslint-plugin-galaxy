@@ -21,7 +21,7 @@ export function isCaughtByChain(node: TSESTree.Node): boolean {
   return false
 }
 
-function isFloatingPromise(node: TSESTree.Node): boolean {
+export function isFloatingPromise(node: TSESTree.Node): boolean {
   const parent = node.parent
   if (!parent) return true
   if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent?.type === AST_NODE_TYPES.CallExpression) {

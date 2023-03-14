@@ -49,9 +49,9 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         <script>
         export default {
           async created() {
-            await foo().catch(() => {});
+            await foo().catch(() => {})
           },
-        };
+        }
         </script>
       `,
       options: ['CallExpression[callee.name="foo"]'],
@@ -126,9 +126,9 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         <script>
         export default {
           created() {
-            return foo();
+            return foo()
           },
-        };
+        }
         </script>
       `,
       options: ['CallExpression[callee.name="foo"]'],
@@ -230,6 +230,52 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         <template>
           <span @click="bar"></span>
         </template>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script>
+        export default {
+          async created() {
+            await this.bar()
+          },
+          methods: {
+            async bar() {
+              await foo()
+            },
+          }
+        }
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script>
+        export default {
+          created() {
+            this.bar()
+          },
+          methods: {
+            async bar() {
+              await foo()
+            },
+          }
+        }
+        </script>
       `,
       options: ['CallExpression[callee.name="foo"]'],
       errors: [

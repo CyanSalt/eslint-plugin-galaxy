@@ -3,7 +3,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getModuleScope } from '../context'
 import { isIdentifierOf } from '../estree'
 import type { RulePattern } from '../rules/no-restricted-floating-promises'
-import noRestrictedFloatingPromises, { isCaughtByChain, createPathsMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
+import noRestrictedFloatingPromises, { isFloatingPromise, isCaughtByChain, createPathsMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-vue-unhandled-promises'
@@ -71,7 +71,7 @@ function getFunctionScope(scope: TSESLint.Scope.Scope | null): TSESLint.Scope.Sc
 function getUpperNode<T extends TSESTree.Node['type']>(
   node: TSESTree.Node,
   type: T,
-  root?: TSESTree.Node,
+  root: TSESTree.Node | null = null,
 ): Extract<TSESTree.Node, { type: T }> | null {
   if (node.type === type) return node as Extract<TSESTree.Node, { type: T }>
   if (!node.parent || node === root) return null
@@ -159,6 +159,15 @@ function isInside(node: TSESTree.Node, container: TSESTree.Node) {
   return container.range[0] <= node.range[0] && node.range[1] <= container.range[1]
 }
 
+interface VueMethodCallExpression extends TSESTree.CallExpression {
+  callee: TSESTree.MemberExpression & { property: TSESTree.Identifier },
+}
+
+const VUE_METHOD_CALL = `CallExpression[callee.property.type="Identifier"]:matches(${[
+  '[callee.object.type="ThisExpression"]',
+  '[callee.object.type="Identifier"]',
+].join(',')})`
+
 export default createRule({
   name: __filename,
   meta: {
@@ -179,29 +188,92 @@ export default createRule({
     const code = context.getSourceCode()
     const scopeManager = code.scopeManager!
 
-    let promises: {
+    interface PromiseCause {
       node: TSESTree.Node,
       expression: TSESTree.AwaitExpression | TSESTree.ReturnStatement,
       pattern: ReturnType<typeof normalizeRulePattern>,
+      ignorePaths?: boolean,
+    }
+
+    let causes: PromiseCause[] = []
+
+    let methodReferences: {
+      node: PromiseCause['node'],
+      expression: PromiseCause['expression'] | null,
+      name: string,
     }[] = []
 
-    let templateEventListenerNames: string[] = []
+    let templateEventListenerNames = new Set<string>()
+
+    let methodPromises: {
+      name: string,
+      cause: PromiseCause,
+    }[] = []
 
     const scriptSetupElement = utils.getScriptSetupElement(context)
     let vueObjectExpression: TSESTree.ObjectExpression | null = null
 
-    function reportUnhandledPromises() {
-      for (const { node, expression, pattern } of promises) {
+    function checkUnhandledPromise(cause: PromiseCause) {
+      const { node, expression, pattern, ignorePaths } = cause
+      if (!ignorePaths) {
         const matches = createPathsMatcher(context, pattern)
-        if (matches(node) && isUnhandledPromise(node, expression.type === AST_NODE_TYPES.AwaitExpression)) {
-          context.report({
-            node: expression,
-            messageId: MESSAGE_ID_DEFAULT,
-            data: {
-              message: pattern.message,
-            },
-          })
+        if (!matches(node)) return
+      }
+      if (isUnhandledPromise(node, cause, expression.type === AST_NODE_TYPES.AwaitExpression)) {
+        context.report({
+          node: expression,
+          messageId: MESSAGE_ID_DEFAULT,
+          data: {
+            message: pattern.message,
+          },
+        })
+      }
+    }
+
+    function checkFloatingPromise(cause: Omit<PromiseCause, 'expression'>) {
+      const { node, pattern } = cause
+      if (isFloatingPromise(node)) {
+        context.report({
+          node,
+          messageId: MESSAGE_ID_DEFAULT,
+          data: {
+            message: pattern.message,
+          },
+        })
+      }
+      return
+    }
+
+    function reportUnhandledPromises() {
+      for (const cause of causes) {
+        checkUnhandledPromise(cause)
+      }
+      let checkedMethodNames = new Set<string>()
+      while (methodPromises.length > 0) {
+        const checkingMethodPromises = [...methodPromises]
+        for (const { name, cause } of checkingMethodPromises) {
+          checkedMethodNames.add(name)
+          const references = methodReferences.filter(ref => ref.name === name)
+          for (const reference of references) {
+            // Floating promise
+            if (!reference.expression) {
+              checkFloatingPromise({
+                node: reference.node,
+                pattern: cause.pattern,
+              })
+            } else {
+              checkUnhandledPromise({
+                node: reference.node,
+                expression: reference.expression,
+                pattern: cause.pattern,
+                // Ignore import source matching
+                ignorePaths: true,
+              })
+            }
+          }
         }
+        // Get differences
+        methodPromises = methodPromises.filter(item => !checkedMethodNames.has(item.name))
       }
       if (vueObjectExpression) {
         methodsCache.delete(vueObjectExpression)
@@ -209,7 +281,11 @@ export default createRule({
       }
     }
 
-    function isUnhandledPromise(node: TSESTree.Node, catchable?: boolean): boolean {
+    function isUnhandledPromise(
+      node: TSESTree.Node,
+      cause: PromiseCause,
+      catchable: boolean,
+    ): boolean {
       // Top-level unhandled promises
       const scope = getCurrentScope(node, scopeManager)
       if (!scope) return true
@@ -232,11 +308,15 @@ export default createRule({
         // Watcher-unhandled promises
         const watchers: TSESTree.Node[] = Array.from(getWatchers(vueObjectExpression).values())
         if (watchers.includes(block)) return true
-        // Event-unhandled promises
-        const methods: TSESTree.Node[] = Array.from(getMethods(vueObjectExpression).entries())
-          .filter(([name, value]) => templateEventListenerNames.includes(name))
-          .map(([name, value]) => value)
-        if (methods.includes(block)) return true
+        // Method-unhandled promises
+        const methodName = Array.from(getMethods(vueObjectExpression).entries())
+          .find(([name, value]) => value === block)?.[0]
+        if (methodName) {
+          // Event-unhandled promises
+          if (templateEventListenerNames.has(methodName)) return true
+          // Check recursively
+          methodPromises.push({ name: methodName, cause })
+        }
         // Setup in options API
         const setup = getPropertyValue(vueObjectExpression, 'setup')
         if (setup && isInside(block, setup)) {
@@ -254,7 +334,7 @@ export default createRule({
         // Event-unhandled promises
         const moduleScope = getModuleScope(context)
         const variables = moduleScope
-          ? moduleScope.variables.filter(variable => templateEventListenerNames.includes(variable.name))
+          ? moduleScope.variables.filter(variable => templateEventListenerNames.has(variable.name))
           : []
         if (variables.some(variable => variable.defs.some(def => def.node === block))) return true
       }
@@ -267,7 +347,7 @@ export default createRule({
         const expression: TSESTree.Expression = node['expression']
         if (expression.type === AST_NODE_TYPES.Identifier) {
           // TODO: identifiers from v-slot, etc.
-          templateEventListenerNames.push(expression.name)
+          templateEventListenerNames.add(expression.name)
         }
       },
       'VElement[parent.type!=\'VElement\']:exit'() {
@@ -280,12 +360,23 @@ export default createRule({
         onVueObjectEnter(node: TSESTree.ObjectExpression) {
           vueObjectExpression = node
         },
+        [VUE_METHOD_CALL](node: VueMethodCallExpression) {
+          const object = node.callee.object
+          if (!utils.isThis(object, context)) return
+          const statement = getUpperNode(node, AST_NODE_TYPES.ReturnStatement)
+          const expression = getUpperNode(node, AST_NODE_TYPES.AwaitExpression, statement)
+          methodReferences.push({
+            node,
+            expression: expression ?? statement,
+            name: node.callee.property.name,
+          })
+        },
       }),
       Object.fromEntries(
         context.options.map(normalizeRulePattern).flatMap(pattern => {
           return [
             [`AwaitExpression ${pattern.selector}`, (node: TSESTree.Node) => {
-              promises.push({
+              causes.push({
                 node,
                 expression: getUpperNode(node, AST_NODE_TYPES.AwaitExpression)!,
                 pattern,
@@ -295,7 +386,7 @@ export default createRule({
               const expression = getUpperNode(node, AST_NODE_TYPES.ReturnStatement)!
               const nesting = getUpperNode(node, AST_NODE_TYPES.AwaitExpression, expression)
               if (nesting) return
-              promises.push({
+              causes.push({
                 node,
                 expression,
                 pattern,
