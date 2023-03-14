@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 export function isIdentifierOf(
@@ -36,4 +36,20 @@ export function isIdentifierProperty(
   node: TSESTree.Node,
 ): node is TSESTree.Property & { key: TSESTree.Identifier } {
   return node.type === AST_NODE_TYPES.Property && node.key.type === AST_NODE_TYPES.Identifier
+}
+
+export function getImportSource(name: string, scope: TSESLint.Scope.Scope) {
+  for (const variable of scope.variables) {
+    if (variable.name === name) {
+      if (!variable.defs.length) return undefined
+      for (const def of variable.defs) {
+        if (
+          def.node.type === AST_NODE_TYPES.ImportSpecifier
+          && def.node.parent?.type === AST_NODE_TYPES.ImportDeclaration
+        ) {
+          return def.node.parent.source.value
+        }
+      }
+    }
+  }
 }

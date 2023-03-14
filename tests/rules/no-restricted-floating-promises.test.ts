@@ -38,6 +38,13 @@ ruleTester.run('no-restricted-floating-promises', rule, {
       `,
       options: ['CallExpression[callee.name="foo"]'],
     },
+    {
+      code: `
+        import { foo } from 'bar'
+        foo()
+      `,
+      options: [{ paths: ['foo'] }],
+    },
   ],
   invalid: [
     {
@@ -89,6 +96,18 @@ ruleTester.run('no-restricted-floating-promises', rule, {
         this.$dialog.confirm({})
       `,
       options: [{ type: 'vant-dialog' }],
+      errors: [
+        {
+          messageId: 'no-restricted-floating-promises',
+        },
+      ],
+    },
+    {
+      code: `
+        import { foo } from 'foo'
+        foo()
+      `,
+      options: [{ paths: ['foo'] }],
       errors: [
         {
           messageId: 'no-restricted-floating-promises',

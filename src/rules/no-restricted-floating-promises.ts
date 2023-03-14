@@ -1,5 +1,8 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import ignore from 'ignore'
+import { getModuleScope } from '../context'
+import { getImportSource } from '../estree'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
@@ -21,9 +24,10 @@ function isFloatingPromise(node: TSESTree.Node): boolean {
   return false
 }
 
-interface RulePattern {
+export interface RulePattern {
   type?: string,
   selector?: string,
+  paths?: string[],
   message?: string,
 }
 
@@ -44,7 +48,7 @@ const TYPE_MAPPING: Record<string, RulePattern> = {
       '[callee.object.name="MessageBox"][callee.property.name="alert"]',
       '[callee.object.name="MessageBox"][callee.property.name="confirm"]',
     ].join(',')})`,
-    message: 'ElMessageBox methods must be handled',
+    message: 'ElementUI MessageBox methods must be handled',
   },
   'vant-dialog': {
     selector: `CallExpression:matches(${[
@@ -53,6 +57,52 @@ const TYPE_MAPPING: Record<string, RulePattern> = {
     ].join(',')})`,
     message: 'Vant Dialog methods must be handled',
   },
+}
+
+type MarkRequired<T, U extends keyof T> = Omit<T, U> & Required<Pick<T, U>>
+
+type NormalizedRulePattern = MarkRequired<Omit<RulePattern, 'type'>, 'selector' | 'message'>
+
+export function normalizeRulePattern(selectorOrObject: string | RulePattern): NormalizedRulePattern {
+  let pattern = typeof selectorOrObject === 'string'
+    ? { selector: selectorOrObject }
+    : selectorOrObject
+  if (pattern.type) {
+    pattern = { ...TYPE_MAPPING[pattern.type], ...pattern }
+  }
+  if (pattern.paths) {
+    pattern = { selector: 'CallExpression[callee.type="Identifier"]', ...pattern }
+  }
+  const selector = pattern.selector!
+  const message = pattern.message ?? (
+    pattern.paths
+      ? `Promises created from '${pattern.paths}' must be handled`
+      : `Promises '${pattern.selector}' must be handled`
+  )
+  return {
+    paths: pattern.paths,
+    selector,
+    message,
+  }
+}
+
+export function createPathsMatcher(
+  context: TSESLint.RuleContext<string, unknown[]>,
+  pattern: NormalizedRulePattern,
+) {
+  const matcher = pattern.paths
+    ? ignore({ allowRelativePaths: true }).add(pattern.paths)
+    : undefined
+  return function (node: TSESTree.Node) {
+    if (matcher) {
+      const callee = (node as TSESTree.CallExpression).callee as TSESTree.Identifier
+      const scope = getModuleScope(context)
+      if (!scope) return false
+      const source = getImportSource(callee.name, scope)
+      if (!source || !matcher.ignores(source)) return false
+    }
+    return true
+  }
 }
 
 export default createRule({
@@ -79,6 +129,12 @@ export default createRule({
               selector: {
                 type: 'string',
               },
+              paths: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                },
+              },
               message: {
                 type: 'string',
               },
@@ -95,26 +151,20 @@ export default createRule({
   defaultOptions: [] as (string | RulePattern)[],
   create(context) {
     return Object.fromEntries(
-      context.options.map(selectorOrObject => {
-        let pattern = typeof selectorOrObject === 'string'
-          ? { selector: selectorOrObject }
-          : selectorOrObject
-        if (pattern.type) {
-          pattern = { ...TYPE_MAPPING[pattern.type], ...pattern }
-        }
-        const selector = pattern.selector!
-        const message = pattern.message ?? `Promises '${selector}' must be handled`
-
+      context.options.map(normalizeRulePattern).map(pattern => {
+        const matches = createPathsMatcher(context, pattern)
         const ruleFn = (node: TSESTree.Node) => {
-          if (isFloatingPromise(node)) {
+          if (matches(node) && isFloatingPromise(node)) {
             context.report({
               node,
               messageId: MESSAGE_ID_DEFAULT,
-              data: { message },
+              data: {
+                message: pattern.message,
+              },
             })
           }
         }
-        return [selector, ruleFn]
+        return [pattern.selector, ruleFn]
       }),
     )
   },

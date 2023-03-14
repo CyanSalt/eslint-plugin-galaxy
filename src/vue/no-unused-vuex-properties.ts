@@ -58,11 +58,11 @@ export default createRule({
 
     const container = {
       properties: [] as { name: string, node: ArrayOrObjectElement }[],
-      propertyReferences: [] as string[],
+      propertyReferences: [] as any[],
     }
 
-    const templatePropertiesContainer: any = {
-      propertyReferences: [],
+    const templatePropertiesContainer = {
+      propertyReferences: [] as any[],
     }
 
     function getParentProperty(node: TSESTree.Expression) {
