@@ -29,6 +29,15 @@ export default {
 ```js
 /* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
 export default {
+  created() {
+    return foo()
+  },
+}
+```
+
+```js
+/* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
+export default {
   watch: {
     async bar() {
       await foo()
@@ -88,6 +97,34 @@ async function bar() {
 ```
 
 ```js
+/* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
+export default {
+  async created() {
+    await this.bar()
+  },
+  methods: {
+    async bar() {
+      await foo()
+    },
+  }
+}
+```
+
+```js
+/* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
+export default {
+  created() {
+    this.bar()
+  },
+  methods: {
+    async bar() {
+      await foo()
+    },
+  }
+}
+```
+
+```js
 /* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", { "type": "vuex-action" }] */
 export default {
   async created() {
@@ -122,6 +159,30 @@ export default {
     await foo()
   },
 }
+```
+
+```vue
+<script setup>
+/* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
+onMounted(async () => {
+  await bar()
+})
+async function bar() {
+  await foo()
+}
+</script>
+```
+
+```vue
+<script setup>
+/* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
+onMounted(() => {
+  bar()
+})
+async function bar() {
+  await foo()
+}
+</script>
 ```
 
 ## Pass

@@ -326,7 +326,6 @@ export default createRule({
       if (vueObjectExpression) {
         // Lifecycle-unhandled promises
         const lifecycles: TSESTree.Node[] = getLifecyclePropertyValues(vueObjectExpression)
-        // TODO: also check methods without
         if (lifecycles.includes(block)) return true
         // Watcher-unhandled promises
         const watchers: TSESTree.Node[] = Array.from(getWatchers(vueObjectExpression).values())
@@ -352,7 +351,6 @@ export default createRule({
       // Composition API
       if (scriptSetupElement && isInside(block, scriptSetupElement)) {
         // Lifecycle-unhandled or reactivity-unhandled promises
-        // TODO: also check functions
         if (isSetupFunction(block)) return true
         // Method-unhandled promises
         const moduleScope = getModuleScope(context)

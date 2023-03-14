@@ -287,6 +287,44 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
     {
       filename: 'test.vue',
       code: `
+        <script setup>
+        onMounted(async () => {
+          await bar()
+        })
+        async function bar() {
+          await foo()
+        }
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script setup>
+        onMounted(() => {
+          bar()
+        })
+        async function bar() {
+          await foo()
+        }
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
         <script>
         export default {
           async created() {
@@ -351,60 +389,6 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         </script>
       `,
       options: [{ paths: ['foo'] }],
-      errors: [
-        {
-          messageId: 'no-restricted-vue-unhandled-promises',
-        },
-      ],
-    },
-    {
-      filename: 'test.vue',
-      code: `
-        <script setup>
-        onMounted(async () => {
-          await foo()
-        })
-        </script>
-      `,
-      options: ['CallExpression[callee.name="foo"]'],
-      errors: [
-        {
-          messageId: 'no-restricted-vue-unhandled-promises',
-        },
-      ],
-    },
-    {
-      filename: 'test.vue',
-      code: `
-        <script setup>
-        onMounted(async () => {
-          await bar()
-        })
-        async function bar() {
-          await foo()
-        }
-        </script>
-      `,
-      options: ['CallExpression[callee.name="foo"]'],
-      errors: [
-        {
-          messageId: 'no-restricted-vue-unhandled-promises',
-        },
-      ],
-    },
-    {
-      filename: 'test.vue',
-      code: `
-        <script setup>
-        onMounted(() => {
-          bar()
-        })
-        async function bar() {
-          await foo()
-        }
-        </script>
-      `,
-      options: ['CallExpression[callee.name="foo"]'],
       errors: [
         {
           messageId: 'no-restricted-vue-unhandled-promises',
