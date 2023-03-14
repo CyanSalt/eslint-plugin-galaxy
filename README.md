@@ -55,6 +55,8 @@ module.exports = {
 
 - [`no-invalid-vue-prop-keys`](./docs/vue/no-invalid-vue-prop-keys.md) - Require valid keys in Vue `props` options ✅
 
+- [`no-restricted-vue-unhandled-promises`](./docs/vue/no-restricted-vue-unhandled-promises.md) - Enforce Promises in Vue functions with specified syntax to be handled appropriately
+
 - [`no-shared-vue-provide`](./docs/vue/no-shared-vue-provide.md) - Enforce the `provide` option of Vue component to be a function ✅ 🔧
 
 - [`no-unknown-vue-options`](./docs/vue/no-empty-vue-options.md) - Disallow unknown options in Vue components ✅
