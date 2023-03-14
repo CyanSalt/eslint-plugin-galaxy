@@ -1,5 +1,20 @@
 
 
+## [1.22.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.21.0...v1.22.0) (2023-03-14)
+
+
+### Features
+
+* check script setup functions ([0459fa5](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/0459fa5afabc70bb3975773a76f3efb0acaf53d6))
+* support checking methods ([171dea8](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/171dea8296db840d40562186640842b3392795aa))
+
+
+### Bug Fixes
+
+* caught by chain ([2085e9d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/2085e9dd55bb9407926ffb2265dc5c924f8e906f))
+* report return statements ([962732d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/962732d9185b962859067ed4a4c87a608d7d9bd0))
+* update docs and tests ([fe14fe8](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/fe14fe8e53e610c92446ddfe034799455bbd758b))
+
 ## [1.21.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.20.0...v1.21.0) (2023-03-14)
 
 
