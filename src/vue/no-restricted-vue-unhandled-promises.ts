@@ -68,10 +68,14 @@ function getFunctionScope(scope: TSESLint.Scope.Scope | null): TSESLint.Scope.Sc
     : getFunctionScope(scope.upper)
 }
 
-function getTryStatementBetween(node: TSESTree.Node, upperNode: TSESTree.Node): TSESTree.TryStatement | null {
-  if (node.type === AST_NODE_TYPES.TryStatement) return node
-  if (!node.parent || node === upperNode) return null
-  return getTryStatementBetween(node.parent, upperNode)
+function getUpperNode<T extends TSESTree.Node['type']>(
+  node: TSESTree.Node,
+  type: T,
+  root?: TSESTree.Node,
+): Extract<TSESTree.Node, { type: T }> | null {
+  if (node.type === type) return node as Extract<TSESTree.Node, { type: T }>
+  if (!node.parent || node === root) return null
+  return getUpperNode(node.parent, type, root)
 }
 
 function getPropertyValue(node: TSESTree.ObjectExpression, name: string): TSESTree.Node | undefined {
@@ -175,8 +179,9 @@ export default createRule({
     const code = context.getSourceCode()
     const scopeManager = code.scopeManager!
 
-    let promiseExpressions: {
+    let promises: {
       node: TSESTree.Node,
+      expression: TSESTree.AwaitExpression | TSESTree.ReturnStatement,
       pattern: ReturnType<typeof normalizeRulePattern>,
     }[] = []
 
@@ -186,11 +191,11 @@ export default createRule({
     let vueObjectExpression: TSESTree.ObjectExpression | null = null
 
     function reportUnhandledPromises() {
-      for (const { node, pattern } of promiseExpressions) {
+      for (const { node, expression, pattern } of promises) {
         const matches = createPathsMatcher(context, pattern)
-        if (matches(node) && isUnhandledPromise(node)) {
+        if (matches(node) && isUnhandledPromise(node, expression.type === AST_NODE_TYPES.AwaitExpression)) {
           context.report({
-            node,
+            node: expression,
             messageId: MESSAGE_ID_DEFAULT,
             data: {
               message: pattern.message,
@@ -204,7 +209,7 @@ export default createRule({
       }
     }
 
-    function isUnhandledPromise(node: TSESTree.Node): boolean {
+    function isUnhandledPromise(node: TSESTree.Node, catchable?: boolean): boolean {
       // Top-level unhandled promises
       const scope = getCurrentScope(node, scopeManager)
       if (!scope) return true
@@ -213,8 +218,10 @@ export default createRule({
       const block = functionScope.block
       // Handled promises
       if (isCaughtByChain(node)) return false
-      const tryStatement = getTryStatementBetween(node, block)
-      if (tryStatement) return false
+      if (catchable) {
+        const tryStatement = getUpperNode(node, AST_NODE_TYPES.TryStatement, block)
+        if (tryStatement) return false
+      }
 
       // Option API
       if (vueObjectExpression) {
@@ -275,12 +282,26 @@ export default createRule({
         },
       }),
       Object.fromEntries(
-        context.options.map(normalizeRulePattern).map(pattern => {
-          const selector = `AwaitExpression ${pattern.selector}`
-          const ruleFn = (node: TSESTree.Node) => {
-            promiseExpressions.push({ node, pattern })
-          }
-          return [selector, ruleFn]
+        context.options.map(normalizeRulePattern).flatMap(pattern => {
+          return [
+            [`AwaitExpression ${pattern.selector}`, (node: TSESTree.Node) => {
+              promises.push({
+                node,
+                expression: getUpperNode(node, AST_NODE_TYPES.AwaitExpression)!,
+                pattern,
+              })
+            }],
+            [`ReturnStatement ${pattern.selector}`, (node: TSESTree.Node) => {
+              const expression = getUpperNode(node, AST_NODE_TYPES.ReturnStatement)!
+              const nesting = getUpperNode(node, AST_NODE_TYPES.AwaitExpression, expression)
+              if (nesting) return
+              promises.push({
+                node,
+                expression,
+                pattern,
+              })
+            }],
+          ]
         }),
       ),
       {

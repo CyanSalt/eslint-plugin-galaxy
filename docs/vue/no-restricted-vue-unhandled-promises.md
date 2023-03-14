@@ -138,6 +138,15 @@ export default {
 ```js
 /* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
 export default {
+  created() {
+    return bar()
+  },
+}
+```
+
+```js
+/* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", "CallExpression[callee.name='foo']"] */
+export default {
   async created() {
     try {
       await foo()
