@@ -163,10 +163,34 @@ interface VueMethodCallExpression extends TSESTree.CallExpression {
   callee: TSESTree.MemberExpression & { property: TSESTree.Identifier },
 }
 
+interface VueScriptSetupMethodCallExpression extends TSESTree.CallExpression {
+  callee: TSESTree.Identifier,
+}
+
 const VUE_METHOD_CALL = `CallExpression[callee.property.type="Identifier"]:matches(${[
   '[callee.object.type="ThisExpression"]',
   '[callee.object.type="Identifier"]',
 ].join(',')})`
+
+const VUE_SCRIPT_SETUP_METHOD_CALL = 'CallExpression[callee.type="Identifier"]'
+
+interface PromiseCause {
+  node: TSESTree.Node,
+  expression: TSESTree.AwaitExpression | TSESTree.ReturnStatement,
+  pattern: ReturnType<typeof normalizeRulePattern>,
+  ignorePaths?: boolean,
+}
+
+interface MethodReference {
+  node: PromiseCause['node'],
+  expression: PromiseCause['expression'] | null,
+  name: string,
+}
+
+interface MethodPromiseReference {
+  name: string,
+  cause: PromiseCause,
+}
 
 export default createRule({
   name: __filename,
@@ -188,27 +212,15 @@ export default createRule({
     const code = context.getSourceCode()
     const scopeManager = code.scopeManager!
 
-    interface PromiseCause {
-      node: TSESTree.Node,
-      expression: TSESTree.AwaitExpression | TSESTree.ReturnStatement,
-      pattern: ReturnType<typeof normalizeRulePattern>,
-      ignorePaths?: boolean,
-    }
-
     let causes: PromiseCause[] = []
 
-    let methodReferences: {
-      node: PromiseCause['node'],
-      expression: PromiseCause['expression'] | null,
-      name: string,
-    }[] = []
+    let methodReferences: MethodReference[] = []
+    let scriptSetupMethodReferences: MethodReference[] = []
 
     let templateEventListenerNames = new Set<string>()
 
-    let methodPromises: {
-      name: string,
-      cause: PromiseCause,
-    }[] = []
+    let methodPromises: MethodPromiseReference[] = []
+    let scriptSetupMethodPromises: MethodPromiseReference[] = []
 
     const scriptSetupElement = utils.getScriptSetupElement(context)
     let vueObjectExpression: TSESTree.ObjectExpression | null = null
@@ -244,37 +256,48 @@ export default createRule({
       return
     }
 
+    function checkMethodReferences(
+      references: MethodReference[],
+      promiseReferences: MethodPromiseReference[],
+      excludeNames: Set<string> = new Set<string>(),
+    ) {
+      if (!promiseReferences.length) return
+      const checkingMethodPromises = [...promiseReferences]
+      for (const { name, cause } of checkingMethodPromises) {
+        excludeNames.add(name)
+        const filteredReferences = references.filter(ref => ref.name === name)
+        for (const reference of filteredReferences) {
+          // Floating promise
+          if (!reference.expression) {
+            checkFloatingPromise({
+              node: reference.node,
+              pattern: cause.pattern,
+            })
+          } else {
+            checkUnhandledPromise({
+              node: reference.node,
+              expression: reference.expression,
+              pattern: cause.pattern,
+              // Ignore import source matching
+              ignorePaths: true,
+            })
+          }
+        }
+      }
+      // Get differences
+      checkMethodReferences(
+        references,
+        promiseReferences.filter(item => !excludeNames.has(item.name)),
+        excludeNames,
+      )
+    }
+
     function reportUnhandledPromises() {
       for (const cause of causes) {
         checkUnhandledPromise(cause)
       }
-      let checkedMethodNames = new Set<string>()
-      while (methodPromises.length > 0) {
-        const checkingMethodPromises = [...methodPromises]
-        for (const { name, cause } of checkingMethodPromises) {
-          checkedMethodNames.add(name)
-          const references = methodReferences.filter(ref => ref.name === name)
-          for (const reference of references) {
-            // Floating promise
-            if (!reference.expression) {
-              checkFloatingPromise({
-                node: reference.node,
-                pattern: cause.pattern,
-              })
-            } else {
-              checkUnhandledPromise({
-                node: reference.node,
-                expression: reference.expression,
-                pattern: cause.pattern,
-                // Ignore import source matching
-                ignorePaths: true,
-              })
-            }
-          }
-        }
-        // Get differences
-        methodPromises = methodPromises.filter(item => !checkedMethodNames.has(item.name))
-      }
+      checkMethodReferences(methodReferences, methodPromises)
+      checkMethodReferences(scriptSetupMethodReferences, scriptSetupMethodPromises)
       if (vueObjectExpression) {
         methodsCache.delete(vueObjectExpression)
         watchersCache.delete(vueObjectExpression)
@@ -331,12 +354,16 @@ export default createRule({
         // Lifecycle-unhandled or reactivity-unhandled promises
         // TODO: also check functions
         if (isSetupFunction(block)) return true
-        // Event-unhandled promises
+        // Method-unhandled promises
         const moduleScope = getModuleScope(context)
-        const variables = moduleScope
-          ? moduleScope.variables.filter(variable => templateEventListenerNames.has(variable.name))
-          : []
-        if (variables.some(variable => variable.defs.some(def => def.node === block))) return true
+        const variableName = moduleScope?.variables
+          .find(variable => variable.defs.some(def => def.node === block))?.name
+        if (variableName) {
+          // Event-unhandled promises
+          if (templateEventListenerNames.has(variableName)) return true
+          // Check recursively
+          scriptSetupMethodPromises.push({ name: variableName, cause })
+        }
       }
 
       return false
@@ -369,6 +396,17 @@ export default createRule({
             node,
             expression: expression ?? statement,
             name: node.callee.property.name,
+          })
+        },
+      }),
+      utils.defineScriptSetupVisitor(context, {
+        [VUE_SCRIPT_SETUP_METHOD_CALL](node: VueScriptSetupMethodCallExpression) {
+          const statement = getUpperNode(node, AST_NODE_TYPES.ReturnStatement)
+          const expression = getUpperNode(node, AST_NODE_TYPES.AwaitExpression, statement)
+          scriptSetupMethodReferences.push({
+            node,
+            expression: expression ?? statement,
+            name: node.callee.name,
           })
         },
       }),
