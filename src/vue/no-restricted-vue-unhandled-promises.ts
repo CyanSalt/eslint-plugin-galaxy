@@ -78,6 +78,13 @@ function getUpperNode<T extends TSESTree.Node['type']>(
   return getUpperNode(node.parent, type, root)
 }
 
+function isCaughtByChainInBlock(node: TSESTree.Node, root: TSESTree.Node | null = null): boolean {
+  if (node === root) return false
+  if (isCaughtByChain(node)) return true
+  if (!node.parent) return false
+  return isCaughtByChainInBlock(node.parent, root)
+}
+
 function getPropertyValue(node: TSESTree.ObjectExpression, name: string): TSESTree.Node | undefined {
   for (const item of node.properties) {
     if (item.type === AST_NODE_TYPES.Property && isIdentifierOf(item.key, name)) {
@@ -321,7 +328,7 @@ export default createRule({
       if (!functionScope) return true
       const block = functionScope.block
       // Handled promises
-      if (isCaughtByChain(node)) return false
+      if (isCaughtByChainInBlock(node, block)) return false
       if (catchable) {
         const tryStatement = getUpperNode(node, AST_NODE_TYPES.TryStatement, block)
         if (tryStatement) return false

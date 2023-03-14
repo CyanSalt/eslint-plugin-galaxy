@@ -49,7 +49,11 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         <script>
         export default {
           async created() {
-            await foo().catch(() => {})
+            try {
+              await Promise.all([
+                foo(),
+              ])
+            } catch {}
           },
         }
         </script>
@@ -62,11 +66,9 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         <script>
         export default {
           async created() {
-            try {
-              await Promise.all([
-                foo(),
-              ])
-            } catch {}
+            await Promise.all([
+              foo(),
+            ]).catch(() => {})
           },
         }
         </script>
