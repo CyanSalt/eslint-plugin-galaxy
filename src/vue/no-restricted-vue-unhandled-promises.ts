@@ -304,7 +304,16 @@ export default createRule({
       )
     }
 
+    function isDefinedOnComponent(name: string, node: any): boolean {
+      if (node.type === 'VElement' && node.variables.some(item => item.id.name === name)) return false
+      return node.parent ? isDefinedOnComponent(name, node.parent) : true
+    }
+
     function reportUnhandledPromises() {
+      // Ignore variables defined in template
+      templateMethodReferences = templateMethodReferences.filter(ref => {
+        return isDefinedOnComponent(ref.name, ref.node)
+      })
       for (const cause of causes) {
         checkUnhandledPromise(cause)
       }
@@ -385,7 +394,6 @@ export default createRule({
       // @click="foo"
       'VAttribute[key.name.name="on"] > VExpressionContainer[expression.type="Identifier"]'(node: TSESTree.Node) {
         const expression: TSESTree.Identifier = node['expression']
-        // TODO: identifiers from v-slot, etc.
         templateMethodReferences.push({
           node: expression,
           expression: null,

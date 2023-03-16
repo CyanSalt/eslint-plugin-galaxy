@@ -78,6 +78,27 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
     {
       filename: 'test.vue',
       code: `
+        <template>
+          <Foo v-slot="{ bar }">
+            <span @click="bar"></span>
+          </Foo>
+        </template>
+
+        <script>
+        export default {
+          methods: {
+            async bar() {
+              await foo()
+            },
+          },
+        }
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+    },
+    {
+      filename: 'test.vue',
+      code: `
         <script setup>
         watchEffect(async () => {
           try {
