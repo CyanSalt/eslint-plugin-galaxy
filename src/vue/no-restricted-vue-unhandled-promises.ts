@@ -222,9 +222,8 @@ export default createRule({
     let causes: PromiseCause[] = []
 
     let methodReferences: MethodReference[] = []
+    let templateMethodReferences: MethodReference[] = []
     let scriptSetupMethodReferences: MethodReference[] = []
-
-    let templateEventListenerNames = new Set<string>()
 
     let methodPromises: MethodPromiseReference[] = []
     let scriptSetupMethodPromises: MethodPromiseReference[] = []
@@ -238,9 +237,10 @@ export default createRule({
         const matches = createPathsMatcher(context, pattern)
         if (!matches(node)) return
       }
-      if (isUnhandledPromise(node, cause, expression.type === AST_NODE_TYPES.AwaitExpression)) {
+      const unhandled = isUnhandledPromise(node, cause)
+      if (unhandled) {
         context.report({
-          node: expression,
+          node: typeof unhandled === 'boolean' ? expression : unhandled,
           messageId: MESSAGE_ID_DEFAULT,
           data: {
             message: pattern.message,
@@ -319,8 +319,7 @@ export default createRule({
     function isUnhandledPromise(
       node: TSESTree.Node,
       cause: PromiseCause,
-      catchable: boolean,
-    ): boolean {
+    ): boolean | TSESTree.Node {
       // Top-level unhandled promises
       const scope = getCurrentScope(node, scopeManager)
       if (!scope) return true
@@ -329,6 +328,7 @@ export default createRule({
       const block = functionScope.block
       // Handled promises
       if (isCaughtByChainInBlock(node, block)) return false
+      const catchable = cause.expression.type === AST_NODE_TYPES.AwaitExpression
       if (catchable) {
         const tryStatement = getUpperNode(node, AST_NODE_TYPES.TryStatement, block)
         if (tryStatement) return false
@@ -347,7 +347,8 @@ export default createRule({
           .find(([name, value]) => value === block)?.[0]
         if (methodName) {
           // Event-unhandled promises
-          if (templateEventListenerNames.has(methodName)) return true
+          const reference = templateMethodReferences.find(item => item.name === methodName)
+          if (reference) return reference.node
           // Check recursively
           methodPromises.push({ name: methodName, cause })
         }
@@ -370,7 +371,8 @@ export default createRule({
           .find(variable => variable.defs.some(def => def.node === block))?.name
         if (variableName) {
           // Event-unhandled promises
-          if (templateEventListenerNames.has(variableName)) return true
+          const reference = templateMethodReferences.find(item => item.name === variableName)
+          if (reference) return reference.node
           // Check recursively
           scriptSetupMethodPromises.push({ name: variableName, cause })
         }
@@ -380,12 +382,25 @@ export default createRule({
     }
 
     const templateVisitor = {
-      'VAttribute[key.name.name="on"] > VExpressionContainer[expression]'(node: TSESTree.Node) {
-        const expression: TSESTree.Expression = node['expression']
-        if (expression.type === AST_NODE_TYPES.Identifier) {
-          // TODO: identifiers from v-slot, etc.
-          templateEventListenerNames.add(expression.name)
-        }
+      // @click="foo"
+      'VAttribute[key.name.name="on"] > VExpressionContainer[expression.type="Identifier"]'(node: TSESTree.Node) {
+        const expression: TSESTree.Identifier = node['expression']
+        // TODO: identifiers from v-slot, etc.
+        templateMethodReferences.push({
+          node: expression,
+          expression: null,
+          name: expression.name,
+        })
+      },
+      // @click="foo()"
+      'VOnExpression CallExpression[callee.type="Identifier"]'(
+        node: TSESTree.CallExpression & { callee: TSESTree.Identifier },
+      ) {
+        templateMethodReferences.push({
+          node,
+          expression: null,
+          name: node.callee.name,
+        })
       },
       'VElement[parent.type!=\'VElement\']:exit'() {
         reportUnhandledPromises()

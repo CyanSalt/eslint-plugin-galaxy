@@ -187,6 +187,30 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
     {
       filename: 'test.vue',
       code: `
+        <template>
+          <span @click="bar()"></span>
+        </template>
+
+        <script>
+        export default {
+          methods: {
+            async bar() {
+              await foo()
+            },
+          },
+        }
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
         <script>
         export default {
           setup() {
