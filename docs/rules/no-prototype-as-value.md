@@ -11,6 +11,10 @@ const noop = Function.prototype
 ```
 
 ```js
+const proxy = new Proxy(Object.prototype, {})
+```
+
+```js
 return foo.map(Number.prototype.toFixed, bar)
 ```
 

@@ -50,6 +50,24 @@ tsRuleTester.run('no-prototype-as-value', rule, {
     },
     {
       code: `
+        const proxy = new Proxy(Object.prototype, {})
+      `,
+      errors: [
+        {
+          messageId: 'no-prototype-as-value.prototype',
+          suggestions: [
+            {
+              messageId: 'suggestion@no-prototype-as-value.literals',
+              output: `
+        const proxy = new Proxy({}, {})
+      `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: `
         return foo.map(Number.prototype.toFixed, bar)
       `,
       errors: [
