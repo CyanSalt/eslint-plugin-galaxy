@@ -9,6 +9,16 @@ export function isIdentifierOf(
     && node.name === name
 }
 
+export function isMemberExpressionOf(
+  node: TSESTree.Node,
+  object: string,
+  property?: string,
+): node is TSESTree.MemberExpression {
+  return node.type === AST_NODE_TYPES.MemberExpression
+    && isIdentifierOf(node.object, object)
+    && (!property || isIdentifierOf(node.property, property))
+}
+
 export function getRealExpression(node: TSESTree.Node): Exclude<TSESTree.Node, TSESTree.TSAsExpression> {
   return node.type === AST_NODE_TYPES.TSAsExpression ? getRealExpression(node.expression) : node
 }

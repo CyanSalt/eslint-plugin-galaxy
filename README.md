@@ -33,6 +33,8 @@ module.exports = {
 
 - [`no-misused-globals`](./docs/rules/no-misused-globals.md) - Disallow global variables that may be misused
 
+- [`no-prototype-as-value`](./docs/rules/no-prototype-as-value.md) - Disallow using prototype of functions as values ✅
+
 - [`no-restricted-floating-promises`](./docs/rules/no-restricted-floating-promises.md) - Enforce Promises with specified syntax to be handled appropriately
 
 - [`no-unsafe-window-open`](./docs/rules/no-unsafe-window-open.md) - Disallow unsafe `window.open()` ✅ 🔧
