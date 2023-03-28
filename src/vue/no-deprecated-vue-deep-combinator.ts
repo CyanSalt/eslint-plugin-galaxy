@@ -110,9 +110,7 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'The deep combinator `::v-deep` is deprecated.',
     },
   },
-  defaultOptions: [
-    { ignores: [] as string[] },
-  ],
+  defaultOptions: [],
   create(context) {
     const {
       getStyleContexts,

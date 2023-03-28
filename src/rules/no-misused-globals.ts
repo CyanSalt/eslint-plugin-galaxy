@@ -82,6 +82,7 @@ export default createRule({
             type: 'boolean',
           },
         },
+        additionalProperties: false,
       },
     ],
     messages: {
