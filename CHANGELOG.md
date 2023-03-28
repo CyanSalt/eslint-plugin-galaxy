@@ -1,5 +1,21 @@
 
 
+## [1.23.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.22.0...v1.23.0) (2023-03-28)
+
+
+### Features
+
+* add `no-prototype-as-value` ([9fca3eb](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/9fca3eb60b6fca925421199e7128c2a7dc250c47))
+
+
+### Bug Fixes
+
+* also check vonexpressions ([e34562a](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/e34562a3d3cbfda7134f03040600592664b2dd3a))
+* caught on wrapper ([367ee03](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/367ee03bd6f9f61b9182ba3853d7e0b4e1e0eb71))
+* dedupe with pattern ([e92db83](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/e92db833143da941e255305098657231feb37468))
+* empty expression ([03f294a](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/03f294a921740a250edba447a40bea18359cff1f))
+* ignore template vars ([1505221](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/1505221c6cde0fcb4bb344463e42afc9c1488860))
+
 ## [1.22.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.21.0...v1.22.0) (2023-03-14)
 
 
