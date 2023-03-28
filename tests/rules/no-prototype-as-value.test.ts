@@ -28,6 +28,14 @@ tsRuleTester.run('no-prototype-as-value', rule, {
         if ('foo' in Array.prototype) {}
       `,
     },
+    {
+      code: `
+        expect(Object.create(null).prototype).toBe(null)
+      `,
+      options: [
+        { ignores: ['expect'] },
+      ],
+    },
   ],
   invalid: [
     {

@@ -4,6 +4,12 @@ The early `prototype` of a built-in functions in ECMAScript behaved like instanc
 
 In addition, some built-in methods support manual passing of `thisArgs`, in which case you can actually use prototype methods as values, but this will result in reduced readability and loss of some type information.
 
+## Options
+
+This rule has an object option:
+
+- `"ignores"` ignores specified callees when used as function arguments
+
 ## Fail
 
 ```js
@@ -30,4 +36,9 @@ Object.defineProperty(Array.prototype, foo, bar)
 
 ```js
 if (foo in Array.prototype) {}
+```
+
+```js
+/* eslint galaxy/no-prototype-as-value: ["error", { "ignores": ["expect"] }] */
+expect(Object.create(null).prototype).toBe(null);
 ```

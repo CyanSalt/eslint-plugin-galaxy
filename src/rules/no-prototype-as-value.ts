@@ -1,6 +1,6 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { TSESTree } from '@typescript-eslint/utils'
-import { isIdentifierOf, isMemberExpressionOf } from '../estree'
+import { isIdentifierOf } from '../estree'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_PROTOTYPE = 'no-prototype-as-value.prototype'
@@ -21,6 +21,29 @@ function getPropertyName(node: TSESTree.MemberExpression) {
   return undefined
 }
 
+const BUILTIN_IGNORES = [
+  'Object.*',
+  'Reflect.*',
+  'jest.spyOn',
+]
+
+const WILDCARD_SYMBOL = Symbol('wildcard')
+
+function isIgnoredByPath(node: TSESTree.Node, path: (string | typeof WILDCARD_SYMBOL)[]): boolean {
+  if (!path.length) return true
+  const objectPath = path.slice(0, -1)
+  const propertyName = path[path.length - 1]
+  if (node.type === AST_NODE_TYPES.MemberExpression) {
+    return isIgnoredByPath(node.object, objectPath) && (
+      propertyName === WILDCARD_SYMBOL || getPropertyName(node) === propertyName
+    )
+  } else {
+    return !objectPath.length && (
+      propertyName === WILDCARD_SYMBOL || isIdentifierOf(node, propertyName)
+    )
+  }
+}
+
 export default createRule({
   name: __filename,
   meta: {
@@ -30,16 +53,40 @@ export default createRule({
       recommended: 'error',
     },
     hasSuggestions: true,
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          ignores: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       [MESSAGE_ID_PROTOTYPE]: 'Unexpected use of "{{ object }}.prototype"',
       [MESSAGE_ID_METHOD]: 'Unexpected method call from "{{ object }}.prototype"',
       [MESSAGE_ID_SUGGESTION_LITERALS]: 'Use literals instead',
     },
   },
-  defaultOptions: [],
+  defaultOptions: [
+    { ignores: [] as string[] },
+  ],
   create(context) {
     const code = context.getSourceCode()
+    const ignores = context.options[0]?.ignores ?? []
+    const ignoredPaths = [...BUILTIN_IGNORES, ...ignores].map(item => {
+      return item.split('.').map(part => (part === '*' ? WILDCARD_SYMBOL : part))
+    })
+
+    function isIgnoredCallee(callee: TSESTree.LeftHandSideExpression) {
+      return ignoredPaths.some(path => isIgnoredByPath(callee, path))
+    }
+
     return {
       MemberExpression(node: TSESTree.MemberExpression) {
         const name = getPropertyName(node)
@@ -57,22 +104,14 @@ export default createRule({
           const upper = parent.parent
           if (
             upper?.type === AST_NODE_TYPES.MemberExpression
-            && (
-              isIdentifierOf(upper.property, 'call')
-              || isIdentifierOf(upper.property, 'apply')
-              || isIdentifierOf(upper.property, 'bind')
-            )
+            && (['call', 'apply', 'bind'] as unknown[]).includes(getPropertyName(upper))
           ) return
         }
         // Ignore `builtin_function(Function.prototype, ...rest)`
         if (
           parent?.type === AST_NODE_TYPES.CallExpression
           && parent.arguments.includes(node)
-          && (
-            isMemberExpressionOf(parent.callee, 'Object')
-            || isMemberExpressionOf(parent.callee, 'Reflect')
-            || isMemberExpressionOf(parent.callee, 'jest', 'spyOn')
-          )
+          && isIgnoredCallee(parent.callee)
         ) return
         // Ignore `foo === Function.prototype`
         if (
