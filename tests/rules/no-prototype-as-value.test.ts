@@ -25,7 +25,7 @@ tsRuleTester.run('no-prototype-as-value', rule, {
     },
     {
       code: `
-        let bar = Array.prototype.foo;
+        const bar = Array.prototype.foo;
       `,
     },
     {
@@ -87,6 +87,16 @@ tsRuleTester.run('no-prototype-as-value', rule, {
     {
       code: `
         return foo.map(Number.prototype.toFixed, bar)
+      `,
+      errors: [
+        {
+          messageId: 'no-prototype-as-value.method',
+        },
+      ],
+    },
+    {
+      code: `
+        let bar = Array.prototype.foo
       `,
       errors: [
         {

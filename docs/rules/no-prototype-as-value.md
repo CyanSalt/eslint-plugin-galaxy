@@ -35,7 +35,7 @@ Array.prototype.foo = bar
 ```
 
 ```js
-let bar = Array.prototype.foo
+const bar = Array.prototype.foo
 ```
 
 ```js

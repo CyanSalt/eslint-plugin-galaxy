@@ -95,10 +95,14 @@ export default createRule({
         ) {
           isUsedAsObject = true
           const upper = parent.parent
-          // Ignore `Function.prototype.foo = bar` and reversed assignments
-          if (upper?.type === AST_NODE_TYPES.AssignmentExpression) return
-          // Ignore `let bar = Function.prototype.foo`
-          if (upper?.type === AST_NODE_TYPES.VariableDeclarator) return
+          // Ignore `Function.prototype.foo = bar`
+          if (upper?.type === AST_NODE_TYPES.AssignmentExpression && upper.left === parent) return
+          // Ignore `const bar = Function.prototype.foo`
+          if (
+            upper?.type === AST_NODE_TYPES.VariableDeclarator
+            && upper.parent?.type === AST_NODE_TYPES.VariableDeclaration
+            && upper.parent.kind === 'const'
+          ) return
           // Ignore `Function.prototype.foo.(apply|bind|call) only`
           if (
             upper?.type === AST_NODE_TYPES.MemberExpression
