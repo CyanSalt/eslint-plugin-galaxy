@@ -1,6 +1,6 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { TSESTree } from '@typescript-eslint/utils'
-import { isIdentifierOf } from '../estree'
+import { getLiteralValue, isIdentifierOf } from '../estree'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_PROTOTYPE = 'no-prototype-as-value.prototype'
@@ -12,13 +12,7 @@ function getPropertyName(node: TSESTree.MemberExpression) {
   if (property.type === AST_NODE_TYPES.Identifier) {
     return property.name
   }
-  if (property.type === AST_NODE_TYPES.Literal) {
-    return property.value
-  }
-  if (property.type === AST_NODE_TYPES.TemplateLiteral && property.quasis.length === 1) {
-    return property.quasis[0].value.cooked
-  }
-  return undefined
+  return getLiteralValue(property)
 }
 
 const BUILTIN_IGNORES = [

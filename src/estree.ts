@@ -63,3 +63,13 @@ export function getImportSource(name: string, scope: TSESLint.Scope.Scope) {
     }
   }
 }
+
+export function getLiteralValue(node: TSESTree.Node) {
+  if (node.type === AST_NODE_TYPES.TemplateLiteral && !node.expressions.length && node.quasis.length === 1) {
+    return node.quasis[0].value.cooked
+  }
+  if (node.type === AST_NODE_TYPES.Literal) {
+    return node.value
+  }
+  return undefined
+}
