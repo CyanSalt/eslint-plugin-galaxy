@@ -5,13 +5,13 @@ import { createRule } from '../utils'
 const MESSAGE_ID_THIS = 'valid-vuex-properties.this'
 const MESSAGE_ID_ARGUMENTS = 'valid-vuex-properties.arguments'
 
-const mappingFunctions = [
+const MAPPING_FUNCTIONS = [
   'mapState',
   'mapGetters',
 ]
 
 const PROPERTY_METHOD_SELECTOR = [
-  `CallExpression:matches(${mappingFunctions.map(name => `[callee.name="${name}"]`).join(', ')})`,
+  `CallExpression:matches(${MAPPING_FUNCTIONS.map(name => `[callee.name="${name}"]`).join(', ')})`,
   '> ObjectExpression',
   '> Property',
   '> :matches(FunctionExpression, ArrowFunctionExpression)',
@@ -40,7 +40,7 @@ function getClosestMappingFunctionCall(node: TSESTree.Node) {
     (item): item is TSESTree.CallExpression & { callee: TSESTree.Identifier } => {
       return item.type === AST_NODE_TYPES.CallExpression
         && item.callee.type === AST_NODE_TYPES.Identifier
-        && mappingFunctions.includes(item.callee.name)
+        && MAPPING_FUNCTIONS.includes(item.callee.name)
     },
   )
 }

@@ -7,7 +7,7 @@ import { createRule } from '../utils'
 const MESSAGE_ID_DEFAULT = 'no-unused-vuex-properties'
 const MESSAGE_ID_SUGGESTION_REMOVE = 'suggestion@no-unused-vuex-properties.remove'
 
-const mappingFunctions = [
+export const MAPPING_FUNCTIONS = [
   'mapState',
   'mapWritableState',
   'mapGetters',
@@ -108,7 +108,7 @@ export default createRule({
       }
     }
 
-    const mappingSelector = getMappingSelector(mappingFunctions)
+    const mappingSelector = getMappingSelector(MAPPING_FUNCTIONS)
 
     const scriptVisitor = utils.compositingVisitors(
       {

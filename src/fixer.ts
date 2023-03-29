@@ -1,6 +1,13 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
+export function *removeTrailingComma(code: TSESLint.SourceCode, fixer: TSESLint.RuleFixer, node: TSESTree.Node) {
+  const nextToken = code.getTokenAfter(node)
+  if (nextToken?.type === AST_TOKEN_TYPES.Punctuator && nextToken.value === ',') {
+    yield fixer.remove(nextToken)
+  }
+}
+
 export type ArrayOrObjectElement = TSESTree.Expression | TSESTree.DestructuringPattern | TSESTree.ObjectLiteralElement
 
 export function *removeElement(
