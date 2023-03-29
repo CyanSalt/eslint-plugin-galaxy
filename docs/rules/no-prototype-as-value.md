@@ -31,6 +31,14 @@ Object.prototype.toString.call(foo)
 ```
 
 ```js
+Array.prototype.foo = bar
+```
+
+```js
+let bar = Array.prototype.foo
+```
+
+```js
 Object.defineProperty(Array.prototype, foo, bar)
 ```
 
@@ -40,5 +48,5 @@ if (foo in Array.prototype) {}
 
 ```js
 /* eslint galaxy/no-prototype-as-value: ["error", { "ignores": ["expect"] }] */
-expect(Object.create(null).prototype).toBe(null);
+expect(Object.create(null).prototype).toBe(null)
 ```

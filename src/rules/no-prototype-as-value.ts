@@ -100,8 +100,12 @@ export default createRule({
           && node === parent.object
         ) {
           isUsedAsObject = true
-          // Ignore `Function.prototype.foo.(apply|bind|call) only`
           const upper = parent.parent
+          // Ignore `Function.prototype.foo = bar` and reversed assignments
+          if (upper?.type === AST_NODE_TYPES.AssignmentExpression) return
+          // Ignore `let bar = Function.prototype.foo`
+          if (upper?.type === AST_NODE_TYPES.VariableDeclarator) return
+          // Ignore `Function.prototype.foo.(apply|bind|call) only`
           if (
             upper?.type === AST_NODE_TYPES.MemberExpression
             && (['call', 'apply', 'bind'] as unknown[]).includes(getPropertyName(upper))

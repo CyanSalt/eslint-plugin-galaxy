@@ -20,6 +20,16 @@ tsRuleTester.run('no-prototype-as-value', rule, {
     },
     {
       code: `
+        Array.prototype.foo = bar;
+      `,
+    },
+    {
+      code: `
+        let bar = Array.prototype.foo;
+      `,
+    },
+    {
+      code: `
         Object.defineProperty(Array.prototype, foo, bar)
       `,
     },
