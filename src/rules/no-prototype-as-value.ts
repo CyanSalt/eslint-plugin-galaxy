@@ -151,7 +151,7 @@ export default createRule({
                     case 'Number':
                       return fixer.replaceText(node, '0')
                     case 'String':
-                      return fixer.replaceText(node, '')
+                      return fixer.replaceText(node, `''`)
                     case 'Boolean':
                       return fixer.replaceText(node, 'false')
                     case 'Object':
