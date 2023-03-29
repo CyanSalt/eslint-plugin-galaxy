@@ -1,5 +1,20 @@
 
 
+## [1.24.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.23.0...v1.24.0) (2023-03-29)
+
+
+### Features
+
+* add `no-duplicate-vuex-properties` ([e821b71](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/e821b71a12266de8017ac41607f9e4a09de6d1fa))
+
+
+### Bug Fixes
+
+* add `ignores` option to `no-prototype-as-value` ([cc5ea52](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/cc5ea529f5b475eb6d36dd5ebb6bd623a999674e))
+* disallow mutable assignment ([563c145](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/563c14571af1f714b77b86dec7c737306aa2c6d7))
+* error schema and default options ([aa65242](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/aa65242b33375ed7167a47410516e6a311c0d3ad))
+* ignore extending prototype ([692383f](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/692383f8c8f9ee9a784dee9bf43601a54b232dfd))
+
 ## [1.23.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.22.0...v1.23.0) (2023-03-28)
 
 
