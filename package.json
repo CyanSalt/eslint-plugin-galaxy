@@ -37,7 +37,7 @@
     "ignore": "^5.2.4"
   },
   "devDependencies": {
-    "@cyansalt/eslint-config-preset": "^1.4.3",
+    "@cyansalt/eslint-config-preset": "^1.12.5",
     "@cyansalt/tsconfig": "^2.1.0",
     "@release-it/conventional-changelog": "^5.1.1",
     "@types/jest": "^27.4.0",

@@ -84,7 +84,7 @@ export default createRule({
       node: TSESTree.ImportDeclaration,
     ) {
       // bail if the declaration doesn't have a source, e.g. "export { foo };", or if it's only partially typed like in an editor
-      if (!source || !source.value) return
+      if (!source?.value) return
 
       const importPathWithQueryString = source.value
 

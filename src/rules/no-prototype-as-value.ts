@@ -1,5 +1,5 @@
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { TSESTree } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getLiteralValue, isIdentifierOf } from '../estree'
 import { createRule } from '../utils'
 

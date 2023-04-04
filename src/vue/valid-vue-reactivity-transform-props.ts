@@ -18,7 +18,7 @@ function getNestingCallSelector(callees: string[]) {
 
 function isVueFunctionType(prop: any) {
   if (prop.type === 'type') {
-    return !prop.types || !prop.types.includes('Function')
+    return !prop.types?.includes('Function')
   } else {
     const expr = getRealExpression(prop.value)
     return isIdentifierOf(expr, 'Function') || isArrayExpressionIncludesIdentifier(expr, 'Function')
