@@ -69,7 +69,7 @@ export default createRule({
             })
             if (propertyMapping?.type === AST_NODE_TYPES.ArrayExpression) {
               for (const element of propertyMapping.elements) {
-                if (element.type === AST_NODE_TYPES.Literal && typeof element.value === 'string') {
+                if (element?.type === AST_NODE_TYPES.Literal && typeof element.value === 'string') {
                   addValueToSetMap(mappedProperties, element.value, element)
                 }
               }

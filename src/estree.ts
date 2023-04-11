@@ -28,6 +28,7 @@ export function isArrayExpressionIncludesIdentifier(
   name: string,
 ): node is TSESTree.ArrayExpression {
   return node.type === AST_NODE_TYPES.ArrayExpression && node.elements.some(el => {
+    if (!el) return false
     const expr = getRealExpression(el)
     return isIdentifierOf(expr, name)
   })

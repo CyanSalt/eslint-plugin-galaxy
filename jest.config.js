@@ -18,14 +18,13 @@ module.exports = {
   ],
   coverageProvider: 'v8',
   coverageReporters: ['text'],
-  globals: {
-    'ts-jest': {
-      tsconfig: './tsconfig.tools.json',
-      isolatedModules: true,
-    },
-  },
-  // TODO: only for NodeJS <16
-  moduleNameMapper: {
-    '@eslint/eslintrc/universal': '@eslint/eslintrc/dist/eslintrc-universal.cjs',
+  transform: {
+    '^.+\\.[jt]s$': [
+      'ts-jest',
+      {
+        tsconfig: './tsconfig.tools.json',
+        isolatedModules: true,
+      },
+    ],
   },
 }
