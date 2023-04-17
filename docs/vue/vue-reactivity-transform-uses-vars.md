@@ -22,11 +22,9 @@ let foo = $(useFoo())
 ```
 
 ```vue
-<script>
+<script setup>
 let foo = $(useFoo())
-onMounted(() => {
-  foo = 1
-})
+let bar = $computed(() => foo)
 </script>
 ```
 

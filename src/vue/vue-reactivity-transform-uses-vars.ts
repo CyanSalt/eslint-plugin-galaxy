@@ -47,6 +47,10 @@ export function isReactivityTransformCall(
     )
 }
 
+function isAssignmentReference(ref: TSESLint.Scope.Reference) {
+  return Boolean(ref.writeExpr && !ref.init)
+}
+
 export default createRule({
   name: __filename,
   meta: {
@@ -60,10 +64,8 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
     return {
       Program() {
-        if (!utils.isScriptSetup(context)) return
         const scope = getModuleScope(context)
         if (!scope) return
         for (const variable of scope.variables) {
@@ -73,6 +75,7 @@ export default createRule({
               node.type === AST_NODE_TYPES.VariableDeclarator
               && node.init
               && isReactivityTransformCall(node.init, scope, macrosWithSideEffects)
+              && variable.references.some(isAssignmentReference)
             ) {
               context.markVariableAsUsed(variable.name)
             }

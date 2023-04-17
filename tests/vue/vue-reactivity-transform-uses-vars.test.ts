@@ -123,19 +123,17 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
     },
     {
       code: `
-        <script>
+        <script setup>
         /* eslint vue-reactivity-transform-uses-vars: 'error' */
         let foo = $(useFoo())
-        onMounted(() => {
-          foo = 1
-        })
+        let bar = $computed(() => foo)
         </script>
       `,
       errors: [
         {
           messageId: 'unusedVar',
           data: {
-            varName: 'foo',
+            varName: 'bar',
             action: 'assigned a value',
             additional: '',
           },
