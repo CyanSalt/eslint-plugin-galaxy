@@ -1,5 +1,14 @@
 
 
+### [1.24.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.24.0...v1.24.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* report unused refs ([34456e4](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/34456e4741f0366f9517a49c5f98e8ee997bd5c8))
+* string suggestion ([d25daf3](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/d25daf3df88d6c056f4a76b5dd4df6d1c054ca7c))
+* support typescript 5 ([1a14e39](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/1a14e393978a3fa921250828822238f8764397aa))
+
 ## [1.24.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.23.0...v1.24.0) (2023-03-29)
 
 
