@@ -1,5 +1,7 @@
 # eslint-plugin-galaxy
 
+[![npm](https://img.shields.io/npm/v/eslint-plugin-galaxy.svg)](https://www.npmjs.com/package/eslint-plugin-galaxy)
+
 Various ESLint rules in one plugin.
 
 ## Installation
