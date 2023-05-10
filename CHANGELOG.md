@@ -1,5 +1,12 @@
 
 
+### [1.24.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.24.1...v1.24.2) (2023-05-10)
+
+
+### Bug Fixes
+
+* allow pinia option ([68c7331](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/68c7331d187f3738ac804bf04c75e1fcb705ba51))
+
 ### [1.24.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.24.0...v1.24.1) (2023-04-17)
 
 
