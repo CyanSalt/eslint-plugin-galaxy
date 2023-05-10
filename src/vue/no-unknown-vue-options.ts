@@ -7,6 +7,8 @@ const MESSAGE_ID_DEFAULT = 'no-unknown-vue-options'
 const communityOptions = [
   // vuex
   'store',
+  // pinia
+  'pinia',
   // vue-router
   'router',
   'beforeRouteEnter',
