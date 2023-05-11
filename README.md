@@ -25,6 +25,8 @@ module.exports = {
 
 ## Rules
 
+- [`esm-bundler`](./docs/rules/esm-bundler.md) - Enforce ES Module bundler APIs instead of Node APIs
+
 - [`import-extensions`](./docs/rules/import-extensions.md) - Ensure consistent use of file extension within the import path 🔧
 
 - [`max-nested-destructuring`](./docs/rules/max-nested-destructuring.md) - Enforce a maximum depth that destructuring can be nested
