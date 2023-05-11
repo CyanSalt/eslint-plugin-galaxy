@@ -1,5 +1,13 @@
 
 
+## [1.25.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.24.2...v1.25.0) (2023-05-11)
+
+
+### Features
+
+* add `esm-bundler` ([c4e355c](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c4e355c51bb7c0faab5c49bfbcd820eb624646dd))
+* add `no-as-any` ([53ba8e2](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/53ba8e2eaff72432a437b71749212eaec96068da))
+
 ### [1.24.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.24.1...v1.24.2) (2023-05-10)
 
 
