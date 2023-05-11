@@ -35,6 +35,7 @@ function getAllRules(record: Record<string, RuleModule>) {
 }
 
 const baseRules = loadRules(path.join(__dirname, 'rules'))
+const tsRules = loadRules(path.join(__dirname, 'typescript'))
 const vueRules = loadRules(path.join(__dirname, 'vue'))
 
 const processors = {}
@@ -47,6 +48,7 @@ try {
 module.exports = {
   rules: {
     ...baseRules,
+    ...tsRules,
     ...vueRules,
   },
   configs: {

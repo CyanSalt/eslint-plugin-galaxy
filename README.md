@@ -45,6 +45,10 @@ module.exports = {
 
 - [`valid-indexof-return`](./docs/rules/valid-indexof-return.md) - Disallow boolean cast of returning value of `.indexOf()` ✅
 
+### For TypeScript
+
+- [`no-as-any`](./docs/typescript/no-as-any.md) - Disallow `any` type assertions
+
 ### For Vue
 
 - [`conventional-vue-keys-order`](./docs/vue/conventional-vue-keys-order.md) - Enforce properties in Vue component options to be sorted in conventional order 🔧
