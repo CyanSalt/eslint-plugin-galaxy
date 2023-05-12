@@ -1,5 +1,12 @@
 
 
+### [1.25.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.25.0...v1.25.1) (2023-05-12)
+
+
+### Bug Fixes
+
+* false positive require ([19cbd0a](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/19cbd0a24d26bff8bf5b7386b67554267f4e8697))
+
 ## [1.25.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.24.2...v1.25.0) (2023-05-11)
 
 
