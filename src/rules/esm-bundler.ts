@@ -100,15 +100,12 @@ export default createRule({
 
     if (!allowRequire) {
       visitor[
-        'Identifier[name="require"]'
-      ] = (node: TSESTree.Identifier) => {
-        const scope = context.getScope()
-        if (!scope.variables.some(variable => variable.name === 'exports')) {
-          context.report({
-            node,
-            messageId: MESSAGE_ID_REQUIRE,
-          })
-        }
+        'CallExpression[callee.name="require"], MemberExpression[object.name="require"]'
+      ] = (node: TSESTree.CallExpression) => {
+        context.report({
+          node,
+          messageId: MESSAGE_ID_REQUIRE,
+        })
       }
     }
 

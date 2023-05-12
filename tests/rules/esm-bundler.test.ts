@@ -24,6 +24,11 @@ ruleTester.run('esm-bundler', rule, {
       `,
       options: [{ allowProcessEnv: true }],
     },
+    {
+      code: `
+        const foo = { require: true }
+      `,
+    },
   ],
   invalid: [
     {
