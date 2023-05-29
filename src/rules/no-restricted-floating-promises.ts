@@ -2,7 +2,7 @@ import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import ignore from 'ignore'
 import { getModuleScope } from '../context'
-import { getImportSource } from '../estree'
+import { getImportSource, isMemberExpressionOf } from '../estree'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
@@ -21,6 +21,27 @@ export function isCaughtByChain(node: TSESTree.Node): boolean {
   return false
 }
 
+function getHighOrderPromise(node: TSESTree.Node) {
+  // Promise Aggregation
+  if (node.type === AST_NODE_TYPES.ArrayExpression) {
+    const parent = node.parent
+    if (
+      parent
+      && parent.type === AST_NODE_TYPES.CallExpression
+      && isMemberExpressionOf(parent.callee, 'Promise', ['all', 'any', 'race'])
+    ) {
+      return parent
+    }
+  }
+  // Promise Wrapper
+  if (node.type === AST_NODE_TYPES.CallExpression) {
+    if (isMemberExpressionOf(node.callee, 'Promise', ['reject', 'resolve'])) {
+      return node
+    }
+  }
+  return null
+}
+
 export function isFloatingPromise(node: TSESTree.Node): boolean {
   const parent = node.parent
   if (!parent) return true
@@ -31,6 +52,10 @@ export function isFloatingPromise(node: TSESTree.Node): boolean {
   }
   if (parent.type === AST_NODE_TYPES.ExpressionStatement) {
     return true
+  }
+  const upper = getHighOrderPromise(parent)
+  if (upper) {
+    return isFloatingPromise(upper)
   }
   return false
 }

@@ -3,16 +3,16 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 export function isIdentifierOf(
   node: TSESTree.Node,
-  name: string,
+  name: string | string[],
 ): node is TSESTree.Identifier {
   return (node.type === AST_NODE_TYPES.Identifier || node.type === AST_NODE_TYPES.PrivateIdentifier)
-    && node.name === name
+    && (Array.isArray(name) ? name.includes(node.name) : node.name === name)
 }
 
 export function isMemberExpressionOf(
   node: TSESTree.Node,
   object: string,
-  property?: string,
+  property?: string | string[],
 ): node is TSESTree.MemberExpression {
   return node.type === AST_NODE_TYPES.MemberExpression
     && isIdentifierOf(node.object, object)
@@ -25,7 +25,7 @@ export function getRealExpression(node: TSESTree.Node): Exclude<TSESTree.Node, T
 
 export function isArrayExpressionIncludesIdentifier(
   node: TSESTree.Node,
-  name: string,
+  name: string | string[],
 ): node is TSESTree.ArrayExpression {
   return node.type === AST_NODE_TYPES.ArrayExpression && node.elements.some(el => {
     if (!el) return false

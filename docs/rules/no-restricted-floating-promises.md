@@ -26,6 +26,16 @@ foo()
 
 ```js
 /* eslint galaxy/no-restricted-floating-promises: ["error", "CallExpression[callee.name='foo']"] */
+Promise.all([foo()])
+```
+
+```js
+/* eslint galaxy/no-restricted-floating-promises: ["error", "CallExpression[callee.name='foo']"] */
+Promise.resolve(foo())
+```
+
+```js
+/* eslint galaxy/no-restricted-floating-promises: ["error", "CallExpression[callee.name='foo']"] */
 foo().then(() => {})
 ```
 
@@ -74,7 +84,7 @@ await foo()
 
 ```js
 /* eslint galaxy/no-restricted-floating-promises: ["error", "CallExpression[callee.name='foo']"] */
-Promise.all([foo()])
+wrap(foo())
 ```
 
 ```js

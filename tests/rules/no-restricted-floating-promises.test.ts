@@ -34,7 +34,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        Promise.all([foo()])
+        wrap(foo())
       `,
       options: ['CallExpression[callee.name="foo"]'],
     },
@@ -61,6 +61,28 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     {
       code: `
         foo().then(() => {})
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-floating-promises',
+        },
+      ],
+    },
+    {
+      code: `
+        Promise.all([foo()])
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-floating-promises',
+        },
+      ],
+    },
+    {
+      code: `
+        Promise.resolve(foo())
       `,
       options: ['CallExpression[callee.name="foo"]'],
       errors: [
