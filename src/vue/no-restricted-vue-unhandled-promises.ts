@@ -445,7 +445,7 @@ export default createRule({
       }),
       Object.fromEntries(
         context.options.map(normalizeRulePattern).flatMap(pattern => {
-          return [
+          const entries: [string, TSESLint.RuleFunction][] = [
             [`AwaitExpression ${pattern.selector}`, (node: TSESTree.Node) => {
               causes.push({
                 node,
@@ -471,12 +471,14 @@ export default createRule({
                 pattern,
               })
             }],
-            [
+          ]
+          if (pattern.type === 'vuex-action') {
+            entries.push([
               [
                 'CallExpression[callee.name="mapActions"] > ArrayExpression > Literal',
                 'CallExpression[callee.name="mapActions"] > ObjectExpression > Property',
               ].join(', '),
-              pattern.type === 'vuex-action' ? (node: TSESTree.Literal | TSESTree.Property) => {
+              (node: TSESTree.Literal | TSESTree.Property) => {
                 if (node.type === AST_NODE_TYPES.Property) {
                   if (node.key.type === AST_NODE_TYPES.Identifier) {
                     methodPromises.push({
@@ -492,9 +494,10 @@ export default createRule({
                     })
                   }
                 }
-              } : undefined,
-            ],
-          ]
+              },
+            ])
+          }
+          return entries
         }),
       ),
       {
