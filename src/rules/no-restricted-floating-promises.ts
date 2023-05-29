@@ -97,7 +97,7 @@ const TYPE_MAPPING: Record<string, RulePattern> = {
 
 type MarkRequired<T, U extends keyof T> = Omit<T, U> & Required<Pick<T, U>>
 
-type NormalizedRulePattern = MarkRequired<Omit<RulePattern, 'type'>, 'selector' | 'message'>
+type NormalizedRulePattern = MarkRequired<RulePattern, 'selector' | 'message'>
 
 export function normalizeRulePattern(selectorOrObject: string | RulePattern): NormalizedRulePattern {
   let pattern = typeof selectorOrObject === 'string'
@@ -116,6 +116,7 @@ export function normalizeRulePattern(selectorOrObject: string | RulePattern): No
       : `Promises '${pattern.selector}' must be handled`
   )
   return {
+    type: pattern.type,
     paths: pattern.paths,
     selector,
     message,

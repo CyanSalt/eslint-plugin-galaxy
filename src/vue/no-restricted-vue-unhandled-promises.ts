@@ -196,7 +196,7 @@ interface MethodReference {
 
 interface MethodPromiseReference {
   name: string,
-  cause: PromiseCause,
+  cause: Pick<PromiseCause, 'pattern'>,
 }
 
 export default createRule({
@@ -463,6 +463,29 @@ export default createRule({
                 pattern,
               })
             }],
+            [
+              [
+                'CallExpression[callee.name="mapActions"] > ArrayExpression > Literal',
+                'CallExpression[callee.name="mapActions"] > ObjectExpression > Property',
+              ].join(', '),
+              pattern.type === 'vuex-action' ? (node: TSESTree.Literal | TSESTree.Property) => {
+                if (node.type === AST_NODE_TYPES.Property) {
+                  if (node.key.type === AST_NODE_TYPES.Identifier) {
+                    methodPromises.push({
+                      name: node.key.name,
+                      cause: { pattern },
+                    })
+                  }
+                } else {
+                  if (typeof node.value === 'string') {
+                    methodPromises.push({
+                      name: node.value,
+                      cause: { pattern },
+                    })
+                  }
+                }
+              } : undefined,
+            ],
           ]
         }),
       ),

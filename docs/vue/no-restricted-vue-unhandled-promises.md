@@ -134,6 +134,18 @@ export default {
 ```
 
 ```js
+/* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", { "type": "vuex-action" }] */
+export default {
+  created() {
+    this.submit()
+  },
+  methods: {
+    ...mapActions(['submit']),
+  },
+}
+```
+
+```js
 /* eslint galaxy/no-restricted-vue-unhandled-promises: ["error", { "type": "element-message-box" }] */
 export default {
   async created() {
