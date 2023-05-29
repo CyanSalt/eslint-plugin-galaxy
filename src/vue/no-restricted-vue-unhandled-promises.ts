@@ -183,7 +183,7 @@ const VUE_SCRIPT_SETUP_METHOD_CALL = 'CallExpression[callee.type="Identifier"]'
 
 interface PromiseCause {
   node: TSESTree.Node,
-  expression: TSESTree.AwaitExpression | TSESTree.ReturnStatement,
+  expression: TSESTree.AwaitExpression | TSESTree.ReturnStatement | TSESTree.ArrowFunctionExpression,
   pattern: ReturnType<typeof normalizeRulePattern>,
   ignorePaths?: boolean,
 }
@@ -457,6 +457,14 @@ export default createRule({
               const expression = getUpperNode(node, AST_NODE_TYPES.ReturnStatement)!
               const nesting = getUpperNode(node, AST_NODE_TYPES.AwaitExpression, expression)
               if (nesting) return
+              causes.push({
+                node,
+                expression,
+                pattern,
+              })
+            }],
+            [`ArrowFunctionExpression > ${pattern.selector}`, (node: TSESTree.Node) => {
+              const expression = node.parent as TSESTree.ArrowFunctionExpression
               causes.push({
                 node,
                 expression,
