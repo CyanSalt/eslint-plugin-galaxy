@@ -93,7 +93,7 @@ wrap(foo())
 ```
 
 ```js
-/* eslint galaxy/no-restricted-floating-promises: ["error", { "paths": ["foo"] }] */
+/* eslint galaxy/no-restricted-floating-promises: ["error", { "names": ["foo"] }] */
 bar()
 ```
 
