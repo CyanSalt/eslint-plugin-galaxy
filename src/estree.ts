@@ -49,12 +49,13 @@ export function isIdentifierProperty(
   return node.type === AST_NODE_TYPES.Property && node.key.type === AST_NODE_TYPES.Identifier
 }
 
-export function getNodeImportSource(node: TSESTree.Node, scope: TSESLint.Scope.Scope): string | undefined {
+export function *iterateNodeFactory(node: TSESTree.Node, scope: TSESLint.Scope.Scope): Generator<TSESTree.Node> {
+  yield node
   if (node.type === AST_NODE_TYPES.CallExpression) {
-    return getNodeImportSource(node.callee, scope)
+    return yield* iterateNodeFactory(node.callee, scope)
   }
   if (node.type === AST_NODE_TYPES.MemberExpression) {
-    return getNodeImportSource(node.object, scope)
+    return yield* iterateNodeFactory(node.object, scope)
   }
   if (node.type === AST_NODE_TYPES.Identifier) {
     for (const variable of scope.variables) {
@@ -63,19 +64,20 @@ export function getNodeImportSource(node: TSESTree.Node, scope: TSESLint.Scope.S
         for (const def of variable.defs) {
           // def is ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
           if (def.node.parent?.type === AST_NODE_TYPES.ImportDeclaration) {
-            return def.node.parent.source.value
+            yield def.node.parent
+            return
           }
           if (def.node.type === AST_NODE_TYPES.VariableDeclarator && def.node.init) {
-            return getNodeImportSource(def.node.init, variable.scope)
+            yield* iterateNodeFactory(def.node.init, variable.scope)
+            return
           }
         }
       }
     }
     if (scope.upper) {
-      return getNodeImportSource(node, scope.upper)
+      yield* iterateNodeFactory(node, scope.upper)
     }
   }
-  return undefined
 }
 
 export function getLiteralValue(node: TSESTree.Node) {

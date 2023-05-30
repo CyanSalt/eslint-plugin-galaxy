@@ -1,7 +1,7 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import ignore from 'ignore'
-import { getNodeImportSource, isMemberExpressionOf } from '../estree'
+import { isMemberExpressionOf, iterateNodeFactory } from '../estree'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
@@ -62,6 +62,7 @@ export function isFloatingPromise(node: TSESTree.Node): boolean {
 export interface RulePattern {
   type?: string,
   selector?: string,
+  names?: string[],
   paths?: string[],
   message?: string,
   // for `no-restricted-vue-unhandled-promises`
@@ -111,15 +112,17 @@ export function normalizeRulePattern(selectorOrObject: string | RulePattern): No
   if (pattern.type) {
     pattern = { ...TYPE_MAPPING[pattern.type], ...pattern }
   }
-  if (pattern.paths) {
-    pattern = { selector: 'CallExpression', ...pattern }
+  const selector = pattern.selector ?? 'CallExpression'
+  let message: string
+  if (pattern.message) {
+    message = pattern.message
+  } else if (pattern.names) {
+    message = `Promises created from ${pattern.names.map(str => `'${str}'`).join(', ')} must be handled`
+  } else if (pattern.paths) {
+    message = `Promises created from ${pattern.paths.map(str => `'${str}'`).join(', ')} must be handled`
+  } else {
+    message = `Promises '${selector}' must be handled`
   }
-  const selector = pattern.selector!
-  const message = pattern.message ?? (
-    pattern.paths
-      ? `Promises created from '${pattern.paths}' must be handled`
-      : `Promises '${pattern.selector}' must be handled`
-  )
   return {
     ...pattern,
     selector,
@@ -127,18 +130,27 @@ export function normalizeRulePattern(selectorOrObject: string | RulePattern): No
   }
 }
 
-export function createPathsMatcher(
+export function createMatcher(
   context: TSESLint.RuleContext<string, unknown[]>,
   pattern: NormalizedRulePattern,
 ) {
-  const matcher = pattern.paths
+  const names = pattern.names
+  const pathMatcher = pattern.paths
     ? ignore({ allowRelativePaths: true }).add(pattern.paths)
     : undefined
   return function (node: TSESTree.Node) {
-    if (matcher) {
+    if (pathMatcher || names) {
       const scope = context.getScope()
-      const source = getNodeImportSource(node, scope)
-      if (!source || !matcher.ignores(source)) return false
+      for (const item of iterateNodeFactory(node, scope)) {
+        if (item.type === AST_NODE_TYPES.Identifier) {
+          if (names?.includes(item.name)) return true
+        }
+        if (item.type === AST_NODE_TYPES.ImportDeclaration) {
+          const source = item.source
+          if (pathMatcher?.ignores(source.value)) return true
+        }
+      }
+      return false
     }
     return true
   }
@@ -168,6 +180,12 @@ export default createRule({
               selector: {
                 type: 'string',
               },
+              names: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                },
+              },
               paths: {
                 type: 'array',
                 items: {
@@ -175,6 +193,9 @@ export default createRule({
                 },
               },
               message: {
+                type: 'string',
+              },
+              vuePropertySelector: {
                 type: 'string',
               },
             },
@@ -191,9 +212,10 @@ export default createRule({
   create(context) {
     return Object.fromEntries(
       context.options.map(normalizeRulePattern).map(pattern => {
-        const matches = createPathsMatcher(context, pattern)
+        const matches = createMatcher(context, pattern)
         const ruleFn = (node: TSESTree.Node) => {
-          if (matches(node) && isFloatingPromise(node)) {
+          if (!matches(node)) return
+          if (isFloatingPromise(node)) {
             context.report({
               node,
               messageId: MESSAGE_ID_DEFAULT,

@@ -3,7 +3,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getModuleScope } from '../context'
 import { isIdentifierOf } from '../estree'
 import type { RulePattern } from '../rules/no-restricted-floating-promises'
-import noRestrictedFloatingPromises, { isFloatingPromise, isCaughtByChain, createPathsMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
+import noRestrictedFloatingPromises, { isFloatingPromise, isCaughtByChain, createMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-vue-unhandled-promises'
@@ -185,7 +185,6 @@ interface PromiseCause {
   node: TSESTree.Node,
   expression: TSESTree.AwaitExpression | TSESTree.ReturnStatement | TSESTree.ArrowFunctionExpression,
   pattern: ReturnType<typeof normalizeRulePattern>,
-  ignorePaths?: boolean,
 }
 
 interface MethodReference {
@@ -232,11 +231,7 @@ export default createRule({
     let vueObjectExpression: TSESTree.ObjectExpression | null = null
 
     function checkUnhandledPromise(cause: PromiseCause) {
-      const { node, expression, pattern, ignorePaths } = cause
-      if (!ignorePaths) {
-        const matches = createPathsMatcher(context, pattern)
-        if (!matches(node)) return
-      }
+      const { node, expression, pattern } = cause
       const unhandled = isUnhandledPromise(node, cause)
       if (unhandled) {
         context.report({
@@ -290,8 +285,6 @@ export default createRule({
               node: reference.node,
               expression: reference.expression,
               pattern: cause.pattern,
-              // Ignore import source matching
-              ignorePaths: true,
             })
           }
         }
@@ -445,8 +438,10 @@ export default createRule({
       }),
       Object.fromEntries(
         context.options.map(normalizeRulePattern).flatMap(pattern => {
+          const matches = createMatcher(context, pattern)
           const entries: [string, TSESLint.RuleFunction][] = [
             [`AwaitExpression ${pattern.selector}`, (node: TSESTree.Node) => {
+              if (!matches(node)) return
               causes.push({
                 node,
                 expression: getUpperNode(node, AST_NODE_TYPES.AwaitExpression)!,
@@ -454,6 +449,7 @@ export default createRule({
               })
             }],
             [`ReturnStatement ${pattern.selector}`, (node: TSESTree.Node) => {
+              if (!matches(node)) return
               const expression = getUpperNode(node, AST_NODE_TYPES.ReturnStatement)!
               const nesting = getUpperNode(node, AST_NODE_TYPES.AwaitExpression, expression)
               if (nesting) return
@@ -464,6 +460,7 @@ export default createRule({
               })
             }],
             [`ArrowFunctionExpression > ${pattern.selector}`, (node: TSESTree.Node) => {
+              if (!matches(node)) return
               const expression = node.parent as TSESTree.ArrowFunctionExpression
               causes.push({
                 node,

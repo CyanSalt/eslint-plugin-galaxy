@@ -55,6 +55,11 @@ this.$dialog.confirm({})
 ```
 
 ```js
+/* eslint galaxy/no-restricted-floating-promises: ["error", { "names": ["foo"] }] */
+foo()
+```
+
+```js
 /* eslint galaxy/no-restricted-floating-promises: ["error", { "paths": ["foo"] }] */
 import { foo } from 'foo'
 foo()
@@ -85,6 +90,11 @@ await foo()
 ```js
 /* eslint galaxy/no-restricted-floating-promises: ["error", "CallExpression[callee.name='foo']"] */
 wrap(foo())
+```
+
+```js
+/* eslint galaxy/no-restricted-floating-promises: ["error", { "paths": ["foo"] }] */
+bar()
 ```
 
 ```js
