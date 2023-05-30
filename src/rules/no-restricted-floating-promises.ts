@@ -13,7 +13,7 @@ export function isCaughtByChain(node: TSESTree.Node): boolean {
     const method = parent.property
     const call = parent.parent
     if (method.type !== AST_NODE_TYPES.Identifier) return true
-    if (method.name === 'catch') return true
+    if (method.name === 'catch' && call.arguments.length > 0) return true
     if (method.name === 'then' && call.arguments.length > 1) return true
     return isCaughtByChain(call)
   }
