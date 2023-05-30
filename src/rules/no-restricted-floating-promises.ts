@@ -117,7 +117,7 @@ export function normalizeRulePattern(selectorOrObject: string | RulePattern): No
   if (pattern.type) {
     pattern = { ...TYPE_MAPPING[pattern.type], ...pattern }
   }
-  const selector = pattern.selector ?? 'CallExpression'
+  const selector = pattern.selector ?? 'CallExpression:not([callee.object.type="CallExpression"])'
   let message: string
   if (pattern.message) {
     message = pattern.message
