@@ -113,6 +113,22 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
       filename: 'test.vue',
       code: `
         <script>
+        export default {
+          created() {
+            this.submit()
+          },
+          methods: {
+            ...mapActions(['submit']),
+          },
+        }
+        </script>
+      `,
+      options: [{ type: 'vue-store-action', asyncOnly: true }],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script>
         import { foo } from 'bar'
         export default {
           async created() {
@@ -401,7 +417,28 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
         }
         </script>
       `,
-      options: [{ type: 'vuex-action' }],
+      options: [{ type: 'vue-store-action' }],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script>
+        export default {
+          async created() {
+            await this.submit()
+          },
+          methods: {
+            ...mapActions(['submit']),
+          },
+        }
+        </script>
+      `,
+      options: [{ type: 'vue-store-action', asyncOnly: true }],
       errors: [
         {
           messageId: 'no-restricted-vue-unhandled-promises',

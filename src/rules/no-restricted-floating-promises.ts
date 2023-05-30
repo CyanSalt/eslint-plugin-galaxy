@@ -67,18 +67,23 @@ export interface RulePattern {
   message?: string,
   // for `no-restricted-vue-unhandled-promises`
   vuePropertySelector?: string,
+  asyncOnly?: boolean,
 }
 
 const TYPE_MAPPING: Record<string, RulePattern> = {
+  'vue-store-action': {
+    selector: ':not(*)',
+    vuePropertySelector: [
+      'CallExpression[callee.name="mapActions"] > ArrayExpression > Literal',
+      'CallExpression[callee.name="mapActions"] > ObjectExpression > Property',
+    ].join(', '),
+    message: 'Store actions must be handled',
+  },
   'vuex-action': {
     selector: `CallExpression:matches(${[
       '[callee.name="dispatch"]',
       '[callee.property.name="dispatch"]',
     ].join(',')})`,
-    vuePropertySelector: [
-      'CallExpression[callee.name="mapActions"] > ArrayExpression > Literal',
-      'CallExpression[callee.name="mapActions"] > ObjectExpression > Property',
-    ].join(', '),
     message: 'Vuex actions must be handled',
   },
   'element-message-box': {
@@ -197,6 +202,9 @@ export default createRule({
               },
               vuePropertySelector: {
                 type: 'string',
+              },
+              asyncOnly: {
+                type: 'boolean',
               },
             },
             additionalProperties: false,

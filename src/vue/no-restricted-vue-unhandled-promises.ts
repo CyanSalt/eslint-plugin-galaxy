@@ -246,7 +246,7 @@ export default createRule({
 
     function checkFloatingPromise(cause: Omit<PromiseCause, 'expression'>) {
       const { node, pattern } = cause
-      if (isFloatingPromise(node)) {
+      if (!pattern.asyncOnly && isFloatingPromise(node)) {
         context.report({
           node,
           messageId: MESSAGE_ID_DEFAULT,
