@@ -1,8 +1,7 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import ignore from 'ignore'
-import { getModuleScope } from '../context'
-import { getImportSource, isMemberExpressionOf } from '../estree'
+import { getNodeImportSource, isMemberExpressionOf } from '../estree'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
@@ -113,7 +112,7 @@ export function normalizeRulePattern(selectorOrObject: string | RulePattern): No
     pattern = { ...TYPE_MAPPING[pattern.type], ...pattern }
   }
   if (pattern.paths) {
-    pattern = { selector: 'CallExpression[callee.type="Identifier"]', ...pattern }
+    pattern = { selector: 'CallExpression', ...pattern }
   }
   const selector = pattern.selector!
   const message = pattern.message ?? (
@@ -137,10 +136,8 @@ export function createPathsMatcher(
     : undefined
   return function (node: TSESTree.Node) {
     if (matcher) {
-      const callee = (node as TSESTree.CallExpression).callee as TSESTree.Identifier
-      const scope = getModuleScope(context)
-      if (!scope) return false
-      const source = getImportSource(callee.name, scope)
+      const scope = context.getScope()
+      const source = getNodeImportSource(node, scope)
       if (!source || !matcher.ignores(source)) return false
     }
     return true

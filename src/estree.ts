@@ -49,20 +49,33 @@ export function isIdentifierProperty(
   return node.type === AST_NODE_TYPES.Property && node.key.type === AST_NODE_TYPES.Identifier
 }
 
-export function getImportSource(name: string, scope: TSESLint.Scope.Scope) {
-  for (const variable of scope.variables) {
-    if (variable.name === name) {
-      if (!variable.defs.length) return undefined
-      for (const def of variable.defs) {
-        if (
-          def.node.type === AST_NODE_TYPES.ImportSpecifier
-          && def.node.parent?.type === AST_NODE_TYPES.ImportDeclaration
-        ) {
-          return def.node.parent.source.value
+export function getNodeImportSource(node: TSESTree.Node, scope: TSESLint.Scope.Scope): string | undefined {
+  if (node.type === AST_NODE_TYPES.CallExpression) {
+    return getNodeImportSource(node.callee, scope)
+  }
+  if (node.type === AST_NODE_TYPES.MemberExpression) {
+    return getNodeImportSource(node.object, scope)
+  }
+  if (node.type === AST_NODE_TYPES.Identifier) {
+    for (const variable of scope.variables) {
+      if (variable.name === node.name) {
+        if (!variable.defs.length) return undefined
+        for (const def of variable.defs) {
+          // def is ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
+          if (def.node.parent?.type === AST_NODE_TYPES.ImportDeclaration) {
+            return def.node.parent.source.value
+          }
+          if (def.node.type === AST_NODE_TYPES.VariableDeclarator && def.node.init) {
+            return getNodeImportSource(def.node.init, variable.scope)
+          }
         }
       }
     }
+    if (scope.upper) {
+      return getNodeImportSource(node, scope.upper)
+    }
   }
+  return undefined
 }
 
 export function getLiteralValue(node: TSESTree.Node) {

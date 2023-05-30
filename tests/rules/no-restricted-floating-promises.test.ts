@@ -136,5 +136,30 @@ ruleTester.run('no-restricted-floating-promises', rule, {
         },
       ],
     },
+    {
+      code: `
+        import foo from 'foo';
+        foo.bar();
+      `,
+      options: [{ paths: ['foo'] }],
+      errors: [
+        {
+          messageId: 'no-restricted-floating-promises',
+        },
+      ],
+    },
+    {
+      code: `
+        import * as foo from 'foo';
+        const { bar } = foo();
+        bar();
+      `,
+      options: [{ paths: ['foo'] }],
+      errors: [
+        {
+          messageId: 'no-restricted-floating-promises',
+        },
+      ],
+    },
   ],
 })
