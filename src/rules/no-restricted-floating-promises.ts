@@ -65,6 +65,8 @@ export interface RulePattern {
   selector?: string,
   paths?: string[],
   message?: string,
+  // for `no-restricted-vue-unhandled-promises`
+  vuePropertySelector?: string,
 }
 
 const TYPE_MAPPING: Record<string, RulePattern> = {
@@ -73,6 +75,10 @@ const TYPE_MAPPING: Record<string, RulePattern> = {
       '[callee.name="dispatch"]',
       '[callee.property.name="dispatch"]',
     ].join(',')})`,
+    vuePropertySelector: [
+      'CallExpression[callee.name="mapActions"] > ArrayExpression > Literal',
+      'CallExpression[callee.name="mapActions"] > ObjectExpression > Property',
+    ].join(', '),
     message: 'Vuex actions must be handled',
   },
   'element-message-box': {
@@ -116,8 +122,7 @@ export function normalizeRulePattern(selectorOrObject: string | RulePattern): No
       : `Promises '${pattern.selector}' must be handled`
   )
   return {
-    type: pattern.type,
-    paths: pattern.paths,
+    ...pattern,
     selector,
     message,
   }

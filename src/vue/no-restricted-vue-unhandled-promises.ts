@@ -472,12 +472,9 @@ export default createRule({
               })
             }],
           ]
-          if (pattern.type === 'vuex-action') {
+          if (pattern.vuePropertySelector) {
             entries.push([
-              [
-                'CallExpression[callee.name="mapActions"] > ArrayExpression > Literal',
-                'CallExpression[callee.name="mapActions"] > ObjectExpression > Property',
-              ].join(', '),
+              pattern.vuePropertySelector,
               (node: TSESTree.Literal | TSESTree.Property) => {
                 if (node.type === AST_NODE_TYPES.Property) {
                   if (node.key.type === AST_NODE_TYPES.Identifier) {
