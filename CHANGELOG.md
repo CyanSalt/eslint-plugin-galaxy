@@ -1,5 +1,26 @@
 
 
+## [1.26.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.25.1...v1.26.0) (2023-06-01)
+
+
+### Features
+
+* support `names` for restriced promises ([765e1e6](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/765e1e657014f56668455bb984090e6dcfd54366))
+* support `vue-store-action` ([d6c163d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/d6c163d7ad0413663ee7318f734ff7ba0d089537))
+
+
+### Bug Fixes
+
+* add meta for cache ([2002cc3](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/2002cc34749db6cad62b7c6490325fa77038c7c7))
+* add vuePropertySelector for preset types ([ed32b6b](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/ed32b6bb8e8c1d9f7a8a56f7b89435f2cc4d49ab))
+* also check arrow functions ([d32e3f9](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/d32e3f99fc53d439a06cfa2a1a35b72d6786fbb7))
+* check empty catch ([43f5fdc](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/43f5fdc1b1686d364fa836abf10f9822df5dff7b))
+* core package error ([8a3aeab](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/8a3aeab635ffbd50f0e709572eb19bace5922ffb))
+* deep path references ([941b16f](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/941b16f07ce03b1f9904e3571c8d4b27bc61ecf9))
+* high-order floating promises ([7ba0b68](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/7ba0b688663ed1ab5c8be37f8a62f59c9c974a6f))
+* nesting call expression ([c9e27c5](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c9e27c5cadda4e20e4da93610d0d44c74a72a38a))
+* unhandled vuex actions ([31e1577](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/31e15778d7157022f1291149daebba3a1b467f6d))
+
 ### [1.25.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.25.0...v1.25.1) (2023-05-12)
 
 
