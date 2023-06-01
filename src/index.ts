@@ -45,7 +45,13 @@ try {
   // ignore error
 }
 
+const { name, version } = require('../package.json')
+
 module.exports = {
+  meta: {
+    name,
+    version,
+  },
   rules: {
     ...baseRules,
     ...tsRules,
@@ -70,6 +76,7 @@ module.exports = {
       ],
       rules: {
         ...getAllRules(baseRules),
+        ...getAllRules(tsRules),
         ...getAllRules(vueRules),
       },
     },
