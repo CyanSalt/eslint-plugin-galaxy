@@ -1,5 +1,12 @@
 
 
+### [1.26.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.26.0...v1.26.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* false negative unhandled promises ([daf7f58](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/daf7f58d36f86e75d23ecfc59349a1c486e2971c))
+
 ## [1.26.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.25.1...v1.26.0) (2023-06-01)
 
 
