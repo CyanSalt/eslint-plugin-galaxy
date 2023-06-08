@@ -2,7 +2,7 @@ import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import ignore from 'ignore'
 import { isMemberExpressionOf, iterateNodeFactory } from '../estree'
-import { createRule } from '../utils'
+import { createRule, createRuleListenerFromEntries } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
 
@@ -218,7 +218,7 @@ export default createRule({
   },
   defaultOptions: [] as (string | RulePattern)[],
   create(context) {
-    return Object.fromEntries(
+    return createRuleListenerFromEntries(
       context.options.map(normalizeRulePattern).map(pattern => {
         const matches = createMatcher(context, pattern)
         const ruleFn = (node: TSESTree.Node) => {

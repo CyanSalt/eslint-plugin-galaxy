@@ -4,7 +4,7 @@ import { getModuleScope } from '../context'
 import { isIdentifierOf } from '../estree'
 import type { RulePattern } from '../rules/no-restricted-floating-promises'
 import noRestrictedFloatingPromises, { isFloatingPromise, isCaughtByChain, createMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
-import { createRule } from '../utils'
+import { createRule, createRuleListenerFromEntries } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-vue-unhandled-promises'
 
@@ -436,7 +436,7 @@ export default createRule({
           })
         },
       }),
-      Object.fromEntries(
+      createRuleListenerFromEntries(
         context.options.map(normalizeRulePattern).flatMap(pattern => {
           const matches = createMatcher(context, pattern)
           const entries: [string, TSESLint.RuleFunction][] = [
