@@ -196,6 +196,7 @@ interface MethodReference {
 interface MethodPromiseReference {
   name: string,
   cause: Pick<PromiseCause, 'pattern'>,
+  indirect?: boolean,
 }
 
 export default createRule({
@@ -246,7 +247,7 @@ export default createRule({
 
     function checkFloatingPromise(cause: Omit<PromiseCause, 'expression'>) {
       const { node, pattern } = cause
-      if (!pattern.asyncOnly && isFloatingPromise(node)) {
+      if (isFloatingPromise(node)) {
         context.report({
           node,
           messageId: MESSAGE_ID_DEFAULT,
@@ -255,7 +256,6 @@ export default createRule({
           },
         })
       }
-      return
     }
 
     function checkMethodReferences(
@@ -270,16 +270,18 @@ export default createRule({
         }
         return refs
       }, [])
-      for (const { name, cause } of checkingPromiseReferences) {
+      for (const { name, cause, indirect } of checkingPromiseReferences) {
         excludeNames.add(name)
         const filteredReferences = references.filter(ref => ref.name === name)
         for (const reference of filteredReferences) {
           // Floating promise
           if (!reference.expression) {
-            checkFloatingPromise({
-              node: reference.node,
-              pattern: cause.pattern,
-            })
+            if (!cause.pattern.asyncOnly || indirect) {
+              checkFloatingPromise({
+                node: reference.node,
+                pattern: cause.pattern,
+              })
+            }
           } else {
             checkUnhandledPromise({
               node: reference.node,
@@ -352,7 +354,7 @@ export default createRule({
           const reference = templateMethodReferences.find(item => item.name === methodName)
           if (reference) return reference.node
           // Check recursively
-          methodPromises.push({ name: methodName, cause })
+          methodPromises.push({ name: methodName, cause, indirect: true })
         }
         // Setup in options API
         const setup = getPropertyValue(vueObjectExpression, 'setup')

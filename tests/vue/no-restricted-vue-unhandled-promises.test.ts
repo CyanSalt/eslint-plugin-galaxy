@@ -450,6 +450,30 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
       code: `
         <script>
         export default {
+          created() {
+            this.handleSubmit()
+          },
+          methods: {
+            ...mapActions(['submit']),
+            async handleSubmit() {
+              await this.submit()
+            },
+          },
+        }
+        </script>
+      `,
+      options: [{ type: 'vue-store-action', asyncOnly: true }],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script>
+        export default {
           async created() {
             await this.$confirm({})
           },
