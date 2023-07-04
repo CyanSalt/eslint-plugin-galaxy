@@ -17,8 +17,8 @@ function getNestingCallSelector(callees: string[]) {
 }
 
 function isVueFunctionType(prop: any) {
-  if (prop.type === 'type') {
-    return !prop.types?.includes('Function')
+  if (prop.type === 'type' || prop.type === 'infer-type') {
+    return prop.types?.includes('Function')
   } else {
     const expr = getRealExpression(prop.value)
     return isIdentifierOf(expr, 'Function') || isArrayExpressionIncludesIdentifier(expr, 'Function')
@@ -110,7 +110,7 @@ export default createRule({
             if (decl.value.type === AST_NODE_TYPES.AssignmentPattern) {
               const defaultValueNode = decl.value.right
               const type = baseProps.find(prop => prop.propName === decl.key.name)
-              const willCallDefaultValueFunction = !type || isVueFunctionType(type)
+              const willCallDefaultValueFunction = !type || !isVueFunctionType(type)
               if (type?.required) {
                 context.report({
                   node: type.node,

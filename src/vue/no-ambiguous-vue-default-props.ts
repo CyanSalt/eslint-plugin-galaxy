@@ -18,7 +18,7 @@ function isEmptyArrowFunction(node: TSESTree.Node): node is TSESTree.ArrowFuncti
 }
 
 function isVueObjectType(prop: any) {
-  if (prop.type === 'type') {
+  if (prop.type === 'type' || prop.type === 'infer-type') {
     return prop.types?.length === 1 && prop.types.includes('Object')
   } else {
     const expr = getRealExpression(prop.value)
