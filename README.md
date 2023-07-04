@@ -75,6 +75,8 @@ module.exports = {
 
 - [`no-unused-vuex-properties`](./docs/vue/no-unused-vuex-properties.md) - Disallow unused properties from Vuex ✅
 
+- [`require-vue-default-inject`](./docs/vue/require-vue-default-inject.md) - Require default value for inject ✅ 🔧
+
 - [`valid-vue-reactivity-transform-props`](./docs/vue/valid-vue-reactivity-transform-props.md) - Enforce Vue props with Reactivity Transform to be valid 🔧
 
 - [`valid-vue-v-if-with-v-slot`](./docs/vue/valid-vue-v-if-with-v-slot.md) - Enforce valid `v-if` directives when using with `v-slot` ✅
