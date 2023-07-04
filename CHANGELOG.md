@@ -1,5 +1,18 @@
 
 
+## [1.27.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.26.1...v1.27.0) (2023-07-04)
+
+
+### Features
+
+* add `require-vue-default-inject` ([c420367](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c420367b41320064642c957cc5bc226c5998c42e))
+
+
+### Bug Fixes
+
+* floating async-only promises ([bb89e29](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/bb89e29fa5ddb537ee512528f045522c9050ca57))
+* props destructuring ([68e4d3c](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/68e4d3c59e546d27960b3accd20eab47dfcf6b60))
+
 ### [1.26.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.26.0...v1.26.1) (2023-06-08)
 
 
