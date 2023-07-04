@@ -1,6 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { getLiteralValue } from '../estree'
+import { getLiteralValue, isIdentifierOf } from '../estree'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'require-vue-default-inject'
@@ -9,7 +9,9 @@ const VUE_INJECT_WITHOUT_DEFAULTS = 'CallExpression[callee.name="inject"][argume
 
 function hasProperty(node: TSESTree.ObjectExpression, property: string) {
   return node.properties.some(prop => {
-    return prop.type === AST_NODE_TYPES.Property && getLiteralValue(prop.key) === property
+    return prop.type === AST_NODE_TYPES.Property && (
+      isIdentifierOf(prop.key, property) || getLiteralValue(prop.key) === property
+    )
   })
 }
 
@@ -34,12 +36,14 @@ export default createRule({
       utils.defineVueVisitor(context, {
         onVueObjectEnter(node: TSESTree.ObjectExpression) {
           for (const injection of utils.iterateProperties(node, new Set(['inject']))) {
+            const property: TSESTree.Property | undefined = injection.property
             if (
-              injection.node.type !== AST_NODE_TYPES.ObjectExpression
-              || !hasProperty(injection.node, 'default')
+              !property
+              || property.value.type !== AST_NODE_TYPES.ObjectExpression
+              || !hasProperty(property.value, 'default')
             ) {
               context.report({
-                node,
+                node: injection.node,
                 messageId: MESSAGE_ID_DEFAULT,
                 data: {
                   name: injection.name,
