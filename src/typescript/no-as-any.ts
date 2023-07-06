@@ -19,7 +19,7 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     return {
-      'TSAsExpression TSAnyKeyword:not(TSTypeReference TSAnyKeyword)': (node: TSESTree.TSAnyKeyword) => {
+      'TSAsExpression[typeAnnotation.type="TSAnyKeyword"]': (node: TSESTree.TSAsExpression) => {
         context.report({
           node,
           messageId: MESSAGE_ID_DEFAULT,

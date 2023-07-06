@@ -10,14 +10,14 @@ Asserting the type as `any` avoids most type problems, but this usually leads to
 let value = foo() as any
 ```
 
-```js
-let value = foo() as any[]
-```
-
 ## Pass
 
 ```js
 let value = foo() as unknown
+```
+
+```js
+let value = foo() as any[]
 ```
 
 ```js

@@ -10,6 +10,11 @@ tsRuleTester.run('no-as-any', rule, {
     },
     {
       code: `
+        let value = foo() as any[]
+      `,
+    },
+    {
+      code: `
         let value = foo() as Foo<any>
       `,
     },
@@ -18,16 +23,6 @@ tsRuleTester.run('no-as-any', rule, {
     {
       code: `
         let value = foo() as any
-      `,
-      errors: [
-        {
-          messageId: 'no-as-any',
-        },
-      ],
-    },
-    {
-      code: `
-        let value = foo() as any[]
       `,
       errors: [
         {
