@@ -1,5 +1,14 @@
 
 
+### [1.27.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.0...v1.27.2) (2023-07-06)
+
+
+### Bug Fixes
+
+* allow `as any[]` ([e86745d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/e86745d3948565cba4522c370414769b4372417f))
+* false positive default inject ([66632b4](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/66632b4c87a74b75268c98eb97e97c8461b10351))
+* version syncing ([4000caf](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/4000caf853d3520876e0f5b2dbdfbc9cef0d5354))
+
 ## [1.27.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.26.1...v1.27.0) (2023-07-04)
 
 
