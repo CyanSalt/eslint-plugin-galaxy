@@ -1,5 +1,12 @@
 
 
+### [1.27.3](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.2...v1.27.3) (2023-08-24)
+
+
+### Bug Fixes
+
+* support typescript-eslint 6 ([3b9758c](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/3b9758c70eb3a23d0628204b4b04d746c882e5af))
+
 ### [1.27.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.0...v1.27.2) (2023-07-06)
 
 
