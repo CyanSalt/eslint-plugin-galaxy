@@ -5,7 +5,7 @@ import { createRule } from '../utils'
 const MESSAGE_ID_REQUIRED = 'import-extensions.required'
 const MESSAGE_ID_FORBIDDEN = 'import-extensions.forbidden'
 
-const ENUM_VALUES = ['always', 'ignore', 'ignorePackages', 'never'] as const
+const ENUM_VALUES = ['always', 'ignore', 'ignorePackages', 'never']
 
 export default createRule({
   name: __filename,
@@ -13,19 +13,20 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Ensure consistent use of file extension within the import path',
-      recommended: false,
     },
     fixable: 'code',
     schema: [
       {
         anyOf: [
           {
+            type: 'string',
             enum: ENUM_VALUES,
           },
           {
             type: 'object',
             patternProperties: {
               '.*': {
+                type: 'string',
                 enum: ENUM_VALUES,
               },
             },
@@ -39,7 +40,7 @@ export default createRule({
     },
   },
   defaultOptions: [
-    'ignore' as typeof ENUM_VALUES[number] | Record<string, typeof ENUM_VALUES[number] | undefined>,
+    'ignore' as string | Record<string, string | undefined>,
   ],
   create(context) {
     const { default: resolve } = require('eslint-module-utils/resolve')

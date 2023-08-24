@@ -35,7 +35,7 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Disallow duplicate properties from Vuex',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [],

@@ -9,7 +9,7 @@ const MESSAGE_ID_DEFAULT = 'no-restricted-floating-promises'
 export function isCaughtByChain(node: TSESTree.Node): boolean {
   const parent = node.parent
   if (!parent) return false
-  if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent?.type === AST_NODE_TYPES.CallExpression) {
+  if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent.type === AST_NODE_TYPES.CallExpression) {
     const method = parent.property
     const call = parent.parent
     if (method.type !== AST_NODE_TYPES.Identifier) return true
@@ -25,8 +25,7 @@ function getHighOrderPromise(node: TSESTree.Node) {
   if (node.type === AST_NODE_TYPES.ArrayExpression) {
     const parent = node.parent
     if (
-      parent
-      && parent.type === AST_NODE_TYPES.CallExpression
+      parent.type === AST_NODE_TYPES.CallExpression
       && isMemberExpressionOf(parent.callee, 'Promise', ['all', 'any', 'race'])
     ) {
       return parent
@@ -44,7 +43,7 @@ function getHighOrderPromise(node: TSESTree.Node) {
 export function isFloatingPromise(node: TSESTree.Node): boolean {
   const parent = node.parent
   if (!parent) return true
-  if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent?.type === AST_NODE_TYPES.CallExpression) {
+  if (parent.type === AST_NODE_TYPES.MemberExpression && parent.parent.type === AST_NODE_TYPES.CallExpression) {
     if (isCaughtByChain(node)) return false
     const call = parent.parent
     return isFloatingPromise(call)
@@ -167,7 +166,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Enforce Promises with specified syntax to be handled appropriately',
-      recommended: false,
     },
     schema: {
       type: 'array',

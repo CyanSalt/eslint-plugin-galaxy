@@ -31,7 +31,6 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Enforce Vue props with Reactivity Transform to be valid',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],
@@ -68,7 +67,6 @@ export default createRule({
             }
             if (
               name === 'withDefaults'
-              && reactivityTransform.parent
               && isObjectDestructure(reactivityTransform.parent)
               && node.arguments[1]
               && node.arguments[1].type === AST_NODE_TYPES.ObjectExpression
@@ -103,7 +101,7 @@ export default createRule({
         })
       },
       onDefinePropsEnter(node: TSESTree.CallExpression, baseProps: any[]) {
-        if (node.parent && isObjectDestructure(node.parent)) {
+        if (isObjectDestructure(node.parent)) {
           const pattern = node.parent.id
           const declarationProperties = pattern.properties.filter(isIdentifierProperty)
           for (const decl of declarationProperties) {
@@ -151,8 +149,8 @@ export default createRule({
                 defaultValueNode.type === AST_NODE_TYPES.ArrowFunctionExpression
                 && willCallDefaultValueFunction
               ) {
-                const program = context.parserServices?.program
-                if (program && 'getTypeChecker' in program) {
+                const parserServices = context.parserServices
+                if (parserServices && 'esTreeNodeToTSNodeMap' in parserServices) {
                   context.report({
                     node: decl.value.right,
                     messageId: MESSAGE_ID_DEFAULTS_TYPE,

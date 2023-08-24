@@ -17,7 +17,7 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Require valid keys in Vue props options',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     schema: [
       {

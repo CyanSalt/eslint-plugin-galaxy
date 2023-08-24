@@ -34,7 +34,6 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Disallow using empty functions as default values of Vue props',
-      recommended: false,
     },
     fixable: 'code',
     schema: [
@@ -42,6 +41,7 @@ export default createRule({
         type: 'object',
         properties: {
           fixStyle: {
+            type: 'string',
             enum: ['remove', 'match-type', 'none'],
           },
         },
@@ -139,7 +139,7 @@ export default createRule({
           }
           // const { foo: (() => {}) as never } = defineProps()
           // const { foo: () => {} } = defineProps()
-          if (node.parent && isObjectDestructure(node.parent)) {
+          if (isObjectDestructure(node.parent)) {
             const pattern = node.parent.id
             const declarationProperties = pattern.properties.filter(isIdentifierProperty)
             for (const decl of declarationProperties) {

@@ -15,7 +15,7 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Require valid keys in Vue inject options',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     schema: [
       {

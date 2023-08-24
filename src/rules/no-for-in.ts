@@ -10,7 +10,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow for-in statements',
-      recommended: false,
     },
     hasSuggestions: true,
     schema: [],

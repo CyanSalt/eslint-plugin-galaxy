@@ -25,7 +25,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Require following curly brace conventions for statements with multiple branches',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],

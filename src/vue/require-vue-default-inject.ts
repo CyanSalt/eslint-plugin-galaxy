@@ -21,7 +21,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Require default value for inject',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     fixable: 'code',
     schema: [],
@@ -64,7 +64,7 @@ export default createRule({
             },
             fix(fixer) {
               const parent = node.parent
-              if (parent?.type === AST_NODE_TYPES.LogicalExpression && parent.operator === '??') {
+              if (parent.type === AST_NODE_TYPES.LogicalExpression && parent.operator === '??') {
                 return fixer.replaceText(
                   parent,
                   code.getText(node).replace(

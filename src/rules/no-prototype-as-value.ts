@@ -44,7 +44,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow using prototype of functions as values',
-      recommended: 'error',
     },
     hasSuggestions: true,
     schema: [
@@ -90,42 +89,42 @@ export default createRule({
         // Ignore `Function.prototype.foo`
         // but report `foo[Function.prototype]`
         if (
-          parent?.type === AST_NODE_TYPES.MemberExpression
+          parent.type === AST_NODE_TYPES.MemberExpression
           && node === parent.object
         ) {
           isUsedAsObject = true
           const upper = parent.parent
           // Ignore `Function.prototype.foo = bar`
-          if (upper?.type === AST_NODE_TYPES.AssignmentExpression && upper.left === parent) return
+          if (upper.type === AST_NODE_TYPES.AssignmentExpression && upper.left === parent) return
           // Ignore `const bar = Function.prototype.foo`
           if (
-            upper?.type === AST_NODE_TYPES.VariableDeclarator
-            && upper.parent?.type === AST_NODE_TYPES.VariableDeclaration
+            upper.type === AST_NODE_TYPES.VariableDeclarator
+            && upper.parent.type === AST_NODE_TYPES.VariableDeclaration
             && upper.parent.kind === 'const'
           ) return
           // Ignore `Function.prototype.foo.(apply|bind|call) only`
           if (
-            upper?.type === AST_NODE_TYPES.MemberExpression
+            upper.type === AST_NODE_TYPES.MemberExpression
             && (['call', 'apply', 'bind'] as unknown[]).includes(getPropertyName(upper))
           ) return
         }
         // Ignore `builtin_function(Function.prototype, ...rest)`
         if (
-          parent?.type === AST_NODE_TYPES.CallExpression
+          parent.type === AST_NODE_TYPES.CallExpression
           && parent.arguments.includes(node)
           && isIgnoredCallee(parent.callee)
         ) return
         // Ignore `foo === Function.prototype`
         if (
-          parent?.type === AST_NODE_TYPES.BinaryExpression
+          parent.type === AST_NODE_TYPES.BinaryExpression
           && ['==', '===', '!=', '!==', 'in', 'instanceof'].includes(parent.operator)
         ) return
         // Ignore `for (let foo in Function.prototype) {}`
-        if (parent?.type === AST_NODE_TYPES.ForInStatement) return
+        if (parent.type === AST_NODE_TYPES.ForInStatement) return
         // Ignore `switch (foo) { case Function.prototype: break }`
-        if (parent?.type === AST_NODE_TYPES.SwitchCase) return
+        if (parent.type === AST_NODE_TYPES.SwitchCase) return
         // Ignore `with (Function.prototype) {}`
-        if (parent?.type === AST_NODE_TYPES.WithStatement) return
+        if (parent.type === AST_NODE_TYPES.WithStatement) return
 
         const object = code.getText(node.object)
         if (isUsedAsObject) {

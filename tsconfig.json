@@ -4,7 +4,8 @@
     "noEmit": false,
     "rootDir": "src",
     "outDir": "dist",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "moduleResolution": "Node16"
   },
   "exclude": [
     "**/dist",

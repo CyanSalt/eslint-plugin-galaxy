@@ -22,7 +22,7 @@ function getVueMacroName(node: TSESTree.Identifier, scope: TSESLint.Scope.Scope)
       for (const def of variable.defs) {
         if (
           def.node.type === AST_NODE_TYPES.ImportSpecifier
-          && def.node.parent?.type === AST_NODE_TYPES.ImportDeclaration
+          && def.node.parent.type === AST_NODE_TYPES.ImportDeclaration
           && vueMacroImportSources.includes(def.node.parent.source.value)
         ) {
           return def.node.imported.name
@@ -57,7 +57,6 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Prevent variables used in reactivity transform to be marked as unused',
-      recommended: false,
     },
     schema: [],
     messages: {},

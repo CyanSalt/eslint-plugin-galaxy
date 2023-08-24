@@ -14,11 +14,11 @@ export default createRule({
     type: 'layout',
     docs: {
       description: 'Enforce unified spacing around binding attributes',
-      recommended: false,
     },
     fixable: 'whitespace',
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
     ],

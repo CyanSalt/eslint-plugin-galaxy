@@ -146,7 +146,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Enforce properties in Vue component options to be sorted in conventional order',
-      recommended: 'error',
+      recommended: 'stylistic',
     },
     fixable: 'code',
     schema: [

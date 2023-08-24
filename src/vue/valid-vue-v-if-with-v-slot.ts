@@ -9,7 +9,7 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Enforce valid `v-if` directives when using with `v-slot`',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     schema: [],
     messages: {

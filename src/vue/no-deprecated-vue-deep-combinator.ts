@@ -102,7 +102,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow using deprecated Vue `::v-deep` combinators',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],

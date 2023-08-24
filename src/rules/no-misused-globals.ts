@@ -63,7 +63,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow global variables that may be misused',
-      recommended: false,
     },
     schema: [
       {

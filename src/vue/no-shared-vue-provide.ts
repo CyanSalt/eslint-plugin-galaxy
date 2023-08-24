@@ -10,7 +10,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Enforce the `provide` option of Vue component to be a function',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     fixable: 'code',
     schema: [],

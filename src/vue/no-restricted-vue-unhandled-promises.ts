@@ -3,7 +3,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getModuleScope } from '../context'
 import { isIdentifierOf } from '../estree'
 import type { RulePattern } from '../rules/no-restricted-floating-promises'
-import noRestrictedFloatingPromises, { isFloatingPromise, isCaughtByChain, createMatcher, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
+import noRestrictedFloatingPromises, { createMatcher, isCaughtByChain, isFloatingPromise, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
 import { createRule, createRuleListenerFromEntries } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-vue-unhandled-promises'
@@ -205,7 +205,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Enforce Promises in Vue functions with specified syntax to be handled appropriately',
-      recommended: false,
     },
     schema: noRestrictedFloatingPromises.meta.schema,
     messages: {

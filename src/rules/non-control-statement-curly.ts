@@ -18,7 +18,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Require following curly brace conventions for non-control statements',
-      recommended: false,
     },
     fixable: 'code',
     schema: [],

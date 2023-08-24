@@ -17,7 +17,6 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Disallow unsafe `window.open`',
-      recommended: 'error',
     },
     fixable: 'code',
     schema: [],
@@ -38,7 +37,7 @@ export default createRule({
             const argumentsText = argumentsSource.concat(
               ['', `'_blank'`, `'noopener'`].slice(argumentsSource.length),
             ).join(', ')
-            if (node.parent?.type === AST_NODE_TYPES.ExpressionStatement) {
+            if (node.parent.type === AST_NODE_TYPES.ExpressionStatement) {
               return fixer.replaceText(node, `window.open(${argumentsText})`)
             }
             return null

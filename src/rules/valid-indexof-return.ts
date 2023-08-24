@@ -11,7 +11,7 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Disallow boolean cast of returning value of `.indexOf()`',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [],
@@ -26,7 +26,6 @@ export default createRule({
       'CallExpression[callee.property.name="indexOf"]': (
         node: TSESTree.CallExpression & { callee: TSESTree.MemberExpression },
       ) => {
-        if (!node.parent) return
         if (
           (node.parent.type === AST_NODE_TYPES.IfStatement && node.parent.test === node)
           || (node.parent.type === AST_NODE_TYPES.ConditionalExpression && node.parent.test === node)

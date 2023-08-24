@@ -9,7 +9,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow `any` type assertions',
-      recommended: false,
     },
     schema: [],
     messages: {

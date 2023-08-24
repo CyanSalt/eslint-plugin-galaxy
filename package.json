@@ -32,13 +32,13 @@
   "author": "CyanSalt",
   "license": "ISC",
   "dependencies": {
-    "@typescript-eslint/utils": "^5.58.0",
+    "@typescript-eslint/utils": "^6.4.1",
     "globals": "^13.20.0",
     "ignore": "^5.2.4"
   },
   "devDependencies": {
-    "@cyansalt/eslint-config-preset": "^1.12.6",
-    "@cyansalt/tsconfig": "^2.1.1",
+    "@cyansalt/eslint-config-preset": "^1.15.0",
+    "@cyansalt/tsconfig": "^2.2.1",
     "@release-it/conventional-changelog": "^5.1.1",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",

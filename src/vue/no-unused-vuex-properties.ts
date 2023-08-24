@@ -34,7 +34,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow unused properties from Vuex',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [],
@@ -67,8 +67,7 @@ export default createRule({
 
     function getParentProperty(node: TSESTree.Expression) {
       if (
-        !node.parent
-        || node.parent.type !== AST_NODE_TYPES.Property
+        node.parent.type !== AST_NODE_TYPES.Property
         || node.parent.value !== node
       ) {
         return null

@@ -12,7 +12,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Enforce ES Module bundler APIs instead of Node APIs',
-      recommended: false,
     },
     hasSuggestions: true,
     schema: [

@@ -22,7 +22,7 @@ module.exports = {
     '^.+\\.[jt]s$': [
       'ts-jest',
       {
-        tsconfig: './tsconfig.tools.json',
+        tsconfig: './tsconfig.test.json',
         isolatedModules: true,
       },
     ],

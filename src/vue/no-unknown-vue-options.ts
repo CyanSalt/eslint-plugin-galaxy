@@ -87,7 +87,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow unknown options in Vue components',
-      recommended: 'error',
+      recommended: 'recommended',
     },
     schema: [
       {
