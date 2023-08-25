@@ -1,5 +1,12 @@
 
 
+### [1.27.4](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.3...v1.27.4) (2023-08-25)
+
+
+### Bug Fixes
+
+* severity ([b8ce0f2](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/b8ce0f2dfc0927db0e612ac256d412eaceef0cf3))
+
 ### [1.27.3](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.2...v1.27.3) (2023-08-24)
 
 
