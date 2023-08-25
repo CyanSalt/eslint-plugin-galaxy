@@ -22,7 +22,7 @@ function getRecommendedRules(record: Record<string, RuleModule>) {
   return Object.entries(record)
     .filter(([, rule]) => rule.meta.docs.recommended)
     .reduce((config, [name, rule]) => Object.assign(config, {
-      [`galaxy/${name}`]: rule.meta.docs.recommended,
+      [`galaxy/${name}`]: 'error',
     }), {})
 }
 
