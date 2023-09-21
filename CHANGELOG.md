@@ -1,5 +1,12 @@
 
 
+## [1.28.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.4...v1.28.0) (2023-09-21)
+
+
+### Features
+
+* add `no-unnecessary-optional-chain` ([9e3d5c2](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/9e3d5c2fee92f09453581fd2b509c38c4e919ff3))
+
 ### [1.27.4](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.3...v1.27.4) (2023-08-25)
 
 
