@@ -1,5 +1,12 @@
 
 
+### [1.28.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.28.0...v1.28.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* allow literal property ([651440c](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/651440ccecd83f1b8cc4cf8f6c6e8a6cc2787ae1))
+
 ## [1.28.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.27.4...v1.28.0) (2023-09-21)
 
 
