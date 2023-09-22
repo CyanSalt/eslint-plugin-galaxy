@@ -7,6 +7,9 @@ ruleTester.run('no-unnecessary-optional-chain', rule, {
       code: `foo?.bar`,
     },
     {
+      code: `foo?.bar?.[0]`,
+    },
+    {
       code: `if (foo?.bar) { bar = foo.bar }`,
     },
     {

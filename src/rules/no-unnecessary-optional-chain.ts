@@ -125,7 +125,7 @@ export default createRule({
       node: TSESTree.Expression | TSESTree.Statement,
       markedExpressions: TSESTree.Expression[],
     ) {
-      const expressions: ReturnType<typeof getMaybeOptionalExpressionObject>[] = esquery.query(node, 'ChainExpression :matches(MemberExpression[optional=true], CallExpression[optional=true])')
+      const expressions: ReturnType<typeof getMaybeOptionalExpressionObject>[] = esquery.query(node, 'MemberExpression[optional=true], CallExpression[optional=true]')
         .map(getMaybeOptionalExpressionObject)
       for (const expr of expressions) {
         const markedReference = markedExpressions.find(item => isTheSameAccessor(expr, item))
@@ -144,7 +144,7 @@ export default createRule({
     }
 
     return {
-      [`:matches(${NON_NULLABLE_TYPES.join(',')})[parent.optional=true]`](node: TSESTree.Node) {
+      [`MemberExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[object.type=${type}]`).join(', ')}), CallExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[callee.type=${type}]`).join(', ')})`](node: TSESTree.Node) {
         context.report({
           node,
           messageId: MESSAGE_ID_LITERAL,
