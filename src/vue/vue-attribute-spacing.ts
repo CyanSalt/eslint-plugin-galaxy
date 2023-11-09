@@ -32,7 +32,7 @@ export default createRule({
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
     const option = context.options[0] || 'never'
-    // @ts-expect-error eslint-plugin-vue API
+    // @ts-expect-error vue-eslint-parser API
     const template = context.parserServices!.getTemplateBodyTokenStore?.()
     return utils.defineTemplateBodyVisitor(context, {
       VExpressionContainer(node) {

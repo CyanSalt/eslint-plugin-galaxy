@@ -25,17 +25,18 @@ function getMaybeOptionalExpressionObject(node: MaybeOptionalExpression) {
 
 function *removeOptionalChain(
   code: TSESLint.SourceCode,
+  tokenStore: TSESLint.SourceCode | undefined,
   fixer: TSESLint.RuleFixer,
   node: TSESTree.Node,
   computed?: boolean,
 ) {
-  const nextToken = code.getTokenAfter(node)
+  const nextToken = code.getTokenAfter(node) ?? tokenStore?.getTokenAfter(node)
   if (nextToken?.type === AST_TOKEN_TYPES.Punctuator && nextToken.value === '?.') {
     yield fixer.replaceText(nextToken, computed ? '' : '.')
   }
   if (node.type === AST_NODE_TYPES.MemberExpression) {
     const isComputed = node.computed || node.object.type === AST_NODE_TYPES.CallExpression
-    yield* removeOptionalChain(code, fixer, node.object, isComputed)
+    yield* removeOptionalChain(code, tokenStore, fixer, node.object, isComputed)
   }
 }
 
@@ -94,6 +95,9 @@ export default createRule({
   create(context) {
     const esquery = require('esquery')
     const code = context.getSourceCode()
+    const parserServices = context.parserServices
+    // @ts-expect-error vue-eslint-parser API
+    const tokenStore: TSESLint.SourceCode | undefined = parserServices?.getTemplateBodyTokenStore?.()
 
     function getNonNullableChainingExpressions(node: TSESTree.Expression) {
       if (node.type === AST_NODE_TYPES.LogicalExpression) {
@@ -125,8 +129,11 @@ export default createRule({
       node: TSESTree.Expression | TSESTree.Statement,
       markedExpressions: TSESTree.Expression[],
     ) {
-      const expressions: ReturnType<typeof getMaybeOptionalExpressionObject>[] = esquery.query(node, 'MemberExpression[optional=true], CallExpression[optional=true]')
+      const expressions = (
+        esquery.query(node, 'MemberExpression[optional=true], CallExpression[optional=true]') as MaybeOptionalExpression[]
+      )
         .map(getMaybeOptionalExpressionObject)
+        .filter(expr => !markedExpressions.includes(expr)) // Avoid self marking
       for (const expr of expressions) {
         const markedReference = markedExpressions.find(item => isTheSameAccessor(expr, item))
         if (markedReference) {
@@ -136,14 +143,14 @@ export default createRule({
             *fix(fixer) {
               const isComputed = expr.parent.type === AST_NODE_TYPES.MemberExpression && expr.parent.computed
                 || expr.parent.type === AST_NODE_TYPES.CallExpression
-              yield* removeOptionalChain(code, fixer, expr, isComputed)
+              yield* removeOptionalChain(code, tokenStore, fixer, expr, isComputed)
             },
           })
         }
       }
     }
 
-    return {
+    const scriptVisitor: TSESLint.RuleListener = {
       [`MemberExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[object.type=${type}]`).join(', ')}), CallExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[callee.type=${type}]`).join(', ')})`](node: TSESTree.Node) {
         context.report({
           node,
@@ -152,7 +159,7 @@ export default createRule({
             if (!node.parent) return
             const isComputed = node.parent.type === AST_NODE_TYPES.MemberExpression && node.parent.computed
               || node.parent.type === AST_NODE_TYPES.CallExpression
-            yield* removeOptionalChain(code, fixer, node, isComputed)
+            yield* removeOptionalChain(code, tokenStore, fixer, node, isComputed)
           },
         })
       },
@@ -180,6 +187,23 @@ export default createRule({
           checkStatement(node.left, rightMarkedExpressions)
         }
       },
+    }
+
+    const vueTemplateVisitor: TSESLint.RuleListener = {
+      ...scriptVisitor,
+      // <tag v-if="foo" :prop="bar">{{ bar }}</tag>
+      'VElement > VStartTag > VAttribute[directive=true][value.type="VExpressionContainer"]:matches([key.name.name="if"], [key.name.name="else-if"])'(node: any) {
+        const markedExpressions = getNonNullableExpressions(node.value.expression)
+        checkStatement(node.parent.parent, markedExpressions)
+      },
+    }
+
+    // @ts-expect-error vue-eslint-parser API
+    if (parserServices?.defineTemplateBodyVisitor) {
+      // @ts-expect-error vue-eslint-parser API
+      return parserServices.defineTemplateBodyVisitor(vueTemplateVisitor, scriptVisitor)
+    } else {
+      return scriptVisitor
     }
   },
 })

@@ -34,6 +34,26 @@ foo.bar.baz > foo.bar?.qux
 foo.bar?.baz > foo.bar.qux
 ```
 
+```vue
+<template>
+  <p v-if="foo?.bar">{{ foo?.bar }}</p>
+</template>
+```
+
+```vue
+<template>
+  <p v-if="foo?.bar" :aria-label="foo?.bar()"></p>
+</template>
+```
+
+```vue
+<template>
+  <p v-if="foo?.bar">
+    <span @click="foo?.bar()"></span>
+  </p>
+</template>
+```
+
 ## Pass
 
 
@@ -46,7 +66,7 @@ if (foo?.bar) { bar = foo.bar }
 ```
 
 ```js
-foo.bar ? foo.bar() : foo.baz
+foo?.bar ? foo.bar() : foo.baz
 ```
 
 ```js
@@ -55,4 +75,24 @@ foo?.[qux] && baz(foo[qux])
 
 ```js
 foo.bar?.baz > foo.bar?.qux
+```
+
+```vue
+<template>
+  <p v-if="foo?.bar">{{ foo.bar }}</p>
+</template>
+```
+
+```vue
+<template>
+  <p v-if="foo?.bar" :aria-label="foo.bar()"></p>
+</template>
+```
+
+```vue
+<template>
+  <p v-if="foo?.bar">
+    <span @click="foo.bar()"></span>
+  </p>
+</template>
 ```
