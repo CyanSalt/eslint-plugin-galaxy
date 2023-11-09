@@ -23,20 +23,23 @@ function getMaybeOptionalExpressionObject(node: MaybeOptionalExpression) {
   return node.type === AST_NODE_TYPES.MemberExpression ? node.object : node.callee
 }
 
+function getAncestors(node: TSESTree.Node): TSESTree.Node[] {
+  return node.parent ? getAncestors(node.parent).concat(node.parent) : []
+}
+
 function *removeOptionalChain(
   code: TSESLint.SourceCode,
-  tokenStore: TSESLint.SourceCode | undefined,
   fixer: TSESLint.RuleFixer,
   node: TSESTree.Node,
   computed?: boolean,
 ) {
-  const nextToken = code.getTokenAfter(node) ?? tokenStore?.getTokenAfter(node)
+  const nextToken = code.getTokenAfter(node)
   if (nextToken?.type === AST_TOKEN_TYPES.Punctuator && nextToken.value === '?.') {
     yield fixer.replaceText(nextToken, computed ? '' : '.')
   }
   if (node.type === AST_NODE_TYPES.MemberExpression) {
     const isComputed = node.computed || node.object.type === AST_NODE_TYPES.CallExpression
-    yield* removeOptionalChain(code, tokenStore, fixer, node.object, isComputed)
+    yield* removeOptionalChain(code, fixer, node.object, isComputed)
   }
 }
 
@@ -96,8 +99,18 @@ export default createRule({
     const esquery = require('esquery')
     const code = context.getSourceCode()
     const parserServices = context.parserServices
-    // @ts-expect-error vue-eslint-parser API
-    const tokenStore: TSESLint.SourceCode | undefined = parserServices?.getTemplateBodyTokenStore?.()
+
+    function getTokenStore(node: TSESTree.Node) {
+      if (code.ast['templateBody']) {
+        const ancestors = getAncestors(node)
+        // @ts-expect-error vue-eslint-parser API
+        if (ancestors.includes(code.ast['templateBody']) && parserServices?.getTemplateBodyTokenStore) {
+          // @ts-expect-error vue-eslint-parser API
+          return parserServices.getTemplateBodyTokenStore()
+        }
+      }
+      return code
+    }
 
     function getNonNullableChainingExpressions(node: TSESTree.Expression) {
       if (node.type === AST_NODE_TYPES.LogicalExpression) {
@@ -125,29 +138,34 @@ export default createRule({
         : usedExpressions.concat(getNonNullableChainingExpressions(node))
     }
 
+    function checkExpression(
+      expression: MaybeOptionalExpression,
+      markedExpressions: TSESTree.Expression[],
+    ) {
+      if (!markedExpressions.length) return
+      const expr = getMaybeOptionalExpressionObject(expression)
+      const markedReference = markedExpressions.find(item => isTheSameAccessor(expr, item))
+      if (markedReference) {
+        context.report({
+          node: expr,
+          messageId: MESSAGE_ID_NON_NULLABLE,
+          *fix(fixer) {
+            const isComputed = expr.parent.type === AST_NODE_TYPES.MemberExpression && expr.parent.computed
+              || expr.parent.type === AST_NODE_TYPES.CallExpression
+            yield* removeOptionalChain(getTokenStore(expr), fixer, expr, isComputed)
+          },
+        })
+      }
+    }
+
     function checkStatement(
       node: TSESTree.Expression | TSESTree.Statement,
       markedExpressions: TSESTree.Expression[],
     ) {
-      const expressions = (
-        esquery.query(node, 'MemberExpression[optional=true], CallExpression[optional=true]') as MaybeOptionalExpression[]
-      )
-        .map(getMaybeOptionalExpressionObject)
-        .filter(expr => !markedExpressions.includes(expr)) // Avoid self marking
-      for (const expr of expressions) {
-        const markedReference = markedExpressions.find(item => isTheSameAccessor(expr, item))
-        if (markedReference) {
-          context.report({
-            node: expr,
-            messageId: MESSAGE_ID_NON_NULLABLE,
-            *fix(fixer) {
-              const isComputed = expr.parent.type === AST_NODE_TYPES.MemberExpression && expr.parent.computed
-                || expr.parent.type === AST_NODE_TYPES.CallExpression
-              yield* removeOptionalChain(code, tokenStore, fixer, expr, isComputed)
-            },
-          })
-        }
-      }
+      if (!markedExpressions.length) return
+      esquery.query(node, 'MemberExpression[optional=true], CallExpression[optional=true]').forEach(expr => {
+        checkExpression(expr, markedExpressions)
+      })
     }
 
     const scriptVisitor: TSESLint.RuleListener = {
@@ -159,7 +177,7 @@ export default createRule({
             if (!node.parent) return
             const isComputed = node.parent.type === AST_NODE_TYPES.MemberExpression && node.parent.computed
               || node.parent.type === AST_NODE_TYPES.CallExpression
-            yield* removeOptionalChain(code, tokenStore, fixer, node, isComputed)
+            yield* removeOptionalChain(getTokenStore(node), fixer, node, isComputed)
           },
         })
       },
@@ -189,12 +207,36 @@ export default createRule({
       },
     }
 
+    const vueIfAttributes: {
+      element: TSESTree.Node,
+      attribute: TSESTree.Node,
+      expressions: ReturnType<typeof getNonNullableExpressions>,
+    }[] = []
+    const vueOptionalExpressions: MaybeOptionalExpression[] = []
+
     const vueTemplateVisitor: TSESLint.RuleListener = {
       ...scriptVisitor,
       // <tag v-if="foo" :prop="bar">{{ bar }}</tag>
       'VElement > VStartTag > VAttribute[directive=true][value.type="VExpressionContainer"]:matches([key.name.name="if"], [key.name.name="else-if"])'(node: any) {
-        const markedExpressions = getNonNullableExpressions(node.value.expression)
-        checkStatement(node.parent.parent, markedExpressions)
+        vueIfAttributes.push({
+          element: node.parent.parent,
+          attribute: node,
+          expressions: getNonNullableExpressions(node.value.expression),
+        })
+      },
+      'MemberExpression[optional=true], CallExpression[optional=true]'(node) {
+        vueOptionalExpressions.push(node)
+      },
+      'VElement[parent.type!=\'VElement\']:exit'() {
+        for (const expression of vueOptionalExpressions) {
+          const ancestors = getAncestors(expression)
+          const markedExpressions = vueIfAttributes.flatMap(attr => {
+            return ancestors.includes(attr.element) && !ancestors.includes(attr.attribute)
+              ? attr.expressions
+              : []
+          })
+          checkExpression(expression, markedExpressions)
+        }
       },
     }
 
