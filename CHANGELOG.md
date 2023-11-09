@@ -1,5 +1,12 @@
 
 
+## [1.29.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.28.1...v1.29.0) (2023-11-09)
+
+
+### Features
+
+* check optional chain in vue ([16a5e2a](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/16a5e2a5c376e7308bb93073d2b7d8c3d73c9222))
+
 ### [1.28.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.28.0...v1.28.1) (2023-09-22)
 
 
