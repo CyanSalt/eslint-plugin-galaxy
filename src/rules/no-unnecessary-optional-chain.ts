@@ -30,16 +30,14 @@ function getAncestors(node: TSESTree.Node): TSESTree.Node[] {
 function *removeOptionalChain(
   code: TSESLint.SourceCode,
   fixer: TSESLint.RuleFixer,
-  node: TSESTree.Node,
-  computed?: boolean,
+  node: MaybeOptionalExpression,
 ) {
-  const nextToken = code.getTokenAfter(node)
+  const isComputed = node.type === AST_NODE_TYPES.MemberExpression && node.computed
+    || node.type === AST_NODE_TYPES.CallExpression
+  const object = getMaybeOptionalExpressionObject(node)
+  const nextToken = code.getTokenAfter(object)
   if (nextToken?.type === AST_TOKEN_TYPES.Punctuator && nextToken.value === '?.') {
-    yield fixer.replaceText(nextToken, computed ? '' : '.')
-  }
-  if (node.type === AST_NODE_TYPES.MemberExpression) {
-    const isComputed = node.computed || node.object.type === AST_NODE_TYPES.CallExpression
-    yield* removeOptionalChain(code, fixer, node.object, isComputed)
+    yield fixer.replaceText(nextToken, isComputed ? '' : '.')
   }
 }
 
@@ -62,6 +60,10 @@ function isTheSameAccessor(
 ): boolean {
   if (expr1.type === AST_NODE_TYPES.ThisExpression) {
     return expr2.type === AST_NODE_TYPES.ThisExpression
+  }
+  if (expr1.type === AST_NODE_TYPES.Literal) {
+    return expr2.type === AST_NODE_TYPES.Literal
+      && expr1.value === expr2.value
   }
   if (expr1.type === AST_NODE_TYPES.Identifier) {
     return expr2.type === AST_NODE_TYPES.Identifier
@@ -150,9 +152,7 @@ export default createRule({
           node: expr,
           messageId: MESSAGE_ID_NON_NULLABLE,
           *fix(fixer) {
-            const isComputed = expr.parent.type === AST_NODE_TYPES.MemberExpression && expr.parent.computed
-              || expr.parent.type === AST_NODE_TYPES.CallExpression
-            yield* removeOptionalChain(getTokenStore(expr), fixer, expr, isComputed)
+            yield* removeOptionalChain(getTokenStore(expression), fixer, expression)
           },
         })
       }
@@ -169,15 +169,12 @@ export default createRule({
     }
 
     const scriptVisitor: TSESLint.RuleListener = {
-      [`MemberExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[object.type=${type}]`).join(', ')}), CallExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[callee.type=${type}]`).join(', ')})`](node: TSESTree.Node) {
+      [`MemberExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[object.type=${type}]`).join(', ')}), CallExpression[optional=true]:matches(${NON_NULLABLE_TYPES.map(type => `[callee.type=${type}]`).join(', ')})`](node: MaybeOptionalExpression) {
         context.report({
           node,
           messageId: MESSAGE_ID_LITERAL,
           *fix(fixer) {
-            if (!node.parent) return
-            const isComputed = node.parent.type === AST_NODE_TYPES.MemberExpression && node.parent.computed
-              || node.parent.type === AST_NODE_TYPES.CallExpression
-            yield* removeOptionalChain(getTokenStore(node), fixer, node, isComputed)
+            yield* removeOptionalChain(getTokenStore(node), fixer, node)
           },
         })
       },
