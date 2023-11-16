@@ -1,5 +1,12 @@
 
 
+### [1.29.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.29.1...v1.29.2) (2023-11-16)
+
+
+### Bug Fixes
+
+* optional chain with literal ([f364343](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/f364343a375c80746e834c06ac1f755d9f81f40f))
+
 ### [1.29.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.29.0...v1.29.1) (2023-11-09)
 
 
