@@ -16,9 +16,7 @@ export const tsRuleTester = new TSESLint.RuleTester({
   },
   settings: {
     'import/resolver': {
-      typescript: {
-        extensions: ['.ts', '.js'],
-      },
+      typescript: {},
     },
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts'],

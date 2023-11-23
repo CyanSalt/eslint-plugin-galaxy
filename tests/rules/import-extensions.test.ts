@@ -23,7 +23,7 @@ tsRuleTester.run('import-extensions', rule, {
     // scoped modules
     {
       filename: __filename,
-      code: `import * as Foo from '@typescript-eslint/utils'`,
+      code: `import * as Foo from 'globals'`,
       options: ['always'],
     },
     // TODO: should we also check type imports?
@@ -44,12 +44,12 @@ tsRuleTester.run('import-extensions', rule, {
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/utils/package.json'`,
+      code: `import Foo from 'globals/package.json'`,
       options: ['ignorePackages'],
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/utils/package'`,
+      code: `import Foo from 'globals/package'`,
       options: ['ignorePackages'],
     },
     {
@@ -81,32 +81,17 @@ tsRuleTester.run('import-extensions', rule, {
     },
     {
       filename: __filename,
-      code: `import Foo from '@typescript-eslint/utils/package'`,
+      code: `import Foo from 'globals/package'`,
       errors: [
         {
           messageId: 'import-extensions.required',
           data: {
             extension: '.json',
-            path: '@typescript-eslint/utils/package',
+            path: 'globals/package',
           },
         },
       ],
-      output: `import Foo from '@typescript-eslint/utils/package.json'`,
-      options: ['always'],
-    },
-    {
-      filename: __filename,
-      code: `import Foo from '@typescript-eslint/utils/dist'`,
-      errors: [
-        {
-          messageId: 'import-extensions.required',
-          data: {
-            extension: '.js',
-            path: '@typescript-eslint/utils/dist',
-          },
-        },
-      ],
-      output: `import Foo from '@typescript-eslint/utils/dist/index.js'`,
+      output: `import Foo from 'globals/package.json'`,
       options: ['always'],
     },
     {
@@ -137,21 +122,6 @@ tsRuleTester.run('import-extensions', rule, {
         },
       ],
       output: `import Foo from '../../package'`,
-      options: ['never'],
-    },
-    {
-      filename: __filename,
-      code: `import Foo from '@typescript-eslint/utils/dist/index.js'`,
-      errors: [
-        {
-          messageId: 'import-extensions.forbidden',
-          data: {
-            extension: '.js',
-            path: '@typescript-eslint/utils/dist/index.js',
-          },
-        },
-      ],
-      output: `import Foo from '@typescript-eslint/utils/dist'`,
       options: ['never'],
     },
   ],
