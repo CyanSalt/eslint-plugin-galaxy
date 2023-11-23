@@ -14,6 +14,16 @@ export const tsRuleTester = new TSESLint.RuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  settings: {
+    'import/resolver': {
+      typescript: {
+        extensions: ['.ts', '.js'],
+      },
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts'],
+    },
+  },
 })
 
 export const vueRuleTester = new TSESLint.RuleTester({

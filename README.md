@@ -39,6 +39,8 @@ module.exports = {
 
 - [`no-prototype-as-value`](./docs/rules/no-prototype-as-value.md) - Disallow using prototype of functions as values ✅
 
+- [`no-restricted-barrel-imports`](./docs/rules/no-restricted-barrel-imports.md) - Disallow specified barrel modules when loaded by `import` 🔧
+
 - [`no-restricted-floating-promises`](./docs/rules/no-restricted-floating-promises.md) - Enforce Promises with specified syntax to be handled appropriately
 
 - [`no-unnecessary-optional-chain`](./docs/rules/no-unnecessary-optional-chain.md) - Disallow unnecessary optional chain ✅ 🔧
