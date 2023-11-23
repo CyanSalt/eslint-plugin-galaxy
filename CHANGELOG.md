@@ -1,5 +1,12 @@
 
 
+## [1.30.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.29.2...v1.30.0) (2023-11-23)
+
+
+### Features
+
+* add `no-restricted-barrel-imports` ([69f5215](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/69f5215afc30aa45446a81205e7132e076f009f1))
+
 ### [1.29.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.29.1...v1.29.2) (2023-11-16)
 
 
