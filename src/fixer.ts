@@ -20,5 +20,5 @@ export function *removeElement(
   if (!lastToken || lastToken.type !== AST_TOKEN_TYPES.Punctuator || lastToken.value !== ',') {
     lastToken = node
   }
-  yield fixer.removeRange([beforeToken.range[0] + 1, lastToken!.range[1]])
+  yield fixer.removeRange([beforeToken.range[0] + 1, lastToken.range[1]])
 }
