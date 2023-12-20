@@ -44,6 +44,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow using prototype of functions as values',
+      recommended: 'stylistic',
     },
     hasSuggestions: true,
     schema: [

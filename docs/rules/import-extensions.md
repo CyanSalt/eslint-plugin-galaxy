@@ -30,54 +30,54 @@ So that it will work for certain extensions.
 ## Fail
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "always"]*/
+/* eslint galaxy/import-extensions: ["error", "always"] */
 import Foo from './foo'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "always"]*/
+/* eslint galaxy/import-extensions: ["error", "always"] */
 import Foo from 'foo/bar'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "ignorePackages"]*/
+/* eslint galaxy/import-extensions: ["error", "ignorePackages"] */
 import Foo from './foo'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "never"]*/
+/* eslint galaxy/import-extensions: ["error", "never"] */
 import Foo from './foo.js'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", { ".js": "never" }]*/
+/* eslint galaxy/import-extensions: ["error", { ".js": "never" }] */
 import Foo from './foo.js'
 ```
 
 ## Pass
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "always"]*/
+/* eslint galaxy/import-extensions: ["error", "always"] */
 import Foo from './foo.js'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "always"]*/
+/* eslint galaxy/import-extensions: ["error", "always"] */
 import Foo from 'foo/bar.js'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "ignorePackages"]*/
+/* eslint galaxy/import-extensions: ["error", "ignorePackages"] */
 import Foo from 'foo/bar'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", "never"]*/
+/* eslint galaxy/import-extensions: ["error", "never"] */
 import Foo from './foo'
 ```
 
 ```js
-/* eslint galaxy/import-extensions: ["error", { ".js": "never" }]*/
+/* eslint galaxy/import-extensions: ["error", { ".js": "never" }] */
 import Foo from './foo'
 import Bar from './bar.json'
 ```

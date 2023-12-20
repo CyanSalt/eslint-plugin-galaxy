@@ -2,6 +2,12 @@
 
 Invalid keys are often a result of misspelling. For example, `require` ought to be `required`.
 
+## Options
+
+This rule has an object option:
+
+- `"allows"` allows specified keys
+
 ## Fail
 
 ```js

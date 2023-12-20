@@ -20,12 +20,12 @@ tsRuleTester.run('no-prototype-as-value', rule, {
     },
     {
       code: `
-        Array.prototype.foo = bar;
+        Array.prototype.foo = bar
       `,
     },
     {
       code: `
-        const bar = Array.prototype.foo;
+        const bar = Array.prototype.foo
       `,
     },
     {

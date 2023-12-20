@@ -4,6 +4,12 @@ Unknown options are often a result of misspelling. For example, `beforeDestroyed
 
 This rule also supports several community packages such as `vuex`, `vue-router`, `nuxt`, etc.
 
+## Options
+
+This rule has an object option:
+
+- `"allows"` allows specified options
+
 ## Fail
 
 ```js

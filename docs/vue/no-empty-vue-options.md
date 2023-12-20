@@ -4,6 +4,12 @@ Empty options, much like unused variables, are often a result of incomplete refa
 
 This rule will not check empty functions and objects with comments. You can leave empty options with any comments inside to avoid emitting lint errors.
 
+## Options
+
+This rule has an object option:
+
+- `"ignores"` ignores specified options
+
 ## Fail
 
 ```js

@@ -5,49 +5,49 @@ ruleTester.run('no-restricted-floating-promises', rule, {
   valid: [
     {
       code: `
-        foo();
+        foo()
       `,
     },
     {
       code: `
-        bar();
-      `,
-      options: ['CallExpression[callee.name="foo"]'],
-    },
-    {
-      code: `
-        foo().catch(() => {});
+        bar()
       `,
       options: ['CallExpression[callee.name="foo"]'],
     },
     {
       code: `
-        foo().then(() => {}, () => {});
+        foo().catch(() => {})
       `,
       options: ['CallExpression[callee.name="foo"]'],
     },
     {
       code: `
-        await foo();
+        foo().then(() => {}, () => {})
       `,
       options: ['CallExpression[callee.name="foo"]'],
     },
     {
       code: `
-        wrap(foo());
+        await foo()
       `,
       options: ['CallExpression[callee.name="foo"]'],
     },
     {
       code: `
-        bar();
+        wrap(foo())
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+    },
+    {
+      code: `
+        bar()
       `,
       options: [{ names: ['foo'] }],
     },
     {
       code: `
-        import { foo } from 'bar';
-        foo();
+        import { foo } from 'bar'
+        foo()
       `,
       options: [{ paths: ['foo'] }],
     },
@@ -55,7 +55,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
   invalid: [
     {
       code: `
-        foo();
+        foo()
       `,
       options: ['CallExpression[callee.name="foo"]'],
       errors: [
@@ -66,7 +66,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        foo().then(() => {});
+        foo().then(() => {})
       `,
       options: ['CallExpression[callee.name="foo"]'],
       errors: [
@@ -77,7 +77,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        Promise.all([foo()]);
+        Promise.all([foo()])
       `,
       options: ['CallExpression[callee.name="foo"]'],
       errors: [
@@ -88,7 +88,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        Promise.resolve(foo());
+        Promise.resolve(foo())
       `,
       options: ['CallExpression[callee.name="foo"]'],
       errors: [
@@ -99,7 +99,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        this.$store.dispatch('submit');
+        this.$store.dispatch('submit')
       `,
       options: [{ type: 'vuex-action' }],
       errors: [
@@ -110,7 +110,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        this.$confirm({});
+        this.$confirm({})
       `,
       options: [{ type: 'element-message-box' }],
       errors: [
@@ -121,7 +121,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        this.$dialog.confirm({});
+        this.$dialog.confirm({})
       `,
       options: [{ type: 'vant-dialog' }],
       errors: [
@@ -132,7 +132,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        foo();
+        foo()
       `,
       options: [{ names: ['foo'] }],
       errors: [
@@ -143,7 +143,7 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        foo.bar();
+        foo.bar()
       `,
       options: [{ names: ['foo'] }],
       errors: [
@@ -154,8 +154,8 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        const { bar } = foo();
-        bar();
+        const { bar } = foo()
+        bar()
       `,
       options: [{ names: ['foo'] }],
       errors: [
@@ -166,8 +166,8 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        import { foo } from 'foo';
-        foo();
+        import { foo } from 'foo'
+        foo()
       `,
       options: [{ paths: ['foo'] }],
       errors: [
@@ -178,8 +178,8 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        import foo from 'foo';
-        foo.bar();
+        import foo from 'foo'
+        foo.bar()
       `,
       options: [{ paths: ['foo'] }],
       errors: [
@@ -190,9 +190,9 @@ ruleTester.run('no-restricted-floating-promises', rule, {
     },
     {
       code: `
-        import * as foo from 'foo';
-        const { bar } = foo();
-        bar();
+        import * as foo from 'foo'
+        const { bar } = foo()
+        bar()
       `,
       options: [{ paths: ['foo'] }],
       errors: [

@@ -17,6 +17,7 @@ export default createRule({
     type: 'problem',
     docs: {
       description: 'Disallow unsafe `window.open`',
+      recommended: 'recommended',
     },
     fixable: 'code',
     schema: [],
