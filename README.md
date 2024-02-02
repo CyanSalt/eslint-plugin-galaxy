@@ -63,7 +63,9 @@ module.exports = {
 
 - [`no-deprecated-vue-deep-combinator`](./docs/vue/no-deprecated-vue-deep-combinator.md) - Disallow using deprecated Vue `::v-deep` combinators 🔧
 
-- [`no-duplicate-vuex-properties`]() - Disallow duplicate properties from Vuex ✅
+- [`no-duplicate-vue-store-mappings`](./docs/vue/no-duplicate-vue-store-mappings.md) - Disallow duplicate store mapping functions in Vue components 🔧
+
+- [`no-duplicate-vuex-properties`](./docs/vue/no-duplicate-vuex-properties.md) - Disallow duplicate properties from Vuex ✅
 
 - [`no-empty-vue-options`](./docs/vue/no-empty-vue-options.md) - Disallow using empty functions or objects as option values in Vue components ✅
 
