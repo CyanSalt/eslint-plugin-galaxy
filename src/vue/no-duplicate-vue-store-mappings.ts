@@ -69,29 +69,22 @@ function* mergeObjectLiteralExpression(
   switch (source.type) {
     case AST_NODE_TYPES.ObjectExpression: {
       const lastProperty = source.properties[source.properties.length - 1]
-      const nextToken = code.getTokenAfter(lastProperty)
-      const hasTrailingComma = nextToken?.type === AST_TOKEN_TYPES.Punctuator && nextToken.value === ','
       const hasLineFeed = code.getText(source).includes('\n')
       const separator = `,${hasLineFeed ? '\n' : ' '}`
       const properties = (target as typeof source).properties
-      yield fixer.insertTextAfter(lastProperty, `${hasTrailingComma ? '' : separator}${properties.map(prop => code.getText(prop)).join(separator)}`)
+      yield fixer.insertTextAfter(lastProperty, `${separator}${properties.map(prop => code.getText(prop)).join(separator)}`)
       break
     }
     case AST_NODE_TYPES.ArrayExpression: {
-      let nextToken: TSESTree.Token | null
-      const lastElement = source.elements[source.elements.length - 1]
-      if (lastElement) {
-        nextToken = code.getTokenAfter(lastElement)
-      } else {
-        nextToken = code.getLastToken(source, {
+      const lastElementOrToken = source.elements[source.elements.length - 1]
+        ?? code.getLastToken(source, {
           filter: token => token.type === AST_TOKEN_TYPES.Punctuator && token.value === ',',
+          skip: 1,
         })!
-      }
-      const hasTrailingComma = nextToken?.type === AST_TOKEN_TYPES.Punctuator && nextToken.value === ','
       const hasLineFeed = code.getText(source).includes('\n')
       const separator = `,${hasLineFeed ? '\n' : ' '}`
       const elements = (target as typeof source).elements
-      yield fixer.insertTextAfter(lastElement ?? nextToken!, `${hasTrailingComma ? '' : separator}${elements.map(element => (element ? code.getText(element) : '')).join(separator)}`)
+      yield fixer.insertTextAfter(lastElementOrToken, `${separator}${elements.map(element => (element ? code.getText(element) : '')).join(separator)}`)
       break
     }
     default:

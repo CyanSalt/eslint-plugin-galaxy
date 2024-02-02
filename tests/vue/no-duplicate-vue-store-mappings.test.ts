@@ -67,6 +67,44 @@ vueRuleTester.run('no-duplicate-vue-store-mappings', rule, {
       code: `
         <script>
         export default {
+          computed: {
+            ...mapState([
+              'foo',
+            ]),
+            ...mapState([
+              'bar',
+            ]),
+          },
+        }
+        </script>
+      `,
+      errors: [
+        {
+          messageId: 'no-duplicate-vue-store-mappings',
+          data: {
+            name: 'mapState',
+            line: 5,
+          },
+        },
+      ],
+      output: `
+        <script>
+        export default {
+          computed: {
+            ...mapState([
+              'foo',
+'bar',
+            ]),
+          },
+        }
+        </script>
+      `,
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script>
+        export default {
           methods: {
             ...mapActions(useFoo, {
               foo: 'bar'
