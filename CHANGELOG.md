@@ -1,5 +1,17 @@
 
 
+## [1.31.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.30.0...v1.31.0) (2024-02-04)
+
+
+### Features
+
+* add `no-duplicate-vue-store-mappings` ([30915b4](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/30915b4f2ada49bc4d4b39d444e528811c178909))
+
+
+### Bug Fixes
+
+* multiline autofix ([7e49962](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/7e4996257dd46a0d9564417b21bcde66cb1fa97b))
+
 ## [1.30.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.29.2...v1.30.0) (2023-11-23)
 
 
