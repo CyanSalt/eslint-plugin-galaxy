@@ -25,6 +25,8 @@ module.exports = {
 
 ## Rules
 
+- [`compat`](./docs/rules/compat.md) - Avoid using incompatible features
+
 - [`esm-bundler`](./docs/rules/esm-bundler.md) - Enforce ES Module bundler APIs instead of Node APIs
 
 - [`import-extensions`](./docs/rules/import-extensions.md) - Ensure consistent use of file extension within the import path 🔧

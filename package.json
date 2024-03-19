@@ -33,6 +33,8 @@
   "license": "ISC",
   "dependencies": {
     "@typescript-eslint/utils": "^6.4.1",
+    "browserslist": "^4.23.0",
+    "caniuse-lite": "^1.0.30001599",
     "globals": "^13.20.0",
     "ignore": "^5.2.4"
   },
