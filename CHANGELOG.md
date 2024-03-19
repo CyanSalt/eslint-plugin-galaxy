@@ -1,5 +1,17 @@
 
 
+## [1.32.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.31.0...v1.32.0) (2024-03-19)
+
+
+### Features
+
+* add `compat` ([9a6632f](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/9a6632fa35224c7bd93bf0f48d9849f260ef2427))
+
+
+### Bug Fixes
+
+* remove deprecated properties ([b12b346](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/b12b346bf5c72c1cfb8e3495f553ee13e0a43b0d))
+
 ## [1.31.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.30.0...v1.31.0) (2024-02-04)
 
 
