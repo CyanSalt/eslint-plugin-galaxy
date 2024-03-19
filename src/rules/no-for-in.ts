@@ -20,7 +20,7 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     return {
       ForInStatement: (node: TSESTree.ForInStatement) => {
         context.report({

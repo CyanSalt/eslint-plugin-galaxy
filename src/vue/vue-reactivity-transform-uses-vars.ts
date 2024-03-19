@@ -76,7 +76,7 @@ export default createRule({
               && isReactivityTransformCall(node.init, scope, macrosWithSideEffects)
               && variable.references.some(isAssignmentReference)
             ) {
-              context.markVariableAsUsed(variable.name)
+              context.sourceCode.markVariableAsUsed?.(variable.name, scope.block)
             }
           }
         }

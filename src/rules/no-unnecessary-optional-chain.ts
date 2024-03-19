@@ -99,13 +99,14 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     const esquery = require('esquery')
-    const code = context.getSourceCode()
-    const parserServices = context.parserServices
+    const code = context.sourceCode
+    const parserServices = code.parserServices
 
     function getTokenStore(node: TSESTree.Node) {
       if (code.ast['templateBody']) {
         const ancestors = getAncestors(node)
         // @ts-expect-error vue-eslint-parser API
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (ancestors.includes(code.ast['templateBody']) && parserServices?.getTemplateBodyTokenStore) {
           // @ts-expect-error vue-eslint-parser API
           return parserServices.getTemplateBodyTokenStore()
@@ -238,6 +239,7 @@ export default createRule({
     }
 
     // @ts-expect-error vue-eslint-parser API
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (parserServices?.defineTemplateBodyVisitor) {
       // @ts-expect-error vue-eslint-parser API
       return parserServices.defineTemplateBodyVisitor(vueTemplateVisitor, scriptVisitor)

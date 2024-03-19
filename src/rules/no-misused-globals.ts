@@ -94,8 +94,9 @@ export default createRule({
   defaultOptions: [DEFAULT_OPTIONS as Partial<typeof DEFAULT_OPTIONS>],
   create(context) {
     return {
-      Program() {
-        const scope = context.getScope()
+      Program(root) {
+        const scope = context.sourceCode.getScope?.(root)
+        if (!scope) return
         const options = { ...DEFAULT_OPTIONS, ...context.options[0] }
 
         let misusedGlobals: MisusedGlobalDeclaration[] = []

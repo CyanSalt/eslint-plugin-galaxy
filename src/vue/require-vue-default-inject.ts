@@ -55,7 +55,7 @@ export default createRule({
       }),
       {
         [VUE_INJECT_WITHOUT_DEFAULTS](node: TSESTree.CallExpression) {
-          const code = context.getSourceCode()
+          const code = context.sourceCode
           context.report({
             node,
             messageId: MESSAGE_ID_DEFAULT,

@@ -36,7 +36,7 @@ export default createRule({
   create(context) {
     return {
       [NON_BLOCK_CONSEQUENT_SELECTOR]: (node: TSESTree.IfStatement & { alternate: TSESTree.Statement }) => {
-        const code = context.getSourceCode()
+        const code = context.sourceCode
         const statement = node.consequent
         context.report({
           node: statement,
@@ -48,7 +48,7 @@ export default createRule({
         })
       },
       [NON_BLOCK_ALTERNATE_SELECTOR]: (node: TSESTree.IfStatement & { alternate: TSESTree.Statement }) => {
-        const code = context.getSourceCode()
+        const code = context.sourceCode
         const statement = node.alternate
         context.report({
           node: statement,
@@ -60,7 +60,7 @@ export default createRule({
         })
       },
       [NON_BLOCK_ALTERNATE_CONSEQUENT_SELECTOR]: (node: TSESTree.IfStatement & { alternate: TSESTree.IfStatement }) => {
-        const code = context.getSourceCode()
+        const code = context.sourceCode
         const statement = node.alternate.consequent
         context.report({
           node: statement,

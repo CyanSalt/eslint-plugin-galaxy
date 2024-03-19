@@ -56,12 +56,6 @@ const SETUP_FUNCTIONS = [
   'onBeforeRouteLeave',
 ]
 
-function getCurrentScope(node: TSESTree.Node, manager: TSESLint.Scope.ScopeManager): TSESLint.Scope.Scope | null {
-  const scope = manager.acquire(node)
-  if (scope) return scope
-  return node.parent ? getCurrentScope(node.parent, manager) : null
-}
-
 function getFunctionScope(scope: TSESLint.Scope.Scope | null): TSESLint.Scope.Scope | null {
   return !scope || scope.type === 'function'
     ? scope
@@ -215,9 +209,6 @@ export default createRule({
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
 
-    const code = context.getSourceCode()
-    const scopeManager = code.scopeManager!
-
     let causes: PromiseCause[] = []
 
     let methodReferences: MethodReference[] = []
@@ -324,7 +315,7 @@ export default createRule({
       cause: PromiseCause,
     ): boolean | TSESTree.Node {
       // Top-level unhandled promises
-      const scope = getCurrentScope(node, scopeManager)
+      const scope = context.sourceCode.getScope?.(node)
       if (!scope) return true
       const functionScope = getFunctionScope(scope)
       if (!functionScope) return true

@@ -45,8 +45,8 @@ function getClosestMappingFunctionCall(node: TSESTree.Node) {
   )
 }
 
-function getDefinedVariable(scope: TSESLint.Scope.Scope, node: TSESTree.Node) {
-  return scope.variables.find(variable => {
+function getDefinedVariable(scope: TSESLint.Scope.Scope | undefined, node: TSESTree.Node) {
+  return scope?.variables.find(variable => {
     return variable.defs.find(def => def.name === node)
   })
 }
@@ -85,7 +85,7 @@ export default createRule({
         if (parent.body !== node) return
         const callNode = getClosestMappingFunctionCall(node)
         if (callNode) {
-          const scope = context.getScope()
+          const scope = context.sourceCode.getScope?.(node)
           const hasArgumentReference = parent.params.some(param => {
             const variable = getDefinedVariable(scope, param)
             return Boolean(variable?.references.length)

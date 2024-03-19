@@ -144,7 +144,7 @@ export function createMatcher(
     : undefined
   return function (node: TSESTree.Node) {
     if (pathMatcher || names) {
-      const scope = context.getScope()
+      const scope = context.sourceCode.getScope?.(node)
       for (const item of iterateNodeFactory(node, scope)) {
         if (item.type === AST_NODE_TYPES.Identifier) {
           if (names?.includes(item.name)) return true

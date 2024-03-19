@@ -53,7 +53,7 @@ export default createRule({
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
     const ignoredOptions = context.options[0]?.ignores ?? []
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       for (const property of obj.properties) {
         const name: string = utils.getStaticPropertyName(property)

@@ -29,7 +29,7 @@ export default createRule({
   create(context) {
     return {
       [NON_RETURN_STATEMENT_SELECTOR]: (node: TSESTree.IfStatement) => {
-        const code = context.getSourceCode()
+        const code = context.sourceCode
         const statement = node.consequent
         context.report({
           node: statement,

@@ -46,7 +46,7 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     const vuexCalls = new Map<TSESTree.ObjectExpression, Set<VuexCallExpression>>()
 
     return {

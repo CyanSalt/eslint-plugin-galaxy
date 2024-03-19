@@ -49,7 +49,10 @@ export function isIdentifierProperty(
   return node.type === AST_NODE_TYPES.Property && node.key.type === AST_NODE_TYPES.Identifier
 }
 
-export function *iterateNodeFactory(node: TSESTree.Node, scope: TSESLint.Scope.Scope): Generator<TSESTree.Node> {
+export function *iterateNodeFactory(
+  node: TSESTree.Node,
+  scope: TSESLint.Scope.Scope | undefined,
+): Generator<TSESTree.Node> {
   yield node
   if (node.type === AST_NODE_TYPES.CallExpression) {
     return yield* iterateNodeFactory(node.callee, scope)
@@ -57,7 +60,7 @@ export function *iterateNodeFactory(node: TSESTree.Node, scope: TSESLint.Scope.S
   if (node.type === AST_NODE_TYPES.MemberExpression) {
     return yield* iterateNodeFactory(node.object, scope)
   }
-  if (node.type === AST_NODE_TYPES.Identifier) {
+  if (node.type === AST_NODE_TYPES.Identifier && scope) {
     for (const variable of scope.variables) {
       if (variable.name === node.name) {
         if (!variable.defs.length) return undefined

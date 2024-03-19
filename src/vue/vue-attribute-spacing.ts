@@ -33,7 +33,7 @@ export default createRule({
     const utils = require('eslint-plugin-vue/lib/utils')
     const option = context.options[0] || 'never'
     // @ts-expect-error vue-eslint-parser API
-    const template = context.parserServices!.getTemplateBodyTokenStore?.()
+    const template = context.sourceCode.parserServices.getTemplateBodyTokenStore?.()
     return utils.defineTemplateBodyVisitor(context, {
       VExpressionContainer(node) {
         const openQuote = template.getFirstToken(node)

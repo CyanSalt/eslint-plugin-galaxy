@@ -44,7 +44,7 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     return utils.defineScriptSetupVisitor(context, {
       [getNestingCallSelector([
         'defineProps',
@@ -149,7 +149,8 @@ export default createRule({
                 defaultValueNode.type === AST_NODE_TYPES.ArrowFunctionExpression
                 && willCallDefaultValueFunction
               ) {
-                const parserServices = context.parserServices
+                const parserServices = code.parserServices
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                 if (parserServices && 'esTreeNodeToTSNodeMap' in parserServices) {
                   context.report({
                     node: decl.value.right,

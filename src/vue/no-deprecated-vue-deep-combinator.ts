@@ -117,7 +117,7 @@ export default createRule({
       isValidStyleContext,
     } = require('eslint-plugin-vue-scoped-css/dist/styles/context')
 
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     const reporter: Pick<typeof context, 'report'> = getCommentDirectivesReporter(context)
 
     return {

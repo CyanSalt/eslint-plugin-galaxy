@@ -218,7 +218,7 @@ export default createRule({
     const utils = require('eslint-plugin-vue/lib/utils')
     const { rules = [], additionalRules = [] } = context.options[0] ?? {}
 
-    const code = context.getSourceCode()
+    const code = context.sourceCode
 
     const allRules = (DEFAULT_RULES.filter(rule => rules.includes(rule.name)) as RuleDeclaration[])
       .concat(additionalRules)

@@ -107,7 +107,7 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     return {
       [`CallExpression:matches(${MAPPING_FUNCTIONS.map(name => `[callee.name="${name}"]`).join(', ')})`](node: StoreMappingCallExpression) {
         const parent = node.parent

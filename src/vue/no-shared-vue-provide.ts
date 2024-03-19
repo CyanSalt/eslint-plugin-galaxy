@@ -21,7 +21,7 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       const provideProperty: TSESTree.Property | undefined = utils.findProperty(obj, 'provide')
       const functionOrIdentTypes = [

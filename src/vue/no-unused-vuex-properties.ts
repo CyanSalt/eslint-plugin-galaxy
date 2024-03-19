@@ -52,7 +52,7 @@ export default createRule({
     } = require('eslint-plugin-vue/lib/utils/property-references')
     const { getStyleVariablesContext } = require('eslint-plugin-vue/lib/utils/style-variables')
 
-    const code = context.getSourceCode()
+    const code = context.sourceCode
 
     const propertyReferenceExtractor = definePropertyReferenceExtractor(context)
 

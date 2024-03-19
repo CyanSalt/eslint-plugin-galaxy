@@ -71,7 +71,7 @@ export default createRule({
     { ignores: [] as string[] },
   ],
   create(context) {
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     const ignores = context.options[0]?.ignores ?? []
     const ignoredPaths = [...BUILTIN_IGNORES, ...ignores].map(item => {
       return item.split('.').map(part => (part === '*' ? WILDCARD_SYMBOL : part))

@@ -57,7 +57,7 @@ export default createRule({
   ],
   create(context) {
     const fixStyle = context.options[0]?.fixStyle ?? 'none'
-    const code = context.getSourceCode()
+    const code = context.sourceCode
     const utils = require('eslint-plugin-vue/lib/utils')
     return utils.compositingVisitors(
       // { default: () => {} }
