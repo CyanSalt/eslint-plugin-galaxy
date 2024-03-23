@@ -227,7 +227,7 @@ export default createRule({
 
     const targetBrowsers = browserslistConfig
       ? getBrowsers(browserslistConfig)
-      : getBrowsers(undefined, { path: context.cwd, throwOnMissing: true })
+      : getBrowsers(undefined, { path: context.cwd, env: 'defaults', throwOnMissing: true })
     if (!targetBrowsers.length) return visitor
 
     function reportIncompatibleUsage(node: TSESTree.Node, feature: string, browsers: BrowserData[]) {
