@@ -110,22 +110,6 @@ export default createRule({
     const mappingSelector = getMappingSelector(MAPPING_FUNCTIONS)
 
     const scriptVisitor = utils.compositingVisitors(
-      {
-        [`${mappingSelector} > ObjectExpression > Property`](node: TSESTree.Property) {
-          container.properties.push({
-            name: node.key.type === AST_NODE_TYPES.Identifier
-              ? node.key.name
-              : (node.key as TSESTree.StringLiteral).value,
-            node,
-          })
-        },
-        [`${mappingSelector} > ArrayExpression > Literal`](node: TSESTree.StringLiteral) {
-          container.properties.push({
-            name: node.value,
-            node,
-          })
-        },
-      },
       utils.defineVueVisitor(context, {
         onVueObjectEnter(node) {
           for (const watcher of utils.iterateProperties(node, new Set(['watch']))) {
@@ -208,6 +192,20 @@ export default createRule({
           if (!utils.isThis(node, context)) return
           const propertyReferences = propertyReferenceExtractor.extractFromExpression(node, false)
           container.propertyReferences.push(propertyReferences)
+        },
+        [`${mappingSelector} > ObjectExpression > Property`](node: TSESTree.Property) {
+          container.properties.push({
+            name: node.key.type === AST_NODE_TYPES.Identifier
+              ? node.key.name
+              : (node.key as TSESTree.StringLiteral).value,
+            node,
+          })
+        },
+        [`${mappingSelector} > ArrayExpression > Literal`](node: TSESTree.StringLiteral) {
+          container.properties.push({
+            name: node.value,
+            node,
+          })
         },
       }),
       {
