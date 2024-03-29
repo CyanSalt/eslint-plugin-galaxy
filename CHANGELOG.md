@@ -1,5 +1,13 @@
 
 
+## [1.32.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.32.0...v1.32.1) (2024-03-29)
+
+
+### Bug Fixes
+
+* browserslist env ([79abc29](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/79abc29c4c0745bbc82f49784734ba5c60fc2a5a))
+* false positive in `no-unused-vuex-properties` ([14d45c2](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/14d45c272cb5dcdac41635d499f4615af473d823))
+
 ## [1.32.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.31.0...v1.32.0) (2024-03-19)
 
 
