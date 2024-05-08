@@ -95,6 +95,8 @@ module.exports = {
 
 - [`vue-reactivity-transform-uses-vars`](./docs/vue/vue-reactivity-transform-uses-vars.md) - Prevent variables used in reactivity transform to be marked as unused
 
+- [`vue-ref-style`](./docs/vue/vue-ref-style.md) - Enforce Vue refs style
+
 *✅ means that the rule is contained in `plugin:galaxy/recommended` or `plugin:galaxy/recommended-vue`*.
 
 *🔧 means that the rule could be fixed automatically*.
