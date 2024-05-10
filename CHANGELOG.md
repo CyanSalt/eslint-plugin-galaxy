@@ -1,5 +1,17 @@
 
 
+## [1.33.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.32.1...v1.33.0) (2024-05-10)
+
+
+### Features
+
+* add `vue-ref-style` ([aba44e4](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/aba44e4c1ce0b5ba6570e0d17d956da7110d3e8a))
+
+
+### Bug Fixes
+
+* vue 3 options ([265c8a3](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/265c8a35f00c588d59161deaa4092a4c00ea7581))
+
 ## [1.32.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.32.0...v1.32.1) (2024-03-29)
 
 
