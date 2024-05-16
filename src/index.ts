@@ -14,8 +14,8 @@ function loadRules(dir: string) {
   return fs.readdirSync(dir)
     .map(rule => path.parse(rule).name)
     .reduce<Record<string, RuleModule>>((map, name) => Object.assign(map, {
-      [name]: importDefault(require(path.join(dir, name))),
-    }), {})
+    [name]: importDefault(require(path.join(dir, name))),
+  }), {})
 }
 
 function getRecommendedRules(record: Record<string, RuleModule>) {

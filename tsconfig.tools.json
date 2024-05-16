@@ -3,7 +3,7 @@
   "include": [
     "**/*.ts",
     "**/*.js",
-    ".eslintrc.js"
+    "**/*.mjs"
   ],
   "exclude": [
     "**/dist",

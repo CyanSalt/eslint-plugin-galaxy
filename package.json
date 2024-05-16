@@ -12,7 +12,7 @@
     "test": "tests"
   },
   "scripts": {
-    "lint": "eslint --ignore-path .gitignore --fix .",
+    "lint": "eslint --fix './**/*.{js,mjs,ts}'",
     "prepack": "rm -rf dist && tsc",
     "release": "release-it",
     "test": "jest"
@@ -39,12 +39,12 @@
     "ignore": "^5.2.4"
   },
   "devDependencies": {
-    "@cyansalt/eslint-config-preset": "^1.17.0",
+    "@cyansalt/eslint-config": "^4.0.0",
     "@cyansalt/tsconfig": "^2.2.1",
     "@release-it/conventional-changelog": "^8.0.1",
     "@types/jest": "^29.5.11",
     "@types/node": "^18.15.11",
-    "eslint": "^8.44.0",
+    "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-vue": "^9.19.0",
     "eslint-plugin-vue-scoped-css": "^2.6.0",
