@@ -1,5 +1,17 @@
 
 
+## [1.34.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.33.0...v1.34.0) (2024-05-17)
+
+
+### Features
+
+* use flat config ([c81c9fd](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c81c9fd10b683bc502f2c9494e9d685cc6736bbd))
+
+
+### Bug Fixes
+
+* typescript build ([ce232d6](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/ce232d6c5cd6c609949f7fdc98870908d69ebd9e))
+
 ## [1.33.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.32.1...v1.33.0) (2024-05-10)
 
 
