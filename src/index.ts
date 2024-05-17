@@ -38,16 +38,9 @@ const baseRules = loadRules(path.join(__dirname, 'rules'))
 const tsRules = loadRules(path.join(__dirname, 'typescript'))
 const vueRules = loadRules(path.join(__dirname, 'vue'))
 
-const processors = {}
-try {
-  processors['.vue'] = require('eslint-plugin-vue/lib/processor')
-} catch {
-  // ignore error
-}
-
 const { name, version } = require('../package.json')
 
-module.exports = {
+const plugin = {
   meta: {
     name,
     version,
@@ -57,29 +50,32 @@ module.exports = {
     ...tsRules,
     ...vueRules,
   },
-  configs: {
-    recommended: {
-      plugins: [
-        'galaxy',
-      ],
-      rules: getRecommendedRules(baseRules),
-    },
-    'recommended-vue': {
-      plugins: [
-        'galaxy',
-      ],
-      rules: getRecommendedRules(vueRules),
-    },
-    all: {
-      plugins: [
-        'galaxy',
-      ],
-      rules: {
-        ...getAllRules(baseRules),
-        ...getAllRules(tsRules),
-        ...getAllRules(vueRules),
-      },
-    },
+  configs: {} as Record<string, any>,
+};
+
+plugin.configs.recommended = {
+  plugins: {
+    galaxy: plugin,
   },
-  processors,
-}
+  rules: getRecommendedRules(baseRules),
+};
+
+plugin.configs['recommended-vue'] = {
+  plugins: {
+    galaxy: plugin,
+  },
+  rules: getRecommendedRules(vueRules),
+};
+
+plugin.configs.all = {
+  plugins: {
+    galaxy: plugin,
+  },
+  rules: {
+    ...getAllRules(baseRules),
+    ...getAllRules(tsRules),
+    ...getAllRules(vueRules),
+  },
+};
+
+module.exports = plugin;
