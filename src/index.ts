@@ -51,21 +51,21 @@ const plugin = {
     ...vueRules,
   },
   configs: {} as Record<string, any>,
-};
+}
 
 plugin.configs.recommended = {
   plugins: {
     galaxy: plugin,
   },
   rules: getRecommendedRules(baseRules),
-};
+}
 
 plugin.configs['recommended-vue'] = {
   plugins: {
     galaxy: plugin,
   },
   rules: getRecommendedRules(vueRules),
-};
+}
 
 plugin.configs.all = {
   plugins: {
@@ -76,6 +76,6 @@ plugin.configs.all = {
     ...getAllRules(tsRules),
     ...getAllRules(vueRules),
   },
-};
+}
 
-module.exports = plugin;
+module.exports = plugin
