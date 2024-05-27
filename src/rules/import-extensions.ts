@@ -43,9 +43,22 @@ export default createRule({
     'ignore' as string | Record<string, string | undefined>,
   ],
   create(context) {
-    const { default: resolve } = require('eslint-module-utils/resolve')
-    const { default: moduleVisitor } = require('eslint-module-utils/moduleVisitor')
-    const { isBuiltIn, isExternalModule, isScoped } = require('eslint-plugin-import/lib/core/importType')
+    let hasImportX = false
+    try {
+      require.resolve('eslint-plugin-import-x')
+      hasImportX = true
+    } catch {
+      // ignore error
+    }
+    const { resolve } = hasImportX
+      ? require('eslint-plugin-import-x/utils/resolve.js')
+      : { resolve: require('eslint-module-utils/resolve').default }
+    const { moduleVisitor } = hasImportX
+      ? require('eslint-plugin-import-x/utils/module-visitor.js')
+      : { moduleVisitor: require('eslint-module-utils/moduleVisitor').default }
+    const { isBuiltIn, isExternalModule, isScoped } = hasImportX
+      ? require('eslint-plugin-import-x/utils/import-type.js')
+      : require('eslint-plugin-import/lib/core/importType')
 
     const options = typeof context.options[0] === 'object'
       ? context.options[0]

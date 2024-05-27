@@ -15,10 +15,10 @@ export const tsRuleTester = new TSESLint.RuleTester({
     sourceType: 'module',
   },
   settings: {
-    'import/resolver': {
+    'import-x/resolver': {
       typescript: {},
     },
-    'import/parsers': {
+    'import-x/parsers': {
       '@typescript-eslint/parser': ['.ts'],
     },
   },

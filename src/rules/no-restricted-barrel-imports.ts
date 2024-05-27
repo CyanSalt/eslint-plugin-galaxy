@@ -133,8 +133,19 @@ export default createRule({
     { files: [] as string[] },
   ],
   create(context) {
-    const { default: moduleVisitor } = require('eslint-module-utils/moduleVisitor')
-    const { default: Exports } = require('eslint-plugin-import/lib/ExportMap')
+    let hasImportX = false
+    try {
+      require.resolve('eslint-plugin-import-x')
+      hasImportX = true
+    } catch {
+      // ignore error
+    }
+    const { moduleVisitor } = hasImportX
+      ? require('eslint-plugin-import-x/utils/module-visitor.js')
+      : { moduleVisitor: require('eslint-module-utils/moduleVisitor').default }
+    const { ExportMap } = hasImportX
+      ? require('eslint-plugin-import-x/utils/export-map.js')
+      : require('eslint-plugin-import/lib/ExportMap')
 
     const { files = [] } = context.options[0] ?? {}
 
@@ -143,7 +154,7 @@ export default createRule({
       node: TSESTree.ImportDeclaration | TSESTree.ImportExpression,
     ) {
       if (!source?.value) return
-      const imported = Exports.get(source.value, context) as ExportMap | undefined
+      const imported = ExportMap.get(source.value, context) as ExportMap | undefined
       if (!imported) return
       const specifiers = node.type === AST_NODE_TYPES.ImportDeclaration ? node.specifiers : []
       const mapping = specifiers
