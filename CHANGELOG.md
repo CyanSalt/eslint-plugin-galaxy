@@ -1,5 +1,12 @@
 
 
+## [1.34.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.34.0...v1.34.1) (2024-05-27)
+
+
+### Bug Fixes
+
+* compat with eslint-plugin-import-x ([c2e31e9](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c2e31e9c7c875ac548f2bde8952e3c9d4d969c68))
+
 ## [1.34.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.33.0...v1.34.0) (2024-05-17)
 
 
