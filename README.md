@@ -81,7 +81,7 @@ module.exports = {
 
 - [`no-unknown-vue-options`](./docs/vue/no-empty-vue-options.md) - Disallow unknown options in Vue components ✅
 
-- [`no-unused-vuex-properties`](./docs/vue/no-unused-vuex-properties.md) - Disallow unused properties from Vuex ✅
+- [`no-unused-vuex-properties`](./docs/vue/no-unused-vuex-properties.md) - Disallow unused properties from Vuex
 
 - [`require-vue-default-inject`](./docs/vue/require-vue-default-inject.md) - Require default value for inject ✅ 🔧
 

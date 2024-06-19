@@ -34,7 +34,6 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Disallow unused properties from Vuex',
-      recommended: 'recommended',
     },
     hasSuggestions: true,
     schema: [],
