@@ -1,5 +1,12 @@
 
 
+## [1.34.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.34.1...v1.34.2) (2024-06-19)
+
+
+### Bug Fixes
+
+* remove `no-unused-vuex-properties` from recommended ([d8d4228](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/d8d42289853408c1482bb83a9ca24c0109ea7c17))
+
 ## [1.34.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.34.0...v1.34.1) (2024-05-27)
 
 
