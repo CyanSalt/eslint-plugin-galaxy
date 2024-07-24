@@ -47,6 +47,8 @@ module.exports = {
 
 - [`no-unnecessary-optional-chain`](./docs/rules/no-unnecessary-optional-chain.md) - Disallow unnecessary optional chain ✅ 🔧
 
+- [`no-unsafe-number`](./docs/rules/no-unsafe-number.md) - Disallow optional chain in numerical calculation
+
 - [`no-unsafe-window-open`](./docs/rules/no-unsafe-window-open.md) - Disallow unsafe `window.open()` ✅ 🔧
 
 - [`non-control-statement-curly`](./docs/rules/non-control-statement-curly.md) - Require following curly brace conventions for non-control statements 🔧
