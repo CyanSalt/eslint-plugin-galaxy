@@ -85,6 +85,8 @@ module.exports = {
 
 - [`no-unused-vuex-properties`](./docs/vue/no-unused-vuex-properties.md) - Disallow unused properties from Vuex
 
+- [`no-vue-sfc-text-node`](./docs/vue/no-empty-vue-options.md) - Disallow text nodes in Vue SFC files ✅ 🔧
+
 - [`require-vue-default-inject`](./docs/vue/require-vue-default-inject.md) - Require default value for inject ✅ 🔧
 
 - [`valid-vue-reactivity-transform-props`](./docs/vue/valid-vue-reactivity-transform-props.md) - Enforce Vue props with Reactivity Transform to be valid 🔧
