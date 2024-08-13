@@ -61,7 +61,18 @@ ruleTester.run('no-empty-vue-options', rule, {
         }
       `,
       errors: [
-        { messageId: 'no-empty-vue-options' },
+        {
+          messageId: 'no-empty-vue-options',
+          suggestions: [
+            {
+              messageId: 'suggestion@no-empty-vue-options.remove',
+              output: `
+        export default {
+        }
+      `,
+            },
+          ],
+        },
       ],
     },
     {
@@ -72,7 +83,18 @@ ruleTester.run('no-empty-vue-options', rule, {
         }
       `,
       errors: [
-        { messageId: 'no-empty-vue-options' },
+        {
+          messageId: 'no-empty-vue-options',
+          suggestions: [
+            {
+              messageId: 'suggestion@no-empty-vue-options.remove',
+              output: `
+        export default {
+        }
+      `,
+            },
+          ],
+        },
       ],
     },
     {
@@ -83,7 +105,18 @@ ruleTester.run('no-empty-vue-options', rule, {
         }
       `,
       errors: [
-        { messageId: 'no-empty-vue-options' },
+        {
+          messageId: 'no-empty-vue-options',
+          suggestions: [
+            {
+              messageId: 'suggestion@no-empty-vue-options.remove',
+              output: `
+        export default {
+        }
+      `,
+            },
+          ],
+        },
       ],
     },
   ],

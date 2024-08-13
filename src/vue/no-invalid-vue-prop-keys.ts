@@ -38,7 +38,7 @@ export default createRule({
     },
   },
   defaultOptions: [
-    { allows: [] as string[] },
+    { allows: [] } as { allows?: string[] } | undefined,
   ],
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')

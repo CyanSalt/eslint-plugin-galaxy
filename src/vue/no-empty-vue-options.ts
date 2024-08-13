@@ -48,7 +48,7 @@ export default createRule({
     },
   },
   defaultOptions: [
-    { ignores: [] as string[] },
+    { ignores: [] } as { ignores?: string[] } | undefined,
   ],
   create(context) {
     const utils = require('eslint-plugin-vue/lib/utils')

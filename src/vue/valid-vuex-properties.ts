@@ -85,7 +85,7 @@ export default createRule({
         if (parent.body !== node) return
         const callNode = getClosestMappingFunctionCall(node)
         if (callNode) {
-          const scope = context.sourceCode.getScope?.(node)
+          const scope = context.sourceCode.getScope(node)
           const hasArgumentReference = parent.params.some(param => {
             const variable = getDefinedVariable(scope, param)
             return Boolean(variable?.references.length)

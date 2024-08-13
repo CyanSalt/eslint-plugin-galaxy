@@ -47,7 +47,7 @@ export default createRule({
       allowProcessEnv?: boolean,
       allowCommonJs?: boolean,
       allowRequire?: boolean,
-    },
+    } | undefined,
   ],
   create(context) {
     const allowProcessEnv = context.options[0]?.allowProcessEnv
@@ -87,8 +87,8 @@ export default createRule({
       visitor[
         'MemberExpression[object.name="exports"]'
       ] = (node: TSESTree.MemberExpression) => {
-        const scope = context.sourceCode.getScope?.(node)
-        if (!scope?.variables.some(variable => variable.name === 'exports')) {
+        const scope = context.sourceCode.getScope(node)
+        if (!scope.variables.some(variable => variable.name === 'exports')) {
           context.report({
             node,
             messageId: MESSAGE_ID_COMMON_JS,

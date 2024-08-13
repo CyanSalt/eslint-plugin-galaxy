@@ -106,7 +106,6 @@ export default createRule({
       if (code.ast['templateBody']) {
         const ancestors = getAncestors(node)
         // @ts-expect-error vue-eslint-parser API
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (ancestors.includes(code.ast['templateBody']) && parserServices?.getTemplateBodyTokenStore) {
           // @ts-expect-error vue-eslint-parser API
           return parserServices.getTemplateBodyTokenStore()
@@ -239,7 +238,6 @@ export default createRule({
     }
 
     // @ts-expect-error vue-eslint-parser API
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (parserServices?.defineTemplateBodyVisitor) {
       // @ts-expect-error vue-eslint-parser API
       return parserServices.defineTemplateBodyVisitor(vueTemplateVisitor, scriptVisitor)

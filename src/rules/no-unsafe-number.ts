@@ -5,7 +5,7 @@ import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-unsafe-number'
 
-function isNumberFunction(node: TSESTree.LeftHandSideExpression) {
+function isNumberFunction(node: TSESTree.Expression) {
   if (node.type === AST_NODE_TYPES.Identifier) {
     return [
       'Bigint',

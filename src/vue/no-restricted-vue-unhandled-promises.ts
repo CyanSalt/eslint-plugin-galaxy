@@ -315,8 +315,7 @@ export default createRule({
       cause: PromiseCause,
     ): boolean | TSESTree.Node {
       // Top-level unhandled promises
-      const scope = context.sourceCode.getScope?.(node)
-      if (!scope) return true
+      const scope = context.sourceCode.getScope(node)
       const functionScope = getFunctionScope(scope)
       if (!functionScope) return true
       const block = functionScope.block

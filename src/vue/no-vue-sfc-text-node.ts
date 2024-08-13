@@ -66,7 +66,7 @@ export default createRule({
     const code = context.sourceCode
     const documentFragment: {
       children: TSESTree.Node[],
-    } | undefined = code.parserServices['getDocumentFragment']?.()
+    } | undefined = code.parserServices?.['getDocumentFragment']?.()
     return {
       Program(node) {
         if (utils.hasInvalidEOF(node)) return

@@ -1,10 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import type { TSESLint } from '@typescript-eslint/utils'
-
-type RuleModule = TSESLint.RuleModule<string, unknown[]> & {
-  meta: Required<Pick<TSESLint.RuleMetaData<string>, 'docs'>>,
-}
+import type { Rule } from './utils'
 
 function importDefault(obj: any) {
   return obj?.__esModule ? obj.default : obj
@@ -13,12 +9,12 @@ function importDefault(obj: any) {
 function loadRules(dir: string) {
   return fs.readdirSync(dir)
     .map(rule => path.parse(rule).name)
-    .reduce<Record<string, RuleModule>>((map, name) => Object.assign(map, {
-    [name]: importDefault(require(path.join(dir, name))),
-  }), {})
+    .reduce<Record<string, Rule>>((map, name) => Object.assign(map, {
+      [name]: importDefault(require(path.join(dir, name))),
+    }), {})
 }
 
-function getRecommendedRules(record: Record<string, RuleModule>) {
+function getRecommendedRules(record: Record<string, Rule>) {
   return Object.entries(record)
     .filter(([, rule]) => rule.meta.docs.recommended)
     .reduce((config, [name, rule]) => Object.assign(config, {
@@ -26,7 +22,7 @@ function getRecommendedRules(record: Record<string, RuleModule>) {
     }), {})
 }
 
-function getAllRules(record: Record<string, RuleModule>) {
+function getAllRules(record: Record<string, Rule>) {
   return Object.entries(record)
     .filter(([, rule]) => !rule.meta.deprecated)
     .reduce((config, [name]) => Object.assign(config, {

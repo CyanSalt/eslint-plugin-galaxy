@@ -150,7 +150,6 @@ export default createRule({
                 && willCallDefaultValueFunction
               ) {
                 const parserServices = code.parserServices
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                 if (parserServices && 'esTreeNodeToTSNodeMap' in parserServices) {
                   context.report({
                     node: decl.value.right,

@@ -53,7 +53,7 @@ export default createRule({
     },
   },
   defaultOptions: [
-    { fixStyle: 'none' as 'remove' | 'match-type' | 'none' },
+    { fixStyle: 'none' } as { fixStyle?: 'remove' | 'match-type' | 'none' } | undefined,
   ],
   create(context) {
     const fixStyle = context.options[0]?.fixStyle ?? 'none'

@@ -26,7 +26,7 @@ export default createRule({
     },
   },
   defaultOptions: [
-    { max: 3 },
+    { max: 3 } as { max?: number } | undefined,
   ],
   create(context) {
     const max = context.options[0]?.max ?? 3

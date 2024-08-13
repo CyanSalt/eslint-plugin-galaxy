@@ -95,8 +95,7 @@ export default createRule({
   create(context) {
     return {
       Program(root) {
-        const scope = context.sourceCode.getScope?.(root)
-        if (!scope) return
+        const scope = context.sourceCode.getScope(root)
         const options = { ...DEFAULT_OPTIONS, ...context.options[0] }
 
         let misusedGlobals: MisusedGlobalDeclaration[] = []

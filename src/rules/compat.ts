@@ -214,7 +214,7 @@ export default createRule({
     } as {
       browserslist?: string | string[],
       ignores?: string[],
-    },
+    } | undefined,
   ],
   create(context) {
     const browserslistConfig = context.options[0]?.browserslist

@@ -68,7 +68,7 @@ export default createRule({
     },
   },
   defaultOptions: [
-    { ignores: [] as string[] },
+    { ignores: [] } as { ignores?: string[] } | undefined,
   ],
   create(context) {
     const code = context.sourceCode
@@ -77,7 +77,7 @@ export default createRule({
       return item.split('.').map(part => (part === '*' ? WILDCARD_SYMBOL : part))
     })
 
-    function isIgnoredCallee(callee: TSESTree.LeftHandSideExpression) {
+    function isIgnoredCallee(callee: TSESTree.Expression) {
       return ignoredPaths.some(path => isIgnoredByPath(callee, path))
     }
 
@@ -100,7 +100,6 @@ export default createRule({
           // Ignore `const bar = Function.prototype.foo`
           if (
             upper.type === AST_NODE_TYPES.VariableDeclarator
-            && upper.parent.type === AST_NODE_TYPES.VariableDeclaration
             && upper.parent.kind === 'const'
           ) return
           // Ignore `Function.prototype.foo.(apply|bind|call) only`

@@ -2,7 +2,15 @@ import * as path from 'path'
 import type { TSESLint } from '@typescript-eslint/utils'
 import { ESLintUtils } from '@typescript-eslint/utils'
 
-export const createRule = ESLintUtils.RuleCreator(name => {
+interface RuleDocs {
+  recommended?: 'recommended' | 'stylistic',
+}
+
+export type Rule = TSESLint.RuleModule<string, unknown[], RuleDocs> & {
+  meta: Required<Pick<TSESLint.RuleMetaData<string, RuleDocs>, 'docs'>>,
+}
+
+export const createRule = ESLintUtils.RuleCreator<RuleDocs>(name => {
   const dirname = path.relative(__dirname, path.dirname(name))
   const basename = path.basename(name, path.extname(name))
   return `https://github.com/CyanSalt/eslint-plugin-galaxy/blob/master/docs/${dirname}/${basename}.md`

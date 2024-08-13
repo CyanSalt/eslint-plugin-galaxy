@@ -1,30 +1,24 @@
-import { TSESLint } from '@typescript-eslint/utils'
+import tseslintParser from '@typescript-eslint/parser'
+import { RuleTester } from '@typescript-eslint/rule-tester'
+import { RuleTester as LegacyRuleTester } from 'eslint'
 
-export const ruleTester = new TSESLint.RuleTester({
-  parser: require.resolve('espree'),
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-  },
-})
+export const ruleTester = new RuleTester()
 
-export const tsRuleTester = new TSESLint.RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+export const tsRuleTester = new RuleTester({
+  languageOptions: {
+    parser: tseslintParser,
   },
   settings: {
     'import-x/resolver': {
-      typescript: {},
+      [require.resolve('eslint-import-resolver-typescript')]: {},
     },
     'import-x/parsers': {
-      '@typescript-eslint/parser': ['.ts'],
+      [require.resolve('@typescript-eslint/parser')]: ['.ts'],
     },
   },
 })
 
-export const vueRuleTester = new TSESLint.RuleTester({
+export const vueRuleTester = new LegacyRuleTester({
   parser: require.resolve('vue-eslint-parser'),
   parserOptions: {
     parser: {
@@ -33,4 +27,4 @@ export const vueRuleTester = new TSESLint.RuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-})
+} as never)
