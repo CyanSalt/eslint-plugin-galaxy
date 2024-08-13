@@ -1,5 +1,18 @@
 
 
+## [1.35.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.34.2...v1.35.0) (2024-08-13)
+
+
+### Features
+
+* add `no-unsafe-number` ([c8fc8d5](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/c8fc8d593cf6089541c0ab1f3ad4967b9d8e9b70))
+* add `no-vue-sfc-text-node` ([9470ebd](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/9470ebd17e614f3acf23444e77f7f925272bbe6a))
+
+
+### Bug Fixes
+
+* update rule tester ([b7f5cc1](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/b7f5cc18032087538ce2f7c5f44432522568c1ea))
+
 ## [1.34.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.34.1...v1.34.2) (2024-06-19)
 
 
