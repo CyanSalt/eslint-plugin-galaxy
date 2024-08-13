@@ -27,4 +27,4 @@ export const vueRuleTester = new LegacyRuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-} as never)
+} as never) as unknown as RuleTester
