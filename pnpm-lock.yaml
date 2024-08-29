@@ -14,6 +14,9 @@ dependencies:
   caniuse-lite:
     specifier: ^1.0.30001651
     version: 1.0.30001651
+  esquery:
+    specifier: ^1.6.0
+    version: 1.6.0
   globals:
     specifier: ^13.24.0
     version: 13.24.0
@@ -31,6 +34,9 @@ devDependencies:
   '@release-it/conventional-changelog':
     specifier: ^8.0.1
     version: 8.0.1(release-it@17.6.0)
+  '@types/esquery':
+    specifier: ^1.5.4
+    version: 1.5.4
   '@types/jest':
     specifier: ^29.5.12
     version: 29.5.12
@@ -1097,6 +1103,12 @@ packages:
     dependencies:
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
+    dev: true
+
+  /@types/esquery@1.5.4:
+    resolution: {integrity: sha512-yYO4Q8H+KJHKW1rEeSzHxcZi90durqYgWVfnh5K6ZADVBjBv2e1NEveYX5yT2bffgN7RqzH3k9930m+i2yBoMA==}
+    dependencies:
+      '@types/estree': 1.0.5
     dev: true
 
   /@types/estree@1.0.5:

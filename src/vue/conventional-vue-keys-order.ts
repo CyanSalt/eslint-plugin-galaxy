@@ -1,5 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import esquery from 'esquery'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'conventional-vue-keys-order'
@@ -119,7 +120,6 @@ function parseRule(rule: RuleDeclaration): ParsedRule {
         tester.pattern = new RegExp(item.pattern)
       }
       if (item.selector) {
-        const esquery = require('esquery')
         tester.selector = esquery.parse(item.selector)
       }
       return tester
@@ -214,8 +214,8 @@ export default createRule({
     },
   ],
   create(context) {
-    const esquery = require('esquery')
     const utils = require('eslint-plugin-vue/lib/utils')
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const { rules = [], additionalRules = [] } = context.options[0] ?? {}
 
     const code = context.sourceCode
@@ -235,7 +235,7 @@ export default createRule({
           if (name && new RegExp(item.pattern).test(String(name))) return true
         }
         if (item.selector) {
-          if (esquery.matches(property, item.selector)) return true
+          if (esquery.matches(property as never, item.selector)) return true
         }
         return false
       })
@@ -303,10 +303,10 @@ export default createRule({
               }
             } else if (rule.type === 'return') {
               if (expr.type === AST_NODE_TYPES.FunctionExpression) {
-                const statements: TSESTree.ObjectExpression[] = esquery.query(
-                  expr,
+                const statements = esquery.query(
+                  expr as never,
                   'ReturnStatement > ObjectExpression',
-                )
+                ) as TSESTree.ObjectExpression[]
                 for (const statement of statements) {
                   sortObject(statement, rule)
                 }

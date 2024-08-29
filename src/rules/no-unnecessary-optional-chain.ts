@@ -1,5 +1,6 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
+import esquery from 'esquery'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_LITERAL = 'no-unnecessary-optional-chain.literal'
@@ -98,7 +99,6 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const esquery = require('esquery')
     const code = context.sourceCode
     const parserServices = code.parserServices
 
@@ -133,8 +133,8 @@ export default createRule({
       node: TSESTree.Expression,
       indeterminate?: boolean,
     ): ReturnType<typeof getMaybeOptionalExpressionObject>[] {
-      const usedExpressions = esquery.query(node, 'MemberExpression[optional!=true], CallExpression[optional!=true]')
-        .map(getMaybeOptionalExpressionObject)
+      const result = esquery.query(node as never, 'MemberExpression[optional!=true], CallExpression[optional!=true]') as MaybeOptionalExpression[]
+      const usedExpressions = result.map(getMaybeOptionalExpressionObject)
       return indeterminate
         ? usedExpressions
         : usedExpressions.concat(getNonNullableChainingExpressions(node))
@@ -163,7 +163,8 @@ export default createRule({
       markedExpressions: TSESTree.Expression[],
     ) {
       if (!markedExpressions.length) return
-      esquery.query(node, 'MemberExpression[optional=true], CallExpression[optional=true]').forEach(expr => {
+      const result = esquery.query(node as never, 'MemberExpression[optional=true], CallExpression[optional=true]') as MaybeOptionalExpression[]
+      result.forEach(expr => {
         checkExpression(expr, markedExpressions)
       })
     }
