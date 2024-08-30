@@ -19,6 +19,7 @@ const BUILTIN_IGNORES = [
   'Object.*',
   'Reflect.*',
   'jest.spyOn',
+  'vi.spyOn',
 ]
 
 const WILDCARD_SYMBOL = Symbol('wildcard')
