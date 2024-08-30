@@ -15,7 +15,7 @@
     "lint": "eslint --fix './**/*.{js,mjs,ts}'",
     "prepack": "rm -rf dist && tsc",
     "release": "release-it",
-    "test": "jest"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,6 @@
     "@cyansalt/tsconfig": "^2.2.1",
     "@release-it/conventional-changelog": "^8.0.1",
     "@types/esquery": "^1.5.4",
-    "@types/jest": "^29.5.12",
     "@types/node": "^18.19.44",
     "@typescript-eslint/parser": "^8.1.0",
     "@typescript-eslint/rule-tester": "^8.1.0",
@@ -53,10 +52,9 @@
     "eslint-plugin-import-x": "^3.1.0",
     "eslint-plugin-vue": "^9.27.0",
     "eslint-plugin-vue-scoped-css": "^2.8.1",
-    "jest": "^29.7.0",
     "release-it": "^17.6.0",
-    "ts-jest": "^29.2.4",
     "typescript": "^5.5.4",
+    "vitest": "^2.0.5",
     "vue-eslint-parser": "^9.4.3"
   },
   "peerDependencies": {

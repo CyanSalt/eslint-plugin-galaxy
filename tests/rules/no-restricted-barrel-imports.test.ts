@@ -6,7 +6,7 @@ tsRuleTester.run('no-restricted-barrel-imports', rule, {
     {
       filename: __filename,
       code: `import { foo } from '../samples/barrel-exports-deep'`,
-      options: [{ files: [require.resolve('../samples/barrel-exports')] }],
+      options: [{ files: [require.resolve('../samples/barrel-exports.ts')] }],
     },
   ],
   invalid: [
@@ -22,7 +22,7 @@ tsRuleTester.run('no-restricted-barrel-imports', rule, {
         },
       ],
       output: `import { foo } from '../samples/barrel-exports-deep'`,
-      options: [{ files: [require.resolve('../samples/barrel-exports')] }],
+      options: [{ files: [require.resolve('../samples/barrel-exports.ts')] }],
     },
   ],
 })

@@ -1,6 +1,14 @@
 import tseslintParser from '@typescript-eslint/parser'
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import { RuleTester as LegacyRuleTester } from 'eslint'
+import { afterAll, describe, it } from 'vitest'
+
+RuleTester.afterAll = afterAll
+RuleTester.describe = describe
+RuleTester.it = it
+
+LegacyRuleTester['describe'] = describe
+LegacyRuleTester['it'] = it
 
 export const ruleTester = new RuleTester()
 
