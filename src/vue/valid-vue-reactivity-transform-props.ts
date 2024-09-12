@@ -117,6 +117,9 @@ export default createRule({
                     name: decl.key.name,
                   },
                   fix(fixer) {
+                    if (type.node.type === 'TSTypeReference') {
+                      return null
+                    }
                     const token = code.getTokenAfter(type.node.key)
                     if (token?.type === 'Punctuator' && token.value === ':') {
                       return fixer.replaceText(token, '?:')
