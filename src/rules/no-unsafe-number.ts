@@ -1,7 +1,7 @@
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isIdentifierOf } from '../estree'
-import { createRule } from '../utils'
+import { createRule, universal } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-unsafe-number'
 
@@ -224,20 +224,10 @@ export default createRule({
       }
     }
 
-    const visitor: TSESLint.RuleListener = {
+    return universal(context, {
       ChainExpression(node) {
         checkExpression(node)
       },
-    }
-
-    try {
-      const utils = require('eslint-plugin-vue/lib/utils')
-      return utils.compositingVisitors(
-        utils.defineTemplateBodyVisitor(context, visitor),
-        visitor,
-      )
-    } catch {
-      return visitor
-    }
+    })
   },
 })

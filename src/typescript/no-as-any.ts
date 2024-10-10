@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, universal } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-as-any'
 
@@ -17,13 +17,13 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    return {
+    return universal(context, {
       'TSAsExpression[typeAnnotation.type="TSAnyKeyword"]': (node: TSESTree.TSAsExpression) => {
         context.report({
           node,
           messageId: MESSAGE_ID_DEFAULT,
         })
       },
-    }
+    })
   },
 })

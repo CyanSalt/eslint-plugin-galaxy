@@ -1,5 +1,5 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, universal } from '../utils'
 
 const MESSAGE_ID_PROCESS_ENV = 'esm-bundler.process-env'
 const MESSAGE_ID_COMMON_JS = 'esm-bundler.common-js'
@@ -108,14 +108,6 @@ export default createRule({
       }
     }
 
-    try {
-      const utils = require('eslint-plugin-vue/lib/utils')
-      return utils.compositingVisitors(
-        utils.defineTemplateBodyVisitor(context, visitor),
-        visitor,
-      )
-    } catch {
-      return visitor
-    }
+    return universal(context, visitor)
   },
 })

@@ -34,3 +34,15 @@ export function createRuleListenerFromEntries(
     return listener
   }, {})
 }
+
+export function universal(context: TSESLint.RuleContext<string, unknown[]>, visitor: TSESLint.RuleListener) {
+  try {
+    const utils = require('eslint-plugin-vue/lib/utils')
+    return utils.compositingVisitors(
+      utils.defineTemplateBodyVisitor(context, visitor),
+      visitor,
+    )
+  } catch {
+    return visitor
+  }
+}
