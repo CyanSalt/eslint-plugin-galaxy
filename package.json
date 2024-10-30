@@ -37,13 +37,15 @@
     "caniuse-lite": "^1.0.30001651",
     "esquery": "^1.6.0",
     "globals": "^13.24.0",
-    "ignore": "^5.3.2"
+    "ignore": "^5.3.2",
+    "micromatch": "^4.0.8"
   },
   "devDependencies": {
     "@cyansalt/eslint-config": "^4.1.0",
     "@cyansalt/tsconfig": "^2.2.1",
     "@release-it/conventional-changelog": "^8.0.1",
     "@types/esquery": "^1.5.4",
+    "@types/micromatch": "^4.0.9",
     "@types/node": "^18.19.44",
     "@typescript-eslint/parser": "^8.1.0",
     "@typescript-eslint/rule-tester": "^8.1.0",
