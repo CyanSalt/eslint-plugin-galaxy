@@ -50,6 +50,7 @@ const plugin = {
 }
 
 plugin.configs.recommended = {
+  name: 'galaxy/recommended',
   plugins: {
     galaxy: plugin,
   },
@@ -57,6 +58,7 @@ plugin.configs.recommended = {
 }
 
 plugin.configs['recommended-vue'] = {
+  name: 'galaxy/recommended-vue',
   plugins: {
     galaxy: plugin,
   },
@@ -64,6 +66,7 @@ plugin.configs['recommended-vue'] = {
 }
 
 plugin.configs.all = {
+  name: 'galaxy/all',
   plugins: {
     galaxy: plugin,
   },
