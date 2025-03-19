@@ -67,6 +67,11 @@ foo()
 
 ## Pass
 
+```ts
+/* eslint galaxy/no-restricted-floating-promises: ["error", "CallExpression[callee.name='foo']"] */
+foo() as unknown
+```
+
 ```js
 /* eslint galaxy/no-restricted-floating-promises: ["error", "CallExpression[callee.name='foo']"] */
 bar()

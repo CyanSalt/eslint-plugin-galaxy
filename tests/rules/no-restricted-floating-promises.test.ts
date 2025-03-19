@@ -1,5 +1,5 @@
 import rule from '../../src/rules/no-restricted-floating-promises'
-import { ruleTester } from '../tester'
+import { ruleTester, tsRuleTester } from '../tester'
 
 ruleTester.run('no-restricted-floating-promises', rule, {
   valid: [
@@ -202,4 +202,16 @@ ruleTester.run('no-restricted-floating-promises', rule, {
       ],
     },
   ],
+})
+
+tsRuleTester.run('no-restricted-floating-promises', rule, {
+  valid: [
+    {
+      code: `
+        foo() as unknown
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+    },
+  ],
+  invalid: [],
 })
