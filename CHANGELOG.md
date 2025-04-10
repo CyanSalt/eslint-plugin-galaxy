@@ -1,5 +1,22 @@
 
 
+## [1.36.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.35.0...v1.36.0) (2025-04-10)
+
+
+### Features
+
+* add `no-duplicate-vue-uses` ([62d17df](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/62d17df07ef21d66995fb73dfdbb3b6b26d7068b))
+
+
+### Bug Fixes
+
+* add esquery to deps ([a747161](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/a74716109807a8d2f302e160af044a549b69f369))
+* add flat config name ([3c7a764](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/3c7a764c171a98558c68a610f339651c9e1f4db5))
+* check vue templates ([603ea13](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/603ea134d751351e9de2691aa6f1710b6a9d8448))
+* import-x api ([478f473](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/478f4735781298c1beed8f9d9a698866e43298d2))
+* support vitest ([f677c90](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/f677c90938c272da2667fe4ab98d8c26ab4531b6))
+* ts type reference ([beadb23](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/beadb23de39eb6733d4ffd39624144515ff1b9ef))
+
 ## [1.35.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.34.2...v1.35.0) (2024-08-13)
 
 
