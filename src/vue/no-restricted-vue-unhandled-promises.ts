@@ -160,6 +160,23 @@ function isInside(node: TSESTree.Node, container: TSESTree.Node) {
   return container.range[0] <= node.range[0] && node.range[1] <= container.range[1]
 }
 
+function getFunctionDefinitionScopeBlock(definition: TSESLint.Scope.Definition) {
+  switch (definition.node.type) {
+    case AST_NODE_TYPES.FunctionDeclaration:
+      return definition.node
+    case AST_NODE_TYPES.VariableDeclarator:
+      if (definition.node.init && (
+        definition.node.init.type === AST_NODE_TYPES.ArrowFunctionExpression
+        || definition.node.init.type === AST_NODE_TYPES.FunctionExpression
+      )) {
+        return definition.node.init
+      }
+      return undefined
+    default:
+      return undefined
+  }
+}
+
 interface VueMethodCallExpression extends TSESTree.CallExpression {
   callee: TSESTree.MemberExpression & { property: TSESTree.Identifier },
 }
@@ -361,7 +378,7 @@ export default createRule({
         // Method-unhandled promises
         const moduleScope = getModuleScope(context)
         const variableName = moduleScope?.variables
-          .find(variable => variable.defs.some(def => def.node === block))?.name
+          .find(variable => variable.defs.some(def => getFunctionDefinitionScopeBlock(def) === block))?.name
         if (variableName) {
           // Event-unhandled promises
           const reference = templateMethodReferences.find(item => item.name === variableName)

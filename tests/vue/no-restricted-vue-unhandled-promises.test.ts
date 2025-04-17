@@ -388,6 +388,44 @@ vueRuleTester.run('no-restricted-vue-unhandled-promises', rule, {
     {
       filename: 'test.vue',
       code: `
+        <script setup>
+        const bar = async () => {
+          await foo()
+        }
+        onMounted(async () => {
+          await bar()
+        })
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
+        <script setup>
+        const bar = async function () {
+          await foo()
+        }
+        onMounted(async () => {
+          await bar()
+        })
+        </script>
+      `,
+      options: ['CallExpression[callee.name="foo"]'],
+      errors: [
+        {
+          messageId: 'no-restricted-vue-unhandled-promises',
+        },
+      ],
+    },
+    {
+      filename: 'test.vue',
+      code: `
         <script>
         export default {
           async created() {
