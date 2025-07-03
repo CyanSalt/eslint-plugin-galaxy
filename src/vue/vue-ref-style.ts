@@ -1,7 +1,8 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getModuleScope } from '../context'
-import { createRule, getImportedName } from '../utils'
+import { getImportedName } from '../estree'
+import { createRule } from '../utils'
 import { isReactivityTransformCall } from './vue-reactivity-transform-uses-vars'
 
 const REF_FACTORY_IMPORT_SOURCES = [

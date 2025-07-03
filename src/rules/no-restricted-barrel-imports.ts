@@ -1,7 +1,8 @@
 import * as path from 'path'
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { createRule, getImportedName } from '../utils'
+import { getImportedName } from '../estree'
+import { createRule } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-barrel-imports'
 

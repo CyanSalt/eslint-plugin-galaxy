@@ -1,6 +1,6 @@
 import * as path from 'path'
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
-import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils'
+import type { TSESLint } from '@typescript-eslint/utils'
+import { ESLintUtils } from '@typescript-eslint/utils'
 
 interface RuleDocs {
   recommended?: 'recommended' | 'stylistic',
@@ -45,10 +45,4 @@ export function universal(context: TSESLint.RuleContext<string, unknown[]>, visi
   } catch {
     return visitor
   }
-}
-
-export function getImportedName(specifier: TSESTree.ImportSpecifier) {
-  return specifier.imported.type === AST_NODE_TYPES.Identifier
-    ? specifier.imported.name
-    : specifier.imported.value
 }

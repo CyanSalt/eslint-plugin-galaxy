@@ -92,3 +92,9 @@ export function getLiteralValue(node: TSESTree.Node) {
   }
   return undefined
 }
+
+export function getImportedName(specifier: TSESTree.ImportSpecifier) {
+  return specifier.imported.type === AST_NODE_TYPES.Identifier
+    ? specifier.imported.name
+    : specifier.imported.value
+}
