@@ -1,6 +1,7 @@
 import tseslintParser from '@typescript-eslint/parser'
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import { RuleTester as LegacyRuleTester } from 'eslint'
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 import { afterAll, describe, it } from 'vitest'
 
 RuleTester.afterAll = afterAll
@@ -17,9 +18,9 @@ export const tsRuleTester = new RuleTester({
     parser: tseslintParser,
   },
   settings: {
-    'import-x/resolver': {
-      [require.resolve('eslint-import-resolver-typescript')]: {},
-    },
+    'import-x/resolver-next': [
+      createTypeScriptImportResolver(),
+    ],
     'import-x/parsers': {
       [require.resolve('@typescript-eslint/parser')]: ['.ts'],
     },

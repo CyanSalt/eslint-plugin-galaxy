@@ -51,13 +51,13 @@ export default createRule({
       // ignore error
     }
     const { resolve } = hasImportX
-      ? require('eslint-plugin-import-x/utils/resolve.js')
+      ? require('eslint-plugin-import-x/utils')
       : { resolve: require('eslint-module-utils/resolve').default }
     const { moduleVisitor } = hasImportX
-      ? require('eslint-plugin-import-x/utils/module-visitor.js')
+      ? require('eslint-plugin-import-x/utils')
       : { moduleVisitor: require('eslint-module-utils/moduleVisitor').default }
     const { isBuiltIn, isExternalModule, isScoped } = hasImportX
-      ? require('eslint-plugin-import-x/utils/import-type.js')
+      ? require('eslint-plugin-import-x/utils')
       : require('eslint-plugin-import/lib/core/importType')
 
     const options = typeof context.options[0] === 'object'

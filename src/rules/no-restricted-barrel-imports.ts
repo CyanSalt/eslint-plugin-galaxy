@@ -141,12 +141,13 @@ export default createRule({
       // ignore error
     }
     const { moduleVisitor } = hasImportX
-      ? require('eslint-plugin-import-x/utils/module-visitor.js')
+      ? require('eslint-plugin-import-x/utils')
       : { moduleVisitor: require('eslint-module-utils/moduleVisitor').default }
     const { ExportMap } = hasImportX
-      ? require('eslint-plugin-import-x/utils/export-map.js')
+      ? require('eslint-plugin-import-x/utils')
       : require('eslint-plugin-import/lib/ExportMap')
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const { files = [] } = context.options[0] ?? {}
 
     function checkBarrelImports(
