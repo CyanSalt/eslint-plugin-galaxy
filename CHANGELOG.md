@@ -1,4 +1,12 @@
+# Changelog
 
+## [1.36.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.36.0...v1.36.1) (2025-07-03)
+
+### Bug Fixes
+
+* definition scope ([4ef8e85](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/4ef8e85eba4491ba4b98a88979dd2ab4e16f958d))
+* string as imported ([2bb7b01](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/2bb7b01d6878c33c0465b3589126ce3d1a6e0a9c))
+* support new version of eslint-plugin-import-x ([ce829ad](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/ce829ad7434bbf55b48350768f087cefa02c16c0))
 
 ## [1.36.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.35.0...v1.36.0) (2025-04-10)
 
