@@ -1,7 +1,7 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getModuleScope } from '../context'
-import { createRule } from '../utils'
+import { createRule, getImportedName } from '../utils'
 import { isReactivityTransformCall } from './vue-reactivity-transform-uses-vars'
 
 const REF_FACTORY_IMPORT_SOURCES = [
@@ -32,7 +32,7 @@ function getVueRefFactoryName(node: TSESTree.Identifier, scope: TSESLint.Scope.S
           && def.node.parent.type === AST_NODE_TYPES.ImportDeclaration
           && REF_FACTORY_IMPORT_SOURCES.includes(def.node.parent.source.value)
         ) {
-          return def.node.imported.name
+          return getImportedName(def.node)
         }
       }
     }
@@ -84,6 +84,7 @@ export default createRule({
     'consistent' as 'ref' | 'macro' | 'consistent',
   ],
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const option = context.options[0] || 'consistent'
     let firstRefNode: TSESTree.CallExpression & { callee: TSESTree.Identifier } | undefined
     let firstMacroNode: TSESTree.CallExpression & { callee: TSESTree.Identifier } | undefined

@@ -1,7 +1,7 @@
 import * as path from 'path'
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, getImportedName } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-barrel-imports'
 
@@ -161,7 +161,7 @@ export default createRule({
       const mapping = specifiers
         .filter((specifier): specifier is TSESTree.ImportSpecifier => specifier.type === AST_NODE_TYPES.ImportSpecifier)
         .reduce((imports, specifier) => {
-          imports.set(specifier.imported.name, specifier.local.name)
+          imports.set(getImportedName(specifier), specifier.local.name)
           return imports
         }, new Map<string, string>())
       if (files.includes(imported.path)) {

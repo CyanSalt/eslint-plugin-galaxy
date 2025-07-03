@@ -1,7 +1,7 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getModuleScope } from '../context'
-import { createRule } from '../utils'
+import { createRule, getImportedName } from '../utils'
 
 const MACRO_IMPORT_SOURCES = [
   'vue/macros',
@@ -35,7 +35,7 @@ function getVueMacroName(node: TSESTree.Identifier, scope: TSESLint.Scope.Scope)
           && def.node.parent.type === AST_NODE_TYPES.ImportDeclaration
           && MACRO_IMPORT_SOURCES.includes(def.node.parent.source.value)
         ) {
-          return def.node.imported.name
+          return getImportedName(def.node)
         }
       }
     }
