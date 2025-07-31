@@ -1,5 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import esquery from 'esquery'
 import { getModuleScope } from '../context'
 import { getRealExpression, isArrayExpressionIncludesIdentifier, isIdentifierOf, isIdentifierProperty, isObjectDestructure } from '../estree'
 import { createRule } from '../utils'
@@ -7,7 +8,8 @@ import { isReactivityTransformCall } from './vue-reactivity-transform-uses-vars'
 
 const MESSAGE_ID_TRANSFORM = 'valid-vue-reactivity-transform-props.transform'
 const MESSAGE_ID_OPTIONAL = 'valid-vue-reactivity-transform-props.optional'
-const MESSAGE_ID_OBJECT_DEFAULTS = 'valid-vue-reactivity-transform-props.object-defaults'
+const MESSAGE_ID_FUNCTIONS_AS_OBJECT_DEFAULTS = 'valid-vue-reactivity-transform-props.functions-as-object-defaults'
+const MESSAGE_ID_NO_FUNCTIONS_AS_OBJECT_DEFAULTS = 'valid-vue-reactivity-transform-props.no-functions-as-object-defaults'
 const MESSAGE_ID_DEFAULTS_TYPE = 'valid-vue-reactivity-transform-props.defaults-type'
 
 function getNestingCallSelector(callees: string[]) {
@@ -25,6 +27,20 @@ function isVueFunctionType(prop: any) {
   }
 }
 
+function getOnlyPossibleReturnValueNode(body: (TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression)['body']) {
+  switch (body.type) {
+    case AST_NODE_TYPES.BlockStatement: {
+      const result = esquery.query(body as never, AST_NODE_TYPES.ReturnStatement) as TSESTree.ReturnStatement[]
+      // Also support multiple top-level return values
+      return result.length && result[0].parent === body
+        ? result[0].argument
+        : undefined
+    }
+    default:
+      return body
+  }
+}
+
 export default createRule({
   name: __filename,
   meta: {
@@ -33,16 +49,35 @@ export default createRule({
       description: 'Enforce Vue props with Reactivity Transform to be valid',
     },
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          functionsAsObjectDefaults: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       [MESSAGE_ID_TRANSFORM]: 'Disallow using Reactivity Transform for "{{name}}" calls',
       [MESSAGE_ID_OPTIONAL]: 'Prop "{{name}}" should be optional.',
-      [MESSAGE_ID_OBJECT_DEFAULTS]: 'Type of the default value for "{{name}}" prop must be a function.',
-      [MESSAGE_ID_DEFAULTS_TYPE]: 'Type of default value should alway be "never".',
+      [MESSAGE_ID_FUNCTIONS_AS_OBJECT_DEFAULTS]: 'Type of the default value for "{{name}}" prop must be a function.',
+      [MESSAGE_ID_NO_FUNCTIONS_AS_OBJECT_DEFAULTS]: 'Type of the default value for "{{name}}" prop should not be a function.',
+      [MESSAGE_ID_DEFAULTS_TYPE]: 'Type of default value should always be "never".',
     },
   },
-  defaultOptions: [],
+  defaultOptions: [
+    {
+      functionsAsObjectDefaults: false,
+    } as {
+      functionsAsObjectDefaults?: boolean,
+    } | undefined,
+  ],
   create(context) {
+    const functionsAsObjectDefaults = context.options[0]?.functionsAsObjectDefaults
+
     const utils = require('eslint-plugin-vue/lib/utils')
     const code = context.sourceCode
     return utils.defineScriptSetupVisitor(context, {
@@ -106,6 +141,7 @@ export default createRule({
           const declarationProperties = pattern.properties.filter(isIdentifierProperty)
           for (const decl of declarationProperties) {
             if (decl.value.type === AST_NODE_TYPES.AssignmentPattern) {
+              const propIdentifier = decl.value.left
               const defaultValueNode = decl.value.right
               const type = baseProps.find(prop => prop.propName === decl.key.name)
               const willCallDefaultValueFunction = !type || !isVueFunctionType(type)
@@ -128,54 +164,93 @@ export default createRule({
                   },
                 })
               }
-              if (
-                defaultValueNode.type === AST_NODE_TYPES.ObjectExpression
-                || defaultValueNode.type === AST_NODE_TYPES.ArrayExpression
-              ) {
-                context.report({
-                  node: decl.value.right,
-                  messageId: MESSAGE_ID_OBJECT_DEFAULTS,
-                  data: {
-                    name: decl.key.name,
-                  },
-                  *fix(fixer) {
-                    if (defaultValueNode.type === AST_NODE_TYPES.ObjectExpression) {
-                      yield fixer.insertTextBefore(defaultValueNode, '() => (')
-                      yield fixer.insertTextAfter(defaultValueNode, ')')
-                    } else {
-                      yield fixer.insertTextBefore(defaultValueNode, '() => ')
-                    }
-                  },
-                })
-              }
-              if (
-                defaultValueNode.type === AST_NODE_TYPES.ArrowFunctionExpression
-                && willCallDefaultValueFunction
-              ) {
-                const parserServices = code.parserServices
-                if (parserServices && 'esTreeNodeToTSNodeMap' in parserServices) {
+              if (functionsAsObjectDefaults) {
+                if (
+                  defaultValueNode.type === AST_NODE_TYPES.ObjectExpression
+                  || defaultValueNode.type === AST_NODE_TYPES.ArrayExpression
+                ) {
                   context.report({
                     node: decl.value.right,
-                    messageId: MESSAGE_ID_DEFAULTS_TYPE,
+                    messageId: MESSAGE_ID_FUNCTIONS_AS_OBJECT_DEFAULTS,
+                    data: {
+                      name: decl.key.name,
+                    },
                     *fix(fixer) {
-                      yield fixer.insertTextBefore(defaultValueNode, '(')
-                      yield fixer.insertTextAfter(defaultValueNode, ') as never')
+                      if (defaultValueNode.type === AST_NODE_TYPES.ObjectExpression) {
+                        yield fixer.insertTextBefore(defaultValueNode, '() => (')
+                        yield fixer.insertTextAfter(defaultValueNode, ')')
+                      } else {
+                        yield fixer.insertTextBefore(defaultValueNode, '() => ')
+                      }
                     },
                   })
                 }
-              }
-              if (
-                defaultValueNode.type === AST_NODE_TYPES.TSAsExpression
-                && defaultValueNode.typeAnnotation.type !== AST_NODE_TYPES.TSNeverKeyword
-                && willCallDefaultValueFunction
-              ) {
-                context.report({
-                  node: decl.value.right,
-                  messageId: MESSAGE_ID_DEFAULTS_TYPE,
-                  fix(fixer) {
-                    return fixer.replaceText(defaultValueNode.typeAnnotation, 'never')
-                  },
-                })
+                if (
+                  defaultValueNode.type === AST_NODE_TYPES.ArrowFunctionExpression
+                  && willCallDefaultValueFunction
+                ) {
+                  const parserServices = code.parserServices
+                  if (parserServices && 'esTreeNodeToTSNodeMap' in parserServices) {
+                    context.report({
+                      node: decl.value.right,
+                      messageId: MESSAGE_ID_DEFAULTS_TYPE,
+                      *fix(fixer) {
+                        yield fixer.insertTextBefore(defaultValueNode, '(')
+                        yield fixer.insertTextAfter(defaultValueNode, ') as never')
+                      },
+                    })
+                  }
+                }
+                if (
+                  defaultValueNode.type === AST_NODE_TYPES.TSAsExpression
+                  && defaultValueNode.typeAnnotation.type !== AST_NODE_TYPES.TSNeverKeyword
+                  && willCallDefaultValueFunction
+                ) {
+                  context.report({
+                    node: decl.value.right,
+                    messageId: MESSAGE_ID_DEFAULTS_TYPE,
+                    fix(fixer) {
+                      return fixer.replaceText(defaultValueNode.typeAnnotation, 'never')
+                    },
+                  })
+                }
+              } else {
+                let defaultValueLiteralNode: TSESTree.Expression | null | undefined = defaultValueNode
+                // For `value as unknown as Type`
+                while (defaultValueLiteralNode.type === AST_NODE_TYPES.TSAsExpression) {
+                  defaultValueLiteralNode = defaultValueLiteralNode.expression
+                }
+                if ((
+                  defaultValueLiteralNode.type === AST_NODE_TYPES.ArrowFunctionExpression
+                  || defaultValueLiteralNode.type === AST_NODE_TYPES.FunctionExpression
+                ) && willCallDefaultValueFunction) {
+                  defaultValueLiteralNode = getOnlyPossibleReturnValueNode(defaultValueLiteralNode.body)
+                } else {
+                  defaultValueLiteralNode = undefined
+                }
+                if (defaultValueLiteralNode === null) {
+                  context.report({
+                    node: decl.value.right,
+                    messageId: MESSAGE_ID_NO_FUNCTIONS_AS_OBJECT_DEFAULTS,
+                    data: {
+                      name: decl.key.name,
+                    },
+                    fix(fixer) {
+                      return fixer.replaceText(decl, code.getText(propIdentifier))
+                    },
+                  })
+                } else if (defaultValueLiteralNode) {
+                  context.report({
+                    node: decl.value.right,
+                    messageId: MESSAGE_ID_NO_FUNCTIONS_AS_OBJECT_DEFAULTS,
+                    data: {
+                      name: decl.key.name,
+                    },
+                    fix(fixer) {
+                      return fixer.replaceText(defaultValueNode, code.getText(defaultValueLiteralNode))
+                    },
+                  })
+                }
               }
             }
           }

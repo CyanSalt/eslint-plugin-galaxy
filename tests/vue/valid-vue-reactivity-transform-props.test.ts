@@ -1,3 +1,6 @@
+/**
+ * @vitest-environment node
+ */
 import rule from '../../src/vue/valid-vue-reactivity-transform-props'
 import { vueRuleTester } from '../tester'
 
@@ -7,7 +10,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const props = defineProps<{
-          foo: string
+          foo: string,
         }>()
         </script>
       `,
@@ -16,7 +19,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo } = defineProps<{
-          foo: string
+          foo: string,
         }>()
         </script>
       `,
@@ -25,7 +28,16 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo = '' } = defineProps<{
-          foo?: string
+          foo?: string,
+        }>()
+        </script>
+      `,
+    },
+    {
+      code: `
+        <script lang="ts" setup>
+        const { foo = {} } = defineProps<{
+          foo?: object,
         }>()
         </script>
       `,
@@ -34,10 +46,11 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo = (() => ({})) as never } = defineProps<{
-          foo?: object
+          foo?: object,
         }>()
         </script>
       `,
+      options: [{ functionsAsObjectDefaults: true }],
     },
     {
       code: `
@@ -50,12 +63,23 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
     },
     {
       code: `
+        <script lang="ts" setup>
+        const { foo = () => {} } = defineProps<{
+          foo?: () => void,
+        }>()
+        </script>
+      `,
+      options: [{ functionsAsObjectDefaults: true }],
+    },
+    {
+      code: `
         <script setup>
         const { foo = () => ({}) } = defineProps({
           foo: Object,
         })
         </script>
       `,
+      options: [{ functionsAsObjectDefaults: true }],
     },
   ],
   invalid: [
@@ -63,7 +87,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo } = $(defineProps<{
-          foo: string
+          foo: string,
         }>())
         </script>
       `,
@@ -76,7 +100,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       output: `
         <script lang="ts" setup>
         const { foo } = defineProps<{
-          foo: string
+          foo: string,
         }>()
         </script>
       `,
@@ -85,7 +109,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo } = $(withDefaults(defineProps<{
-          foo?: string
+          foo?: string,
         }>(), {
           foo: '',
         }))
@@ -100,7 +124,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       output: `
         <script lang="ts" setup>
         const { foo = '' } = defineProps<{
-          foo?: string
+          foo?: string,
         }>()
         </script>
       `,
@@ -109,8 +133,8 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo } = $(withDefaults(defineProps<{
-          foo?: string
-          bar?: number
+          foo?: string,
+          bar?: number,
         }>(), {
           foo: '',
           bar: 1,
@@ -126,8 +150,8 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       output: `
         <script lang="ts" setup>
         const { foo = ''/* , bar = 1 */ } = defineProps<{
-          foo?: string
-          bar?: number
+          foo?: string,
+          bar?: number,
         }>()
         </script>
       `,
@@ -136,7 +160,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo = '' } = defineProps<{
-          foo: string
+          foo: string,
         }>()
         </script>
       `,
@@ -149,7 +173,29 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       output: `
         <script lang="ts" setup>
         const { foo = '' } = defineProps<{
-          foo?: string
+          foo?: string,
+        }>()
+        </script>
+      `,
+    },
+    {
+      code: `
+        <script lang="ts" setup>
+        const { foo = () => [] } = defineProps<{
+          foo?: string[],
+        }>()
+        </script>
+      `,
+      errors: [
+        {
+          messageId: 'valid-vue-reactivity-transform-props.no-functions-as-object-defaults',
+          data: { name: 'foo' },
+        },
+      ],
+      output: `
+        <script lang="ts" setup>
+        const { foo = [] } = defineProps<{
+          foo?: string[],
         }>()
         </script>
       `,
@@ -158,20 +204,43 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo = [] } = defineProps<{
-          foo?: string[]
+          foo?: string[],
         }>()
         </script>
       `,
       errors: [
         {
-          messageId: 'valid-vue-reactivity-transform-props.object-defaults',
+          messageId: 'valid-vue-reactivity-transform-props.functions-as-object-defaults',
           data: { name: 'foo' },
         },
       ],
       output: `
         <script lang="ts" setup>
         const { foo = () => [] } = defineProps<{
-          foo?: string[]
+          foo?: string[],
+        }>()
+        </script>
+      `,
+      options: [{ functionsAsObjectDefaults: true }],
+    },
+    {
+      code: `
+        <script lang="ts" setup>
+        const { foo = () => ({}) } = defineProps<{
+          foo?: Record<string, string>,
+        }>()
+        </script>
+      `,
+      errors: [
+        {
+          messageId: 'valid-vue-reactivity-transform-props.no-functions-as-object-defaults',
+          data: { name: 'foo' },
+        },
+      ],
+      output: `
+        <script lang="ts" setup>
+        const { foo = {} } = defineProps<{
+          foo?: Record<string, string>,
         }>()
         </script>
       `,
@@ -180,20 +249,42 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo = {} } = defineProps<{
-          foo?: Record<string, string>
+          foo?: Record<string, string>,
         }>()
         </script>
       `,
       errors: [
         {
-          messageId: 'valid-vue-reactivity-transform-props.object-defaults',
+          messageId: 'valid-vue-reactivity-transform-props.functions-as-object-defaults',
           data: { name: 'foo' },
         },
       ],
       output: `
         <script lang="ts" setup>
         const { foo = () => ({}) } = defineProps<{
-          foo?: Record<string, string>
+          foo?: Record<string, string>,
+        }>()
+        </script>
+      `,
+      options: [{ functionsAsObjectDefaults: true }],
+    },
+    {
+      code: `
+        <script lang="ts" setup>
+        const { foo = (() => []) as never } = defineProps<{
+          foo?: string[],
+        }>()
+        </script>
+      `,
+      errors: [
+        {
+          messageId: 'valid-vue-reactivity-transform-props.no-functions-as-object-defaults',
+        },
+      ],
+      output: `
+        <script lang="ts" setup>
+        const { foo = [] } = defineProps<{
+          foo?: string[],
         }>()
         </script>
       `,
@@ -202,7 +293,7 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       code: `
         <script lang="ts" setup>
         const { foo = () => [] } = defineProps<{
-          foo?: string[]
+          foo?: string[],
         }>()
         </script>
       `,
@@ -214,10 +305,11 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
       output: `
         <script lang="ts" setup>
         const { foo = (() => []) as never } = defineProps<{
-          foo?: string[]
+          foo?: string[],
         }>()
         </script>
       `,
+      options: [{ functionsAsObjectDefaults: true }],
     },
   ],
 })

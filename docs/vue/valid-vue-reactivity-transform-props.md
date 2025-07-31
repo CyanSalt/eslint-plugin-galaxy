@@ -6,12 +6,18 @@ In addition, [`@vue-macros/reactivity-transform`](http://npmjs.com/package/@vue-
 
 This rule is fixable.
 
+## Options
+
+This rule has an object option:
+
+- `"functionsAsObjectDefaults"` (default `false`) enforces default values for array or object props to be wrapped with functions, which is consistent with the conventions of `@vue-macros/reactivity-transform@<1.1.3` (and compatible with new versions).
+
 ## Fail
 
 ```vue
 <script lang="ts" setup>
 const { foo } = $(defineProps<{
-  foo: string
+  foo: string,
 }>())
 </script>
 ```
@@ -19,7 +25,7 @@ const { foo } = $(defineProps<{
 ```vue
 <script lang="ts" setup>
 const { foo } = $(withDefaults(defineProps<{
-  foo?: string
+  foo?: string,
 }>(), {
   foo: '',
 }))
@@ -29,15 +35,7 @@ const { foo } = $(withDefaults(defineProps<{
 ```vue
 <script lang="ts" setup>
 const { foo = '' } = defineProps<{
-  foo: string
-}>()
-</script>
-```
-
-```vue
-<script lang="ts" setup>
-const { foo = [] } = defineProps<{
-  foo?: string[]
+  foo: string,
 }>()
 </script>
 ```
@@ -45,7 +43,25 @@ const { foo = [] } = defineProps<{
 ```vue
 <script lang="ts" setup>
 const { foo = () => [] } = defineProps<{
-  foo?: string[]
+  foo?: string[],
+}>()
+</script>
+```
+
+```vue
+<!-- eslint galaxy/valid-vue-reactivity-transform-props: ["error", { "functionsAsObjectDefaults": true }] -->
+<script lang="ts" setup>
+const { foo = [] } = defineProps<{
+  foo?: string[],
+}>()
+</script>
+```
+
+```vue
+<!-- eslint galaxy/valid-vue-reactivity-transform-props: ["error", { "functionsAsObjectDefaults": true }] -->
+<script lang="ts" setup>
+const { foo = () => [] } = defineProps<{
+  foo?: string[],
 }>()
 </script>
 ```
@@ -55,7 +71,7 @@ const { foo = () => [] } = defineProps<{
 ```vue
 <script lang="ts" setup>
 const { foo } = defineProps<{
-  foo: string
+  foo: string,
 }>()
 </script>
 ```
@@ -63,20 +79,30 @@ const { foo } = defineProps<{
 ```vue
 <script lang="ts" setup>
 const { foo = '' } = defineProps<{
-  foo?: string
+  foo?: string,
 }>()
 </script>
 ```
 
 ```vue
+<script setup>
+const { foo = {} } = defineProps<{
+  foo?: object,
+}>()
+</script>
+```
+
+```vue
+<!-- eslint galaxy/valid-vue-reactivity-transform-props: ["error", { "functionsAsObjectDefaults": true }] -->
 <script lang="ts" setup>
 const { foo = (() => ({})) as never } = defineProps<{
-  foo?: object
+  foo?: object,
 }>()
 </script>
 ```
 
 ```vue
+<!-- eslint galaxy/valid-vue-reactivity-transform-props: ["error", { "functionsAsObjectDefaults": true }] -->
 <script lang="ts" setup>
 const { foo = () => {} } = defineProps<{
   foo?: () => void,
@@ -85,6 +111,7 @@ const { foo = () => {} } = defineProps<{
 ```
 
 ```vue
+<!-- eslint galaxy/valid-vue-reactivity-transform-props: ["error", { "functionsAsObjectDefaults": true }] -->
 <script setup>
 const { foo = () => ({}) } = defineProps({
   foo: Object,
