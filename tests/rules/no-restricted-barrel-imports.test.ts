@@ -4,14 +4,14 @@ import { tsRuleTester } from '../tester'
 tsRuleTester.run('no-restricted-barrel-imports', rule, {
   valid: [
     {
-      filename: __filename,
+      filename: import.meta.filename,
       code: `import { foo } from '../samples/barrel-exports-deep'`,
       options: [{ files: [require.resolve('../samples/barrel-exports.ts')] }],
     },
   ],
   invalid: [
     {
-      filename: __filename,
+      filename: import.meta.filename,
       code: `import { foo } from '../samples/barrel-exports'`,
       errors: [
         {

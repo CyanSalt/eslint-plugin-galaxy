@@ -55,8 +55,8 @@
     "eslint-plugin-vue": "^10.3.0",
     "eslint-plugin-vue-scoped-css": "^2.10.0",
     "release-it": "^19.0.3",
+    "tsdown": "^0.16.7",
     "typescript": "^5.8.3",
-    "unbuild": "^3.6.1",
     "vitest": "^4.0.14",
     "vue-eslint-parser": "^10.2.0"
   },
