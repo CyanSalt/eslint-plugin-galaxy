@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@cyansalt/eslint-config": "^4.3.1",
-    "@cyansalt/tsconfig": "^2.2.1",
+    "@cyansalt/tsconfig": "^3.0.0",
     "@release-it/conventional-changelog": "^10.0.1",
     "@types/esquery": "^1.5.4",
     "@types/micromatch": "^4.0.9",

@@ -1,6 +1,3 @@
-/**
- * @vitest-environment node
- */
 import rule from '../../src/vue/valid-vue-reactivity-transform-props'
 import { vueRuleTester } from '../tester'
 
