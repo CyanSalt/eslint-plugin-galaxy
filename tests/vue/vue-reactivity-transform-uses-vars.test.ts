@@ -1,19 +1,35 @@
-import { TSESLint } from '@typescript-eslint/utils'
+import type { TSESLint } from '@typescript-eslint/utils'
+import { builtinRules } from 'eslint/use-at-your-own-risk'
+import vueEslintParser from 'vue-eslint-parser'
 import rule from '../../src/vue/vue-reactivity-transform-uses-vars'
-import { vueRuleTester } from '../tester'
+import { RuleTester } from '../tester'
 
-const noUnusedVarsRule = new TSESLint.Linter()
-  .getRules()
-  .get('no-unused-vars') as TSESLint.RuleModule<'unusedVar'>
+const vueRuleTester = new RuleTester({
+  languageOptions: {
+    parser: vueEslintParser,
+    parserOptions: {
+      parser: {
+        ts: require.resolve('@typescript-eslint/parser'),
+      },
+    },
+  },
+  plugins: {
+    galaxy: {
+      rules: {
+        'vue-reactivity-transform-uses-vars': rule,
+      },
+    },
+  },
+})
 
-vueRuleTester.defineRule('vue-reactivity-transform-uses-vars', rule)
+const noUnusedVarsRule = builtinRules.get('no-unused-vars')! as unknown as TSESLint.RuleModule<'unusedVar'>
 
 vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
   valid: [
     {
       code: `
         <script setup>
-        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        /* eslint galaxy/vue-reactivity-transform-uses-vars: 'error' */
         let foo = $(useFoo())
         onMounted(() => {
           foo = 1
@@ -25,7 +41,7 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
       code: `
         <script setup>
         /* global $ */
-        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        /* eslint galaxy/vue-reactivity-transform-uses-vars: 'error' */
         let foo = $(useFoo())
         onMounted(() => {
           foo = 1
@@ -37,7 +53,7 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
       code: `
         <script setup>
         import { $ } from 'vue/macros'
-        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        /* eslint galaxy/vue-reactivity-transform-uses-vars: 'error' */
         let foo = $(useFoo())
         onMounted(() => {
           foo = 1
@@ -49,7 +65,7 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
       code: `
         <script setup>
         import { $ as _$ } from 'vue/macros'
-        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        /* eslint galaxy/vue-reactivity-transform-uses-vars: 'error' */
         let foo = _$(useFoo())
         onMounted(() => {
           foo = 1
@@ -60,7 +76,7 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
     {
       code: `
         <script setup>
-        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        /* eslint galaxy/vue-reactivity-transform-uses-vars: 'error' */
         let { foo } = $(useFoo())
         onMounted(() => {
           foo = 1
@@ -71,7 +87,7 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
     {
       code: `
         <script setup>
-        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        /* eslint galaxy/vue-reactivity-transform-uses-vars: 'error' */
         let foo = $(useFoo())
         onMounted(() => {
           foo = 1
@@ -124,7 +140,7 @@ vueRuleTester.run('no-unused-vars', noUnusedVarsRule, {
     {
       code: `
         <script setup>
-        /* eslint vue-reactivity-transform-uses-vars: 'error' */
+        /* eslint galaxy/vue-reactivity-transform-uses-vars: 'error' */
         let foo = $(useFoo())
         let bar = $computed(() => foo)
         </script>

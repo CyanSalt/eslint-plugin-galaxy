@@ -3,6 +3,7 @@ import { RuleTester } from '@typescript-eslint/rule-tester'
 import { RuleTester as LegacyRuleTester } from 'eslint'
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 import { afterAll, describe, it } from 'vitest'
+import vueEslintParser from 'vue-eslint-parser'
 
 RuleTester.afterAll = afterAll
 RuleTester.describe = describe
@@ -10,6 +11,10 @@ RuleTester.it = it
 
 LegacyRuleTester['describe'] = describe
 LegacyRuleTester['it'] = it
+
+export {
+  RuleTester,
+}
 
 export const ruleTester = new RuleTester()
 
@@ -27,13 +32,13 @@ export const tsRuleTester = new RuleTester({
   },
 })
 
-export const vueRuleTester = new LegacyRuleTester({
-  parser: require.resolve('vue-eslint-parser'),
-  parserOptions: {
-    parser: {
-      ts: require.resolve('@typescript-eslint/parser'),
+export const vueRuleTester = new RuleTester({
+  languageOptions: {
+    parser: vueEslintParser,
+    parserOptions: {
+      parser: {
+        ts: require.resolve('@typescript-eslint/parser'),
+      },
     },
-    ecmaVersion: 'latest',
-    sourceType: 'module',
   },
-} as never) as unknown as RuleTester
+})

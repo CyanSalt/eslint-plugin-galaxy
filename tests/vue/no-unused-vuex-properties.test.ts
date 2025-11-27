@@ -108,6 +108,20 @@ vueRuleTester.run('no-unused-vuex-properties', rule, {
           data: {
             name: 'foo',
           },
+          suggestions: [
+            {
+              messageId: 'suggestion@no-unused-vuex-properties.remove',
+              output: `
+        <script>
+        export default {
+          computed: {
+            ...mapState([]),
+          },
+        }
+        </script>
+      `,
+            },
+          ],
         },
       ],
     },
@@ -143,6 +157,34 @@ vueRuleTester.run('no-unused-vuex-properties', rule, {
           data: {
             name: 'foo',
           },
+          suggestions: [
+            {
+              messageId: 'suggestion@no-unused-vuex-properties.remove',
+              output: `
+        <script>
+        export default {
+          computed: {
+            ...mapState([]),
+          },
+          watch: {
+            bar: value => value.foo,
+            baz: {
+              handler: value => value.foo,
+            },
+          },
+          qux: {
+            quux: {
+              quuz: {
+                corge: vm => vm.foo,
+              },
+            },
+          },
+          quux: vm => vm.foo,
+        }
+        </script>
+      `,
+            },
+          ],
         },
       ],
     },
@@ -163,6 +205,20 @@ vueRuleTester.run('no-unused-vuex-properties', rule, {
           data: {
             name: 'myBaz',
           },
+          suggestions: [
+            {
+              messageId: 'suggestion@no-unused-vuex-properties.remove',
+              output: `
+        <script>
+        export default {
+          computed: {
+            ...mapGetters('bar', { }),
+          },
+        }
+        </script>
+      `,
+            },
+          ],
         },
       ],
     },
@@ -183,6 +239,20 @@ vueRuleTester.run('no-unused-vuex-properties', rule, {
           data: {
             name: 'qux',
           },
+          suggestions: [
+            {
+              messageId: 'suggestion@no-unused-vuex-properties.remove',
+              output: `
+        <script>
+        export default {
+          methods: {
+            ...mapActions([]),
+          },
+        }
+        </script>
+      `,
+            },
+          ],
         },
       ],
     },

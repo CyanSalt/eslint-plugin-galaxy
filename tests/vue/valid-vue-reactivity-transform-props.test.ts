@@ -214,13 +214,22 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
           data: { name: 'foo' },
         },
       ],
-      output: `
+      output: [
+        `
         <script lang="ts" setup>
         const { foo = () => [] } = defineProps<{
           foo?: string[],
         }>()
         </script>
       `,
+        `
+        <script lang="ts" setup>
+        const { foo = (() => []) as never } = defineProps<{
+          foo?: string[],
+        }>()
+        </script>
+      `,
+      ],
       options: [{ functionsAsObjectDefaults: true }],
     },
     {
@@ -259,13 +268,22 @@ vueRuleTester.run('valid-vue-reactivity-transform-props', rule, {
           data: { name: 'foo' },
         },
       ],
-      output: `
+      output: [
+        `
         <script lang="ts" setup>
         const { foo = () => ({}) } = defineProps<{
           foo?: Record<string, string>,
         }>()
         </script>
       `,
+        `
+        <script lang="ts" setup>
+        const { foo = (() => ({})) as never } = defineProps<{
+          foo?: Record<string, string>,
+        }>()
+        </script>
+      `,
+      ],
       options: [{ functionsAsObjectDefaults: true }],
     },
     {

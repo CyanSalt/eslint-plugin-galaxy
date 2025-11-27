@@ -88,6 +88,16 @@ vueRuleTester.run('esm-bundler', rule, {
       errors: [
         {
           messageId: 'esm-bundler.process-env',
+          suggestions: [
+            {
+              messageId: 'suggestion@esm-bundler.import-meta-env',
+              output: `
+        <template>
+          <img :src="import.meta.env.IMAGE_URL">
+        </template>
+      `,
+            },
+          ],
         },
       ],
     },

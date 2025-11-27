@@ -146,7 +146,8 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
       errors: [
         { messageId: 'no-deprecated-vue-deep-combinator' },
       ],
-      output: `
+      output: [
+        `
         <style scoped>
         .foo ::v-deep .bar {
           display: block;
@@ -156,6 +157,17 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
           }
         </style>
       `,
+        `
+        <style scoped>
+        .foo :deep(.bar) {
+          display: block;
+        }
+.foo :deep(.bar__baz) {
+            display: inline;
+          }
+        </style>
+      `,
+      ],
     },
     {
       filename: 'test.vue',
@@ -172,7 +184,8 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
       errors: [
         { messageId: 'no-deprecated-vue-deep-combinator' },
       ],
-      output: `
+      output: [
+        `
         <style scoped>
         .foo ::v-deep .bar__baz {
             display: inline;
@@ -180,6 +193,15 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
         .qux {}
         </style>
       `,
+        `
+        <style scoped>
+        .foo :deep(.bar__baz) {
+            display: inline;
+          }
+        .qux {}
+        </style>
+      `,
+      ],
     },
     {
       filename: 'test.vue',
@@ -195,13 +217,22 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
       errors: [
         { messageId: 'no-deprecated-vue-deep-combinator' },
       ],
-      output: `
+      output: [
+        `
         <style scoped>
         ::v-deep .foo__baz, .bar__baz {
             display: inline;
           }
         </style>
       `,
+        `
+        <style scoped>
+        :deep(.foo__baz), .bar__baz {
+            display: inline;
+          }
+        </style>
+      `,
+      ],
     },
     {
       filename: 'test.vue',
@@ -252,13 +283,22 @@ vueRuleTester.run('no-deprecated-vue-deep-combinator', rule, {
       errors: [
         { messageId: 'no-deprecated-vue-deep-combinator' },
       ],
-      output: `
+      output: [
+        `
         <style scoped>
         ::v-deep .foo .bar {
             display: block;
           }
         </style>
       `,
+        `
+        <style scoped>
+        :deep(.foo .bar) {
+            display: block;
+          }
+        </style>
+      `,
+      ],
     },
     {
       filename: 'test.vue',
