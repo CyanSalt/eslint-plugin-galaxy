@@ -77,4 +77,4 @@ plugin.configs.all = {
   },
 }
 
-module.exports = plugin
+export default plugin

@@ -7,6 +7,7 @@ export default defineBuildConfig({
       input: './src',
       outDir: './dist',
       ext: 'js',
+      format: 'cjs',
     },
   ],
   clean: true,
