@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": ".typescript"
+  },
+  "include": [
+    "tests",
+    "*.config.mjs",
+    "*.config.mts"
+  ],
+  "references": [
+    { "path": "./tsconfig.lib.json" }
+  ]
+}

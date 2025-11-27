@@ -1,0 +1,9 @@
+{
+  "extends": "@cyansalt/tsconfig/tsconfig.lib.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "module": "Node16",
+    "moduleResolution": "Node16"
+  }
+}

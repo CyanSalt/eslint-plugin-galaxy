@@ -2,7 +2,7 @@ import * as path from 'path'
 import type { TSESLint } from '@typescript-eslint/utils'
 import { ESLintUtils } from '@typescript-eslint/utils'
 
-interface RuleDocs {
+export interface RuleDocs {
   recommended?: 'recommended' | 'stylistic',
 }
 
