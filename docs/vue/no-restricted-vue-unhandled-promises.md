@@ -2,7 +2,7 @@
 
 We can use asynchronous functions in many scenarios in Vue, but these asynchronous functions tend to generate floating promises, such as lifecycles, watchers, etc.
 
-As a complement to [`no-restricted-floating-promises`](../rules/no-restricted-floating-promises), this rule checks for floating promises caused by using await expressions in specific Vue functions.
+As a complement to [`no-restricted-floating-promises`](../rules/no-restricted-floating-promises.md), this rule checks for floating promises caused by using await expressions in specific Vue functions.
 
 ## Options
 
