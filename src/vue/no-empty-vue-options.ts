@@ -1,7 +1,7 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { removeElement } from '../fixer'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-empty-vue-options'
 const MESSAGE_ID_SUGGESTION_REMOVE = 'suggestion@no-empty-vue-options.remove'
@@ -20,7 +20,7 @@ function isEmpty(node: TSESTree.Node, source: TSESLint.SourceCode) {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -46,12 +46,14 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'Empty option value',
       [MESSAGE_ID_SUGGESTION_REMOVE]: 'Remove empty option value',
     },
+    defaultOptions: [
+      { ignores: [] },
+    ] as [
+      { ignores?: string[] } | undefined,
+    ],
   },
-  defaultOptions: [
-    { ignores: [] } as { ignores?: string[] } | undefined,
-  ],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     const ignoredOptions = context.options[0]?.ignores ?? []
     const code = context.sourceCode
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {

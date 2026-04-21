@@ -3,7 +3,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import esquery from 'esquery'
 import { getModuleScope } from '../context'
 import { getRealExpression, isArrayExpressionIncludesIdentifier, isIdentifierOf, isIdentifierProperty, isObjectDestructure } from '../estree'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 import { isReactivityTransformCall } from './vue-reactivity-transform-uses-vars'
 
 const MESSAGE_ID_TRANSFORM = 'valid-vue-reactivity-transform-props.transform'
@@ -42,7 +42,7 @@ function getOnlyPossibleReturnValueNode(body: (TSESTree.ArrowFunctionExpression 
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -67,18 +67,20 @@ export default createRule({
       [MESSAGE_ID_NO_FUNCTIONS_AS_OBJECT_DEFAULTS]: 'Type of the default value for "{{name}}" prop should not be a function.',
       [MESSAGE_ID_DEFAULTS_TYPE]: 'Type of default value should always be "never".',
     },
+    defaultOptions: [
+      {
+        functionsAsObjectDefaults: false,
+      },
+    ] as [
+      {
+        functionsAsObjectDefaults?: boolean,
+      } | undefined,
+    ],
   },
-  defaultOptions: [
-    {
-      functionsAsObjectDefaults: false,
-    } as {
-      functionsAsObjectDefaults?: boolean,
-    } | undefined,
-  ],
   create(context) {
     const functionsAsObjectDefaults = context.options[0]?.functionsAsObjectDefaults
 
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     const code = context.sourceCode
     return utils.defineScriptSetupVisitor(context, {
       [getNestingCallSelector([
@@ -103,8 +105,7 @@ export default createRule({
             if (
               name === 'withDefaults'
               && isObjectDestructure(reactivityTransform.parent)
-              && node.arguments[1]
-              && node.arguments[1].type === AST_NODE_TYPES.ObjectExpression
+              && node.arguments[1]?.type === AST_NODE_TYPES.ObjectExpression
             ) {
               const pattern = reactivityTransform.parent.id
               const defaultValueProperties = node.arguments[1].properties.filter(isIdentifierProperty)

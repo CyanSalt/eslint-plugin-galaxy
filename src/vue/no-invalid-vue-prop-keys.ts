@@ -1,6 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-invalid-vue-prop-keys'
 
@@ -12,7 +12,7 @@ const builtinOptions = [
 ]
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -36,12 +36,14 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: 'Invalid key "{{name}}" in props options',
     },
+    defaultOptions: [
+      { allows: [] },
+    ] as [
+      { allows?: string[] } | undefined,
+    ],
   },
-  defaultOptions: [
-    { allows: [] } as { allows?: string[] } | undefined,
-  ],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     const allowedOptions = [
       ...builtinOptions,
       ...context.options[0]?.allows ?? [],

@@ -7,7 +7,7 @@ const MESSAGE_ID_REQUIRE = 'esm-bundler.require'
 const MESSAGE_ID_SUGGESTION_IMPORT_META_ENV = 'suggestion@esm-bundler.import-meta-env'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -37,18 +37,20 @@ export default createRule({
       [MESSAGE_ID_REQUIRE]: 'Expected "import" instead of "require()"',
       [MESSAGE_ID_SUGGESTION_IMPORT_META_ENV]: 'Use "import.meta.env" instead',
     },
+    defaultOptions: [
+      {
+        allowProcessEnv: false,
+        allowCommonJs: false,
+        allowRequire: false,
+      },
+    ] as [
+      {
+        allowProcessEnv?: boolean,
+        allowCommonJs?: boolean,
+        allowRequire?: boolean,
+      } | undefined,
+    ],
   },
-  defaultOptions: [
-    {
-      allowProcessEnv: false,
-      allowCommonJs: false,
-      allowRequire: false,
-    } as {
-      allowProcessEnv?: boolean,
-      allowCommonJs?: boolean,
-      allowRequire?: boolean,
-    } | undefined,
-  ],
   create(context) {
     const allowProcessEnv = context.options[0]?.allowProcessEnv
     const allowCommonJs = context.options[0]?.allowCommonJs

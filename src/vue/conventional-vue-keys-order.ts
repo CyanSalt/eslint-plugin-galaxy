@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import esquery from 'esquery'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'conventional-vue-keys-order'
 
@@ -141,7 +141,7 @@ function getPropertyName(property: TSESTree.ObjectLiteralElement) {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -203,19 +203,20 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: 'This property should be above the property on line {{line}}.',
     },
+    defaultOptions: [
+      {
+        rules: [],
+        additionalRules: [],
+      },
+    ] as [
+      {
+        rules?: string[],
+        additionalRules?: RuleDeclaration[],
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      rules: [],
-      additionalRules: [],
-    } as {
-      rules?: string[],
-      additionalRules?: RuleDeclaration[],
-    },
-  ],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const utils = loadESLintPluginVueUtils()
     const { rules = [], additionalRules = [] } = context.options[0] ?? {}
 
     const code = context.sourceCode

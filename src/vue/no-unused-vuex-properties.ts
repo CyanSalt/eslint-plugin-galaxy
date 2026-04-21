@@ -2,7 +2,7 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { ArrayOrObjectElement } from '../fixer'
 import { removeElement } from '../fixer'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-unused-vuex-properties'
 const MESSAGE_ID_SUGGESTION_REMOVE = 'suggestion@no-unused-vuex-properties.remove'
@@ -29,7 +29,7 @@ function getReferences(references: any[]) {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -42,14 +42,13 @@ export default createRule({
       [MESSAGE_ID_SUGGESTION_REMOVE]: 'Remove unused property',
     },
   },
-  defaultOptions: [],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     const {
       definePropertyReferenceExtractor,
       mergePropertyReferences,
-    } = require('eslint-plugin-vue/lib/utils/property-references')
-    const { getStyleVariablesContext } = require('eslint-plugin-vue/lib/utils/style-variables')
+    } = loadESLintPluginVueUtils('property-references')
+    const { getStyleVariablesContext } = loadESLintPluginVueUtils('style-variables')
 
     const code = context.sourceCode
 

@@ -61,7 +61,7 @@ type MarkNonNullable<T, U extends keyof T> = Omit<T, U> & {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -80,12 +80,13 @@ export default createRule({
       [MESSAGE_ID_MIXED]: 'Expected to use consistent Vue refs.',
       [MESSAGE_ID_SUGGESTION_CALLEE]: 'Use "{{name}}" instead.',
     },
+    defaultOptions: [
+      'consistent',
+    ] as [
+      'ref' | 'macro' | 'consistent' | undefined,
+    ],
   },
-  defaultOptions: [
-    'consistent' as 'ref' | 'macro' | 'consistent',
-  ],
   create(context) {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const option = context.options[0] || 'consistent'
     let firstRefNode: TSESTree.CallExpression & { callee: TSESTree.Identifier } | undefined
     let firstMacroNode: TSESTree.CallExpression & { callee: TSESTree.Identifier } | undefined

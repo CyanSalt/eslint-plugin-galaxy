@@ -1,12 +1,7 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  entry: [
-    'src/index.ts',
-    'src/rules/*.ts',
-    'src/typescript/*.ts',
-    'src/vue/*.ts',
-  ],
-  format: 'cjs',
+  entry: ['src/index.ts'],
+  unbundle: true,
   fixedExtension: false,
 })

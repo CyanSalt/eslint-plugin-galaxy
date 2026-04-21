@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 function getCommentRange(text: string) {
   let active: 'singleline' | 'multiline' | false = false
@@ -47,7 +47,7 @@ function getCommentRange(text: string) {
 const MESSAGE_ID_DEFAULT = 'no-vue-sfc-text-node'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -60,9 +60,8 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'Unexpected text node in Vue SFC.',
     },
   },
-  defaultOptions: [],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     const code = context.sourceCode
     const documentFragment: {
       children: TSESTree.Node[],

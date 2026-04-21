@@ -65,8 +65,6 @@ module.exports = {
 
 - [`no-ambiguous-vue-default-props`](./docs/vue/no-ambiguous-vue-default-props.md) - Disallow using empty functions as default values of Vue props 🔧
 
-- [`no-deprecated-vue-deep-combinator`](./docs/vue/no-deprecated-vue-deep-combinator.md) - Disallow using deprecated Vue `::v-deep` combinators 🔧
-
 - [`no-duplicate-vue-store-mappings`](./docs/vue/no-duplicate-vue-store-mappings.md) - Disallow duplicate store mapping functions in Vue components 🔧
 
 - [`no-duplicate-vuex-properties`](./docs/vue/no-duplicate-vuex-properties.md) - Disallow duplicate properties from Vuex ✅

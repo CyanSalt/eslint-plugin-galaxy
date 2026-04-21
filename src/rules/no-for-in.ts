@@ -5,7 +5,7 @@ const MESSAGE_ID_DEFAULT = 'no-for-in'
 const MESSAGE_ID_SUGGESTION_FOR_OF_KEYS = 'suggestion@no-for-in.for-of-keys'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -18,7 +18,6 @@ export default createRule({
       [MESSAGE_ID_SUGGESTION_FOR_OF_KEYS]: 'Use for-of with `Object.keys()` instead',
     },
   },
-  defaultOptions: [],
   create(context) {
     const code = context.sourceCode
     return {

@@ -2,18 +2,19 @@
   "name": "eslint-plugin-galaxy",
   "version": "1.36.1",
   "description": "Various ESLint rules in one plugin.",
+  "type": "module",
+  "main": "./dist/index.js",
   "files": [
     "dist",
     "docs"
   ],
-  "main": "dist/index.js",
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
   "scripts": {
     "lint": "eslint --fix './**/*.{js,mjs,ts}'",
-    "prepack": "unbuild",
+    "prepack": "tsdown",
     "release": "release-it",
     "test": "vitest"
   },
@@ -32,33 +33,33 @@
   "author": "CyanSalt",
   "license": "ISC",
   "dependencies": {
-    "@typescript-eslint/utils": "^8.35.1",
-    "browserslist": "^4.25.1",
-    "caniuse-lite": "^1.0.30001726",
-    "esquery": "^1.6.0",
-    "globals": "^16.3.0",
+    "@typescript-eslint/utils": "^8.59.0",
+    "browserslist": "^4.28.2",
+    "caniuse-lite": "^1.0.30001788",
+    "esquery": "^1.7.0",
+    "globals": "^17.5.0",
     "ignore": "^7.0.5",
     "micromatch": "^4.0.8"
   },
   "devDependencies": {
     "@cyansalt/eslint-config": "^4.3.1",
-    "@cyansalt/tsconfig": "^3.0.0",
-    "@release-it/conventional-changelog": "^10.0.1",
+    "@cyansalt/tsconfig": "^3.0.2",
+    "@release-it/conventional-changelog": "^10.0.6",
     "@types/esquery": "^1.5.4",
-    "@types/micromatch": "^4.0.9",
+    "@types/micromatch": "^4.0.10",
     "@types/node": "^22.16.0",
-    "@typescript-eslint/parser": "^8.35.1",
-    "@typescript-eslint/rule-tester": "^8.35.1",
+    "@typescript-eslint/parser": "^8.59.0",
+    "@typescript-eslint/rule-tester": "^8.59.0",
     "eslint": "^9.39.1",
     "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import-x": "^4.16.1",
-    "eslint-plugin-vue": "^10.3.0",
-    "eslint-plugin-vue-scoped-css": "^2.10.0",
-    "release-it": "^19.0.3",
-    "tsdown": "^0.16.7",
-    "typescript": "^5.8.3",
-    "vitest": "^4.0.14",
-    "vue-eslint-parser": "^10.2.0"
+    "eslint-plugin-import-x": "^4.16.2",
+    "eslint-plugin-vue": "^10.8.0",
+    "eslint-plugin-vue-scoped-css": "^3.0.0",
+    "release-it": "^20.0.0",
+    "tsdown": "^0.21.9",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.4",
+    "vue-eslint-parser": "^10.4.0"
   },
   "peerDependencies": {
     "eslint": ">=8.44.0",

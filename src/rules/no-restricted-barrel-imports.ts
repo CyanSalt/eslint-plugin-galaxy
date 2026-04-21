@@ -2,7 +2,7 @@ import * as path from 'path'
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getImportedName } from '../estree'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginImportUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-barrel-imports'
 
@@ -40,9 +40,9 @@ function resolveImportSource(
   exportMap: ExportMap,
   importSource: string,
   source: string,
-  context: TSESLint.RuleContext<string, unknown[]>,
+  context: TSESLint.RuleContext<string, readonly unknown[]>,
 ) {
-  const { default: resolve } = require('eslint-module-utils/resolve')
+  const { resolve } = loadESLintPluginImportUtils()
   if (isRelativeImport(source)) {
     const importSourceExt = path.extname(importSource)
     if (!importSourceExt) {
@@ -60,7 +60,7 @@ function resolveImportSources<T>(
   exportMap: ExportMap,
   importSource: string,
   values: Map<string, T>,
-  context: TSESLint.RuleContext<string, unknown[]>,
+  context: TSESLint.RuleContext<string, readonly unknown[]>,
 ) {
   const result = new Map<string, T>()
   for (const [importPath, value] of values) {
@@ -77,7 +77,7 @@ function resolveDeepImports(
   exportMap: ExportMap,
   importSource: string,
   imports: Set<string>,
-  context: TSESLint.RuleContext<string, unknown[]>,
+  context: TSESLint.RuleContext<string, readonly unknown[]>,
 ) {
   const result = new Map<string, Set<string>>()
   const processingImports = new Set(imports)
@@ -105,7 +105,7 @@ function resolveDeepImports(
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -129,26 +129,18 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: '"{{ importSource }}" import is restricted from being used.',
     },
+    defaultOptions: [
+      { files: [] },
+    ] as [
+      { files?: string[] } | undefined,
+    ],
   },
-  defaultOptions: [
-    { files: [] as string[] },
-  ],
   create(context) {
-    let hasImportX = false
-    try {
-      require.resolve('eslint-plugin-import-x')
-      hasImportX = true
-    } catch {
-      // ignore error
-    }
-    const { moduleVisitor } = hasImportX
-      ? require('eslint-plugin-import-x/utils')
-      : { moduleVisitor: require('eslint-module-utils/moduleVisitor').default }
-    const { ExportMap } = hasImportX
-      ? require('eslint-plugin-import-x/utils')
-      : require('eslint-plugin-import/lib/ExportMap')
+    const {
+      ExportMap,
+      moduleVisitor,
+    } = loadESLintPluginImportUtils()
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const { files = [] } = context.options[0] ?? {}
 
     function checkBarrelImports(

@@ -1,6 +1,6 @@
 import * as path from 'path'
 import type { TSESTree } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginImportUtils } from '../utils'
 
 const MESSAGE_ID_REQUIRED = 'import-extensions.required'
 const MESSAGE_ID_FORBIDDEN = 'import-extensions.forbidden'
@@ -8,7 +8,7 @@ const MESSAGE_ID_FORBIDDEN = 'import-extensions.forbidden'
 const ENUM_VALUES = ['always', 'ignore', 'ignorePackages', 'never']
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -38,27 +38,20 @@ export default createRule({
       [MESSAGE_ID_REQUIRED]: 'Missing file extension "{{ extension }}" for "{{ path }}"',
       [MESSAGE_ID_FORBIDDEN]: 'Unexpected use of file extension "{{ extension }}" for "{{ path }}"',
     },
+    defaultOptions: [
+      'ignore',
+    ] as [
+      string | Record<string, string | undefined>,
+    ],
   },
-  defaultOptions: [
-    'ignore' as string | Record<string, string | undefined>,
-  ],
   create(context) {
-    let hasImportX = false
-    try {
-      require.resolve('eslint-plugin-import-x')
-      hasImportX = true
-    } catch {
-      // ignore error
-    }
-    const { resolve } = hasImportX
-      ? require('eslint-plugin-import-x/utils')
-      : { resolve: require('eslint-module-utils/resolve').default }
-    const { moduleVisitor } = hasImportX
-      ? require('eslint-plugin-import-x/utils')
-      : { moduleVisitor: require('eslint-module-utils/moduleVisitor').default }
-    const { isBuiltIn, isExternalModule, isScoped } = hasImportX
-      ? require('eslint-plugin-import-x/utils')
-      : require('eslint-plugin-import/lib/core/importType')
+    const {
+      isBuiltIn,
+      isExternalModule,
+      isScoped,
+      moduleVisitor,
+      resolve,
+    } = loadESLintPluginImportUtils()
 
     const options = typeof context.options[0] === 'object'
       ? context.options[0]

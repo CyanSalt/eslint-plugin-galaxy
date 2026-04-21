@@ -93,7 +93,7 @@ function* mergeObjectLiteralExpression(
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -105,7 +105,6 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: '"{{name}}" has been called on line {{line}}.',
     },
   },
-  defaultOptions: [],
   create(context) {
     const code = context.sourceCode
     return {

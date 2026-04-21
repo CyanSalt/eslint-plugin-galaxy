@@ -58,7 +58,7 @@ const DEFAULT_OPTIONS = {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -90,8 +90,12 @@ export default createRule({
       [MESSAGE_ID_EVENTS]: '"{{ name }}" should be used through the Window instance',
       [MESSAGE_ID_AMBIGUOUS_SINGLE_WORDS]: '"{{ name }}" is a global variable that may be ambiguous',
     },
+    defaultOptions: [
+      DEFAULT_OPTIONS,
+    ] as [
+      Partial<typeof DEFAULT_OPTIONS> | undefined,
+    ],
   },
-  defaultOptions: [DEFAULT_OPTIONS as Partial<typeof DEFAULT_OPTIONS>],
   create(context) {
     return {
       Program(root) {

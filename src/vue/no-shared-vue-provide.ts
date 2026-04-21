@@ -1,11 +1,11 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-shared-vue-provide'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -18,9 +18,8 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'The `provide` option of component must be a function',
     },
   },
-  defaultOptions: [],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     const code = context.sourceCode
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       const provideProperty: TSESTree.Property | undefined = utils.findProperty(obj, 'provide')

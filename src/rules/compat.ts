@@ -170,7 +170,7 @@ function mergeVisitor(target: TSESLint.RuleListener, source: TSESLint.RuleListen
 const MESSAGE_ID_DEFAULT = 'compat'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -207,15 +207,17 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: '{{ feature }} is only compatible with {{ env }}',
     },
+    defaultOptions: [
+      {
+        ignores: [],
+      },
+    ] as [
+      {
+        browserslist?: string | string[],
+        ignores?: string[],
+      } | undefined,
+    ],
   },
-  defaultOptions: [
-    {
-      ignores: [],
-    } as {
-      browserslist?: string | string[],
-      ignores?: string[],
-    } | undefined,
-  ],
   create(context) {
     const browserslistConfig = context.options[0]?.browserslist
     const ignores = context.options[0]?.ignores ?? []

@@ -140,7 +140,7 @@ function isNumeric(node: TSESTree.Expression | TSESTree.PrivateIdentifier) {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -151,7 +151,6 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'This value might be NaN or throw a TypeError.',
     },
   },
-  defaultOptions: [],
   create(context) {
     function reportExpression(node: TSESTree.Expression, parent: TSESTree.Expression) {
       if (!isNaNable(parent)) {

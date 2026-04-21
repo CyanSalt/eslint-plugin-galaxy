@@ -1,10 +1,10 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'valid-vue-v-if-with-v-slot'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -16,9 +16,8 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: '"{{name}}" was used before it was defined.',
     },
   },
-  defaultOptions: [],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     return utils.defineTemplateBodyVisitor(context, {
       'VAttribute[directive=true][key.name.name="if"]'(node) {
         const startTag = node.parent

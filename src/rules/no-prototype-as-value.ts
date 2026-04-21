@@ -40,7 +40,7 @@ function isIgnoredByPath(node: TSESTree.Node, path: (string | typeof WILDCARD_SY
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -67,10 +67,12 @@ export default createRule({
       [MESSAGE_ID_METHOD]: 'Unexpected method call from "{{ object }}.prototype"',
       [MESSAGE_ID_SUGGESTION_LITERALS]: 'Use literals instead',
     },
+    defaultOptions: [
+      { ignores: [] },
+    ] as [
+      { ignores?: string[] } | undefined,
+    ],
   },
-  defaultOptions: [
-    { ignores: [] } as { ignores?: string[] } | undefined,
-  ],
   create(context) {
     const code = context.sourceCode
     const ignores = context.options[0]?.ignores ?? []

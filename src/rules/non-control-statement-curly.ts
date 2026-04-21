@@ -13,7 +13,7 @@ const NON_RETURN_STATEMENT_SELECTOR = [
 ].join('')
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -25,7 +25,6 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'Expected curly braces for non-control statements',
     },
   },
-  defaultOptions: [],
   create(context) {
     return {
       [NON_RETURN_STATEMENT_SELECTOR]: (node: TSESTree.IfStatement) => {

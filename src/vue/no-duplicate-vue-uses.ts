@@ -66,7 +66,7 @@ function getAllPropertyText(code: TSESLint.SourceCode, node: TSESTree.ObjectPatt
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -93,16 +93,18 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: '"{{name}}" has been called on line {{line}}.',
     },
+    defaultOptions: [
+      {
+        paths: [],
+        ignoreDifferentUsages: false,
+      },
+    ] as [
+      {
+        paths?: string[],
+        ignoreDifferentUsages?: boolean,
+      } | undefined,
+    ],
   },
-  defaultOptions: [
-    {
-      paths: [],
-      ignoreDifferentUsages: false,
-    } as {
-      paths?: string[],
-      ignoreDifferentUsages?: boolean,
-    } | undefined,
-  ],
   create(context) {
     const code = context.sourceCode
     const paths = context.options[0]?.paths ?? []
@@ -189,7 +191,7 @@ export default createRule({
                   }
                   if (isIncompatibleDeclarationKind(existingDeclarator.parent, currentDeclarator.parent)) {
                     yield fixer.replaceText(
-                      code.getFirstToken(existingDeclarator.parent)!,
+                      code.getFirstToken(existingDeclarator.parent),
                       currentDeclarator.parent.kind,
                     )
                   }

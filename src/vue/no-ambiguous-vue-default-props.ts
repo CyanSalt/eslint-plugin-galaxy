@@ -2,7 +2,7 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getRealExpression, isIdentifierOf, isIdentifierProperty, isObjectDestructure } from '../estree'
 import { removeElement } from '../fixer'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 function getProperty(expr: TSESTree.ObjectExpression, name: string) {
   return expr.properties.find((item): item is TSESTree.Property => {
@@ -29,7 +29,7 @@ function isVueObjectType(prop: any) {
 const MESSAGE_ID_DEFAULT = 'no-ambiguous-vue-default-props'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -51,14 +51,16 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: 'The default value for prop should not return undefined.',
     },
+    defaultOptions: [
+      { fixStyle: 'none' },
+    ] as [
+      { fixStyle?: 'remove' | 'match-type' | 'none' } | undefined,
+    ],
   },
-  defaultOptions: [
-    { fixStyle: 'none' } as { fixStyle?: 'remove' | 'match-type' | 'none' } | undefined,
-  ],
   create(context) {
     const fixStyle = context.options[0]?.fixStyle ?? 'none'
     const code = context.sourceCode
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     return utils.compositingVisitors(
       // { default: () => {} }
       utils.defineVueVisitor(context, {

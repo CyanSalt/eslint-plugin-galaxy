@@ -4,7 +4,7 @@ import { createRule, universal } from '../utils'
 const MESSAGE_ID_DEFAULT = 'no-as-any'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -15,7 +15,6 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'Type assertions to "any" are not allowed',
     },
   },
-  defaultOptions: [],
   create(context) {
     return universal(context, {
       'TSAsExpression[typeAnnotation.type="TSAnyKeyword"]': (node: TSESTree.TSAsExpression) => {

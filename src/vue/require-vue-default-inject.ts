@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getLiteralValue, isIdentifierOf } from '../estree'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'require-vue-default-inject'
 
@@ -16,7 +16,7 @@ function hasProperty(node: TSESTree.ObjectExpression, property: string) {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -29,17 +29,15 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'Injection "{{name}}" requires default value to be set',
     },
   },
-  defaultOptions: [],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     return utils.compositingVisitors(
       utils.defineVueVisitor(context, {
         onVueObjectEnter(node: TSESTree.ObjectExpression) {
           for (const injection of utils.iterateProperties(node, new Set(['inject']))) {
             const property: TSESTree.Property | undefined = injection.property
             if (
-              !property
-              || property.value.type !== AST_NODE_TYPES.ObjectExpression
+              property?.value.type !== AST_NODE_TYPES.ObjectExpression
               || !hasProperty(property.value, 'default')
             ) {
               context.report({

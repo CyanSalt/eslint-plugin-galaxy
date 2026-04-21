@@ -135,7 +135,7 @@ export function normalizeRulePattern(selectorOrObject: string | RulePattern): No
 }
 
 export function createMatcher(
-  context: TSESLint.RuleContext<string, unknown[]>,
+  context: TSESLint.RuleContext<string, readonly unknown[]>,
   pattern: NormalizedRulePattern,
 ) {
   const names = pattern.names
@@ -161,7 +161,7 @@ export function createMatcher(
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -213,8 +213,8 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: '{{ message }}',
     },
+    defaultOptions: [] as (string | RulePattern)[],
   },
-  defaultOptions: [] as (string | RulePattern)[],
   create(context) {
     return createRuleListenerFromEntries(
       context.options.map(normalizeRulePattern).map(pattern => {

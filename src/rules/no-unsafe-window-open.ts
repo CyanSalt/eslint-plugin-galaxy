@@ -12,7 +12,7 @@ const METHOD_SELECTOR = [
 ].join('')
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -25,7 +25,6 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'Call `window.open()` without the `noopener` feature is unsafe.',
     },
   },
-  defaultOptions: [],
   create(context) {
     return {
       [METHOD_SELECTOR]: (node: TSESTree.CallExpression) => {

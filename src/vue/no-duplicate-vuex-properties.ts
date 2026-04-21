@@ -30,7 +30,7 @@ function addValueToSetMap<T, U>(map: Map<T, Set<U>>, key: T, value: U) {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -44,7 +44,6 @@ export default createRule({
       [MESSAGE_ID_SUGGESTION_REMOVE]: 'Remove duplicate property',
     },
   },
-  defaultOptions: [],
   create(context) {
     const code = context.sourceCode
     const vuexCalls = new Map<TSESTree.ObjectExpression, Set<VuexCallExpression>>()

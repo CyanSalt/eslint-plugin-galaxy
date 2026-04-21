@@ -20,7 +20,7 @@ const NON_BLOCK_ALTERNATE_CONSEQUENT_SELECTOR = [
 ].join('')
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -32,7 +32,6 @@ export default createRule({
       [MESSAGE_ID_DEFAULT]: 'Expected curly braces for statements with multiple branches',
     },
   },
-  defaultOptions: [],
   create(context) {
     return {
       [NON_BLOCK_CONSEQUENT_SELECTOR]: (node: TSESTree.IfStatement & { alternate: TSESTree.Statement }) => {

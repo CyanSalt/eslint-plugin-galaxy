@@ -4,7 +4,7 @@ import { getModuleScope } from '../context'
 import { isIdentifierOf } from '../estree'
 import type { RulePattern } from '../rules/no-restricted-floating-promises'
 import noRestrictedFloatingPromises, { createMatcher, isCaughtByChain, isFloatingPromise, normalizeRulePattern } from '../rules/no-restricted-floating-promises'
-import { createRule, createRuleListenerFromEntries } from '../utils'
+import { createRule, createRuleListenerFromEntries, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-vue-unhandled-promises'
 
@@ -211,7 +211,7 @@ interface MethodPromiseReference {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -221,10 +221,10 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: '{{ message }}',
     },
+    defaultOptions: [] as (string | RulePattern)[],
   },
-  defaultOptions: [] as (string | RulePattern)[],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
 
     let causes: PromiseCause[] = []
 

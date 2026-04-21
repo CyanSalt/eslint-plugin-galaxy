@@ -83,7 +83,7 @@ function isTheSameAccessor(
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -97,7 +97,6 @@ export default createRule({
       [MESSAGE_ID_NON_NULLABLE]: 'Unnecessary optional chain on a non-nullish value.',
     },
   },
-  defaultOptions: [],
   create(context) {
     const code = context.sourceCode
     const parserServices = code.parserServices

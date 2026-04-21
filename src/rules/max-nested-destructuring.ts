@@ -4,7 +4,7 @@ import { createRule } from '../utils'
 const MESSAGE_ID_DEFAULT = 'max-nested-destructuring'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'suggestion',
     docs: {
@@ -24,10 +24,12 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: 'Too many nested destructuring ({{num}}). Maximum allowed is {{max}}.',
     },
+    defaultOptions: [
+      { max: 3 },
+    ] as [
+      { max?: number } | undefined,
+    ],
   },
-  defaultOptions: [
-    { max: 3 } as { max?: number } | undefined,
-  ],
   create(context) {
     const max = context.options[0]?.max ?? 3
     const destructuringStack: TSESTree.Node[] = []

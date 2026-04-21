@@ -1,12 +1,14 @@
 {
   "extends": "@cyansalt/tsconfig",
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "types": ["node"]
   },
   "include": [
     "tests",
     "*.config.mjs",
-    "*.config.mts"
+    "*.config.mts",
+    "*.config.ts"
   ],
   "references": [
     { "path": "./tsconfig.lib.json" }

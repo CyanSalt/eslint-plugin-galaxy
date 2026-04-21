@@ -17,7 +17,7 @@ export function *removeElement(
 ) {
   const beforeToken = code.getTokenBefore(node)!
   let lastToken: TSESTree.Node | TSESTree.Token | null = code.getTokenAfter(node)
-  if (!lastToken || lastToken.type !== AST_TOKEN_TYPES.Punctuator || lastToken.value !== ',') {
+  if (lastToken?.type !== AST_TOKEN_TYPES.Punctuator || lastToken.value !== ',') {
     lastToken = node
   }
   yield fixer.removeRange([beforeToken.range[0] + 1, lastToken.range[1]])

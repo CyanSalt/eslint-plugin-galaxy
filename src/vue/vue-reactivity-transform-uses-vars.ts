@@ -59,7 +59,7 @@ function isAssignmentReference(ref: TSESLint.Scope.Reference) {
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -68,7 +68,6 @@ export default createRule({
     schema: [],
     messages: {},
   },
-  defaultOptions: [],
   create(context) {
     return {
       Program() {

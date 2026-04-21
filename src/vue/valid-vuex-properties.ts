@@ -52,7 +52,7 @@ function getDefinedVariable(scope: TSESLint.Scope.Scope | undefined, node: TSEST
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -65,7 +65,6 @@ export default createRule({
       [MESSAGE_ID_ARGUMENTS]: 'At least one argument must be used in "{{name}}".',
     },
   },
-  defaultOptions: [],
   create(context) {
     return {
       [`${PROPERTY_METHOD_SELECTOR} ThisExpression`](node: TSESTree.ThisExpression) {

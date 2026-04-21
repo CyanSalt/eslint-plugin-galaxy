@@ -6,7 +6,7 @@ const MESSAGE_ID_DEFAULT = 'valid-indexof-return'
 const MESSAGE_ID_SUGGESTION_INCLUDES = 'suggestion@valid-indexof-return.includes'
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'problem',
     docs: {
@@ -20,7 +20,6 @@ export default createRule({
       [MESSAGE_ID_SUGGESTION_INCLUDES]: 'Use `.includes()` instead of `.indexOf()`',
     },
   },
-  defaultOptions: [],
   create(context) {
     return {
       'CallExpression[callee.property.name="indexOf"]': (

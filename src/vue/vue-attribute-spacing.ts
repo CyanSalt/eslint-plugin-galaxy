@@ -1,15 +1,15 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { createRule } from '../utils'
+import { createRule, loadESLintPluginVueUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'vue-attribute-spacing'
 
 function isAttributeQuote(token: TSESTree.Token | undefined) {
-  return Boolean(token && token.type === AST_TOKEN_TYPES.Punctuator)
+  return Boolean(token?.type === AST_TOKEN_TYPES.Punctuator)
 }
 
 export default createRule({
-  name: __filename,
+  name: import.meta.filename,
   meta: {
     type: 'layout',
     docs: {
@@ -25,12 +25,14 @@ export default createRule({
     messages: {
       [MESSAGE_ID_DEFAULT]: 'Expected {{ num }} space around the attribute.',
     },
+    defaultOptions: [
+      'never',
+    ] as [
+      'always' | 'never' | undefined,
+    ],
   },
-  defaultOptions: [
-    'never',
-  ],
   create(context) {
-    const utils = require('eslint-plugin-vue/lib/utils')
+    const utils = loadESLintPluginVueUtils()
     const option = context.options[0] || 'never'
     // @ts-expect-error vue-eslint-parser API
     const template = context.sourceCode.parserServices.getTemplateBodyTokenStore?.()
