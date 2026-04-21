@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.3](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.2...v2.0.3) (2026-04-21)
+
+### Bug Fixes
+
+* globals imports ([eada07c](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/eada07ce140a12151d4a9803cf55fd11ddbe807a))
+
 ## [2.0.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.1...v2.0.2) (2026-04-21)
 
 ### Bug Fixes
