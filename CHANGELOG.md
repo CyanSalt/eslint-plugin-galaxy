@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.2](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.1...v2.0.2) (2026-04-21)
+
+### Bug Fixes
+
+* rule names ([2a83044](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/2a83044c57cb4330a936ddec39a3912c67900b70))
+
 ## [2.0.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.0...v2.0.1) (2026-04-21)
 
 ### Bug Fixes
