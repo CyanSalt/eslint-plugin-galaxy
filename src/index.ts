@@ -120,25 +120,25 @@ const plugin: TSESLint.FlatConfig.Plugin & { configs: TSESLint.FlatConfig.Shared
 }
 
 plugin.configs.recommended = {
-  name: 'byted-star/recommended',
+  name: 'galaxy/recommended',
   plugins: {
-    '@byted-star': plugin,
+    galaxy: plugin,
   },
   rules: getRecommendedRules(baseRules),
 }
 
 plugin.configs['recommended-vue'] = {
-  name: 'byted-star/recommended-vue',
+  name: 'galaxy/recommended-vue',
   plugins: {
-    '@byted-star': plugin,
+    galaxy: plugin,
   },
   rules: getRecommendedRules(vueRules),
 }
 
 plugin.configs.all = {
-  name: 'byted-star/all',
+  name: 'galaxy/all',
   plugins: {
-    '@byted-star': plugin,
+    galaxy: plugin,
   },
   rules: {
     ...getAllRules(baseRules),
