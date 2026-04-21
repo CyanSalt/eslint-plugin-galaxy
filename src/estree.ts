@@ -66,7 +66,7 @@ export function *iterateNodeFactory(
         if (!variable.defs.length) return undefined
         for (const def of variable.defs) {
           // def is ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
-          if (def.node.parent?.type === AST_NODE_TYPES.ImportDeclaration) {
+          if (def.node.parent.type === AST_NODE_TYPES.ImportDeclaration) {
             yield def.node.parent
             return
           }

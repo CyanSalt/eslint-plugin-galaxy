@@ -50,7 +50,7 @@ export default createRule({
     ]
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       const propsProperty: TSESTree.Property | undefined = utils.findProperty(obj, 'props')
-      if (!propsProperty || propsProperty.value.type !== AST_NODE_TYPES.ObjectExpression) {
+      if (propsProperty?.value.type !== AST_NODE_TYPES.ObjectExpression) {
         return
       }
       for (const item of propsProperty.value.properties) {

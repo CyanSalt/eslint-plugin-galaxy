@@ -30,7 +30,7 @@ export default createRule({
             const definition = templateElement.variables.find(
               item => item.id.type === AST_NODE_TYPES.Identifier && item.id.name === variable.id.name,
             )
-            if (definition && definition.kind === 'scope') {
+            if (definition?.kind === 'scope') {
               context.report({
                 loc: variable.id.loc,
                 messageId: MESSAGE_ID_DEFAULT,

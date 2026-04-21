@@ -48,7 +48,7 @@ export default createRule({
     ]
     return utils.executeOnVue(context, (obj: TSESTree.ObjectExpression) => {
       const injectProperty: TSESTree.Property | undefined = utils.findProperty(obj, 'inject')
-      if (!injectProperty || injectProperty.value.type !== AST_NODE_TYPES.ObjectExpression) {
+      if (injectProperty?.value.type !== AST_NODE_TYPES.ObjectExpression) {
         return
       }
       for (const item of injectProperty.value.properties) {

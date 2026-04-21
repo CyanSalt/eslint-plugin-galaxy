@@ -100,7 +100,7 @@ function getMethods(node: TSESTree.ObjectExpression) {
   if (methodsCache.has(node)) return methodsCache.get(node)!
   const methods = new Map<string, TSESTree.Node>()
   const methodsObject = getPropertyValue(node, 'methods')
-  if (methodsObject && methodsObject.type === AST_NODE_TYPES.ObjectExpression) {
+  if (methodsObject?.type === AST_NODE_TYPES.ObjectExpression) {
     for (const item of methodsObject.properties) {
       if (
         item.type === AST_NODE_TYPES.Property
@@ -118,7 +118,7 @@ function getWatchers(node: TSESTree.ObjectExpression) {
   if (watchersCache.has(node)) return watchersCache.get(node)!
   const watchers = new Map<string, TSESTree.Node>()
   const watcherObject = getPropertyValue(node, 'watch')
-  if (watcherObject && watcherObject.type === AST_NODE_TYPES.ObjectExpression) {
+  if (watcherObject?.type === AST_NODE_TYPES.ObjectExpression) {
     for (const item of watcherObject.properties) {
       if (
         item.type === AST_NODE_TYPES.Property
@@ -133,7 +133,7 @@ function getWatchers(node: TSESTree.ObjectExpression) {
           }
         } else if (value.type === AST_NODE_TYPES.ObjectExpression) {
           const handler = getPropertyValue(value, 'handler')
-          if (handler && handler.type === AST_NODE_TYPES.FunctionExpression) {
+          if (handler?.type === AST_NODE_TYPES.FunctionExpression) {
             watchers.set(name, handler)
           }
         } else {
@@ -149,8 +149,7 @@ function getWatchers(node: TSESTree.ObjectExpression) {
 function isSetupFunction(node: TSESTree.Node) {
   const parent = node.parent
   return Boolean(
-    parent
-    && parent.type === AST_NODE_TYPES.CallExpression
+    parent?.type === AST_NODE_TYPES.CallExpression
     && parent.callee.type === AST_NODE_TYPES.Identifier
     && SETUP_FUNCTIONS.includes(parent.callee.name),
   )

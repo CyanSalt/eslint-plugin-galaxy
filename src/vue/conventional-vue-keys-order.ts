@@ -212,7 +212,7 @@ export default createRule({
       {
         rules?: string[],
         additionalRules?: RuleDeclaration[],
-      },
+      } | undefined,
     ],
   },
   create(context) {

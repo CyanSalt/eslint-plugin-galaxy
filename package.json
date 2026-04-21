@@ -42,7 +42,7 @@
     "micromatch": "^4.0.8"
   },
   "devDependencies": {
-    "@cyansalt/eslint-config": "^4.3.1",
+    "@cyansalt/eslint-config": "^4.6.0",
     "@cyansalt/tsconfig": "^3.0.2",
     "@release-it/conventional-changelog": "^10.0.6",
     "@types/esquery": "^1.5.4",
@@ -50,7 +50,7 @@
     "@types/node": "^22.16.0",
     "@typescript-eslint/parser": "^8.59.0",
     "@typescript-eslint/rule-tester": "^8.59.0",
-    "eslint": "^9.39.1",
+    "eslint": "^10.2.1",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-vue": "^10.8.0",

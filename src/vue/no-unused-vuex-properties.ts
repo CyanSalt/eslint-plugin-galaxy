@@ -155,7 +155,7 @@ export default createRule({
             }
             // check { data: (vm) => vm.prop }
           } else {
-            const parentProperty = getParentProperty(property.parent as TSESTree.Expression)
+            const parentProperty = getParentProperty(property.parent)
             if (!parentProperty) {
               return
             }
@@ -166,7 +166,7 @@ export default createRule({
               // check { computed: { foo: (vm) => vm.prop } }
             } else {
               const parentParentProperty = getParentProperty(
-                parentProperty.parent as TSESTree.Expression,
+                parentProperty.parent,
               )
               if (!parentParentProperty) return
               if (parentParentProperty.parent === vueData.node) {
