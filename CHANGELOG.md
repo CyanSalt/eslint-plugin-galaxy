@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.36.1...v2.0.0) (2026-04-21)
+
+### ⚠ BREAKING CHANGES
+
+* use esm instead of cjs
+* remove `eslint-plugin-import` supports
+* remove `no-deprecated-vue-deep-combinator`
+
+### Features
+
+* use esm instead of cjs ([28f9eea](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/28f9eeabec14ccf76a726ad6c32f142bfcdd1b46))
+
+### Bug Fixes
+
+* cjs build ([da6ab7d](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/da6ab7d357c0713dd326de85ad926b5863d4d653))
+* support `functionsAsObjectDefaults` for `valid-vue-reactivity-transform-props` ([2d9a96e](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/2d9a96ead4e98af5e8d6e0edce05242e5b94dc3f))
+
 ## [1.36.1](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v1.36.0...v1.36.1) (2025-07-03)
 
 ### Bug Fixes
