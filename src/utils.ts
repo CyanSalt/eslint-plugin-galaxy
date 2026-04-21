@@ -14,7 +14,7 @@ export function getRuleBasename(filename: string) {
 }
 
 export function getRuleName(filename: string) {
-  return `@byted-star/${getRuleBasename(filename)}`
+  return `galaxy/${getRuleBasename(filename)}`
 }
 
 export const createRule = ESLintUtils.RuleCreator<RuleDocs>(name => {
