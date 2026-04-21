@@ -1,5 +1,5 @@
 import type { TSESLint } from '@typescript-eslint/utils'
-import * as globals from 'globals'
+import globals from 'globals'
 import { createRule } from '../utils'
 
 const MESSAGE_ID_PROTOTYPE_BUILTINS = 'no-misused-globals.prototype-builtins'
