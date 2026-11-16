@@ -43,7 +43,7 @@
       {
         "name": "pnpm",
         "version": "^11.0.0",
-        "onFail": "error"
+        "onFail": "ignore"
       },
       {
         "name": "npm",

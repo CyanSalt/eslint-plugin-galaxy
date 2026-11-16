@@ -81,11 +81,11 @@ module.exports = {
 
 - [`no-shared-vue-provide`](./docs/vue/no-shared-vue-provide.md) - Enforce the `provide` option of Vue component to be a function ✅ 🔧
 
-- [`no-unknown-vue-options`](./docs/vue/no-empty-vue-options.md) - Disallow unknown options in Vue components ✅
+- [`no-unknown-vue-options`](./docs/vue/no-unknown-vue-options.md) - Disallow unknown options in Vue components ✅
 
 - [`no-unused-vuex-properties`](./docs/vue/no-unused-vuex-properties.md) - Disallow unused properties from Vuex
 
-- [`no-vue-sfc-text-node`](./docs/vue/no-empty-vue-options.md) - Disallow text nodes in Vue SFC files ✅ 🔧
+- [`no-vue-sfc-text-node`](./docs/vue/no-vue-sfc-text-node.md) - Disallow text nodes in Vue SFC files ✅ 🔧
 
 - [`require-vue-default-inject`](./docs/vue/require-vue-default-inject.md) - Require default value for inject ✅ 🔧
 
