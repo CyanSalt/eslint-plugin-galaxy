@@ -1,25 +1,11 @@
 import * as path from 'path'
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import type { ModuleInfo } from 'eslint-plugin-import-x/core/index'
 import { getImportedName } from '../estree'
-import { createRule, loadESLintPluginImportUtils } from '../utils'
+import { createRule, loadESLintPluginImportCore, loadESLintPluginImportUtils } from '../utils'
 
 const MESSAGE_ID_DEFAULT = 'no-restricted-barrel-imports'
-
-interface ExportMap {
-  path: string,
-  imports: Map<string, {
-    getter: () => ExportMap,
-    declarations: Set<{
-      source: TSESTree.StringLiteral,
-    }>,
-  }>,
-  dependencies: Set<() => ExportMap | undefined>,
-  hasDeep(name: string): {
-    found: boolean,
-    path: ExportMap[],
-  },
-}
 
 function isRelativeImport(importSource: string) {
   return importSource === '.'
@@ -37,7 +23,7 @@ function joinImportSource(sourcePath: string, relativePath: string, isDirectory:
 }
 
 function resolveImportSource(
-  exportMap: ExportMap,
+  moduleInfo: ModuleInfo,
   importSource: string,
   source: string,
   context: TSESLint.RuleContext<string, readonly unknown[]>,
@@ -46,8 +32,8 @@ function resolveImportSource(
   if (isRelativeImport(source)) {
     const importSourceExt = path.extname(importSource)
     if (!importSourceExt) {
-      const importSourceWithExt = importSource + path.extname(exportMap.path)
-      if (resolve(importSourceWithExt, context) !== exportMap.path) {
+      const importSourceWithExt = importSource + path.extname(moduleInfo.path)
+      if (resolve(importSourceWithExt, context) !== moduleInfo.path) {
         return joinImportSource(importSource, source, true)
       }
     }
@@ -57,16 +43,17 @@ function resolveImportSource(
 }
 
 function resolveImportSources<T>(
-  exportMap: ExportMap,
+  moduleInfo: ModuleInfo,
   importSource: string,
   values: Map<string, T>,
   context: TSESLint.RuleContext<string, readonly unknown[]>,
 ) {
   const result = new Map<string, T>()
   for (const [importPath, value] of values) {
-    const { declarations } = exportMap.imports.get(importPath)!
+    const imports = moduleInfo.getImports()
+    const { declarations } = imports.get(importPath)!
     for (const decl of declarations) {
-      const deepSource = resolveImportSource(exportMap, importSource, decl.source.value, context)
+      const deepSource = resolveImportSource(moduleInfo, importSource, decl.source.value as string, context)
       result.set(deepSource, value)
     }
   }
@@ -74,18 +61,22 @@ function resolveImportSources<T>(
 }
 
 function resolveDeepImports(
-  exportMap: ExportMap,
+  moduleInfo: ModuleInfo,
   importSource: string,
   imports: Set<string>,
   context: TSESLint.RuleContext<string, readonly unknown[]>,
 ) {
   const result = new Map<string, Set<string>>()
   const processingImports = new Set(imports)
-  for (const getter of exportMap.dependencies) {
-    const dependency = getter()
+  const { getStarExportPaths, resolveDeepExport } = loadESLintPluginImportCore()
+  const dependencies = moduleInfo.getImports()
+  for (const dependencyPath of getStarExportPaths(moduleInfo)) {
+    const depImport = dependencies.get(dependencyPath)
+    const dependency = depImport?.resolve()
     if (!dependency) continue
     for (const name of processingImports) {
-      if (dependency.hasDeep(name).found) {
+      const resolved = resolveDeepExport(dependency, name)
+      if (resolved.found) {
         let names = result.get(dependency.path)
         if (!names) {
           names = new Set<string>()
@@ -97,7 +88,7 @@ function resolveDeepImports(
     }
   }
   if (!result.size) return null
-  const deepImports = resolveImportSources(exportMap, importSource, result, context)
+  const deepImports = resolveImportSources(moduleInfo, importSource, result, context)
   if (processingImports.size) {
     deepImports.set(importSource, processingImports)
   }
@@ -136,10 +127,8 @@ export default createRule({
     ],
   },
   create(context) {
-    const {
-      ExportMap,
-      moduleVisitor,
-    } = loadESLintPluginImportUtils()
+    const { ModuleInfo } = loadESLintPluginImportCore()
+    const { moduleVisitor } = loadESLintPluginImportUtils()
 
     const { files = [] } = context.options[0] ?? {}
 
@@ -148,7 +137,7 @@ export default createRule({
       node: TSESTree.ImportDeclaration | TSESTree.ImportExpression,
     ) {
       if (!source?.value) return
-      const imported = ExportMap.get(source.value, context) as ExportMap | undefined
+      const imported = ModuleInfo.get(source.value, context)
       if (!imported) return
       const specifiers = node.type === AST_NODE_TYPES.ImportDeclaration ? node.specifiers : []
       const mapping = specifiers

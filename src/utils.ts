@@ -42,10 +42,18 @@ export function createRuleListenerFromEntries(
   }, {})
 }
 
+export function loadESLintPluginImportCore() {
+  const require = createRequire(import.meta.url)
+  const core = require('eslint-plugin-import-x/core/index')
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  return core as typeof import('eslint-plugin-import-x/core/index')
+}
+
 export function loadESLintPluginImportUtils() {
   const require = createRequire(import.meta.url)
   const utils = require('eslint-plugin-import-x/utils')
-  return utils
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  return utils as typeof import('eslint-plugin-import-x/utils')
 }
 
 export function loadESLintPluginVueUtils(subpath?: string) {
