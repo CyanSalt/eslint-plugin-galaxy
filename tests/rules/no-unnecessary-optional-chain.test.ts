@@ -21,6 +21,9 @@ ruleTester.run('no-unnecessary-optional-chain', rule, {
     {
       code: `foo.bar?.baz > foo.bar?.qux`,
     },
+    {
+      code: `if (foo.bar) { baz(() => foo.bar?.()) }`,
+    },
   ],
   invalid: [
     {

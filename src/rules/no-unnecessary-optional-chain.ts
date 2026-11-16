@@ -82,6 +82,21 @@ function isTheSameAccessor(
   return false
 }
 
+const FUNCTION_TYPES = new Set([
+  AST_NODE_TYPES.ArrowFunctionExpression,
+  AST_NODE_TYPES.FunctionExpression,
+  AST_NODE_TYPES.FunctionDeclaration,
+])
+
+function isInNestedFunction(node: TSESTree.Node, root: TSESTree.Node) {
+  let current = node.parent
+  while (current && current !== root) {
+    if (FUNCTION_TYPES.has(current.type)) return true
+    current = current.parent
+  }
+  return false
+}
+
 export default createRule({
   name: import.meta.filename,
   meta: {
@@ -164,6 +179,7 @@ export default createRule({
       if (!markedExpressions.length) return
       const result = esquery.query(node as never, 'MemberExpression[optional=true], CallExpression[optional=true]') as MaybeOptionalExpression[]
       result.forEach(expr => {
+        if (isInNestedFunction(expr, node)) return
         checkExpression(expr, markedExpressions)
       })
     }
