@@ -147,7 +147,7 @@ export default createRule({
       node: TSESTree.Expression,
       indeterminate?: boolean,
     ): ReturnType<typeof getMaybeOptionalExpressionObject>[] {
-      const result = esquery.query(node as never, 'MemberExpression[optional!=true], CallExpression[optional!=true]') as MaybeOptionalExpression[]
+      const result = esquery.query(node as never, 'MemberExpression[optional!=true], CallExpression[optional!=true]', { visitorKeys: code.visitorKeys }) as MaybeOptionalExpression[]
       const usedExpressions = result.map(getMaybeOptionalExpressionObject)
       return indeterminate
         ? usedExpressions
@@ -177,7 +177,7 @@ export default createRule({
       markedExpressions: TSESTree.Expression[],
     ) {
       if (!markedExpressions.length) return
-      const result = esquery.query(node as never, 'MemberExpression[optional=true], CallExpression[optional=true]') as MaybeOptionalExpression[]
+      const result = esquery.query(node as never, 'MemberExpression[optional=true], CallExpression[optional=true]', { visitorKeys: code.visitorKeys }) as MaybeOptionalExpression[]
       result.forEach(expr => {
         if (isInNestedFunction(expr, node)) return
         checkExpression(expr, markedExpressions)

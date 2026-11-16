@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import esquery from 'esquery'
 import { getModuleScope } from '../context'
@@ -27,10 +27,14 @@ function isVueFunctionType(prop: any) {
   }
 }
 
-function getOnlyPossibleReturnValueNode(body: (TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression)['body']) {
+function getOnlyPossibleReturnValueNode(code: TSESLint.SourceCode, body: (TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression)['body']) {
   switch (body.type) {
     case AST_NODE_TYPES.BlockStatement: {
-      const result = esquery.query(body as never, AST_NODE_TYPES.ReturnStatement) as TSESTree.ReturnStatement[]
+      const result = esquery.query(
+        body as never,
+        AST_NODE_TYPES.ReturnStatement,
+        { visitorKeys: code.visitorKeys },
+      ) as TSESTree.ReturnStatement[]
       // Also support multiple top-level return values
       return result.length && result[0].parent === body
         ? result[0].argument
@@ -225,7 +229,7 @@ export default createRule({
                   defaultValueLiteralNode.type === AST_NODE_TYPES.ArrowFunctionExpression
                   || defaultValueLiteralNode.type === AST_NODE_TYPES.FunctionExpression
                 ) && willCallDefaultValueFunction) {
-                  defaultValueLiteralNode = getOnlyPossibleReturnValueNode(defaultValueLiteralNode.body)
+                  defaultValueLiteralNode = getOnlyPossibleReturnValueNode(code, defaultValueLiteralNode.body)
                 } else {
                   defaultValueLiteralNode = undefined
                 }

@@ -1,5 +1,5 @@
 import rule from '../../src/rules/no-unnecessary-optional-chain'
-import { ruleTester, vueRuleTester } from '../tester'
+import { ruleTester, tsRuleTester, vueRuleTester } from '../tester'
 
 ruleTester.run('no-unnecessary-optional-chain', rule, {
   valid: [
@@ -76,6 +76,15 @@ ruleTester.run('no-unnecessary-optional-chain', rule, {
       output: 'foo.bar.baz > foo.bar.qux',
     },
   ],
+})
+
+tsRuleTester.run('no-unnecessary-optional-chain', rule, {
+  valid: [
+    {
+      code: `foo?.bar ? foo.bar.baz! : foo.qux`,
+    },
+  ],
+  invalid: [],
 })
 
 vueRuleTester.run('no-unnecessary-optional-chain', rule, {

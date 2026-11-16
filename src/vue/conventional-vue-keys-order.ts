@@ -307,6 +307,7 @@ export default createRule({
                 const statements = esquery.query(
                   expr as never,
                   'ReturnStatement > ObjectExpression',
+                  { visitorKeys: code.visitorKeys },
                 ) as TSESTree.ObjectExpression[]
                 for (const statement of statements) {
                   sortObject(statement, rule)
