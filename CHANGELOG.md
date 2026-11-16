@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.4](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.3...v2.0.4) (2026-11-16)
+
+### Bug Fixes
+
+* optional chains nested functions ([19b70c9](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/19b70c9f0f0d1e4c40107556d8906318151390a6))
+* pass visitorKeys ([9fb0e89](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/9fb0e89f7f96fc1e6e973ad7a76127f70b530d8e))
+* upgrade to eslint-plugin-import-x@4.18.x ([3b5e907](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/3b5e90722b9d4188b9e4d6d64826ed81af38e4ab))
+
 ## [2.0.3](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.2...v2.0.3) (2026-04-21)
 
 ### Bug Fixes
