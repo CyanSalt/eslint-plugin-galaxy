@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.0](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.4...v2.1.0) (2026-11-17)
+
+### Features
+
+* add `no-import-equals-aliases` ([6dfbed8](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/6dfbed83b1eab3c5f39c551e2d8264d7cf3b09e0))
+
+### Bug Fixes
+
+* type errors ([ea1cb71](https://github.com/CyanSalt/eslint-plugin-galaxy/commit/ea1cb710f09e6877fa4350441500fc5cc5813dfd))
+
 ## [2.0.4](https://github.com/CyanSalt/eslint-plugin-galaxy/compare/v2.0.3...v2.0.4) (2026-11-16)
 
 ### Bug Fixes
