@@ -111,9 +111,9 @@ export default createRule({
       const extension = path.extname(resolvedPath || importPath)
 
       // determine if this is a module
-      const isPackage = isExternalModule(
+      const isPackage = resolvedPath && isExternalModule(
         importPath,
-        resolve(importPath, context),
+        resolvedPath,
         context,
       ) || isScoped(importPath)
 

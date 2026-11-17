@@ -190,10 +190,13 @@ export default createRule({
                     )
                   }
                   if (isIncompatibleDeclarationKind(existingDeclarator.parent, currentDeclarator.parent)) {
-                    yield fixer.replaceText(
-                      code.getFirstToken(existingDeclarator.parent),
-                      currentDeclarator.parent.kind,
-                    )
+                    const firstToken = code.getFirstToken(existingDeclarator.parent)
+                    if (firstToken) {
+                      yield fixer.replaceText(
+                        firstToken,
+                        currentDeclarator.parent.kind,
+                      )
+                    }
                   }
                 }
               },
