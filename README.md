@@ -59,6 +59,8 @@ module.exports = {
 
 - [`no-as-any`](./docs/typescript/no-as-any.md) - Disallow `any` type assertions
 
+- [`no-import-equals-aliases`](./docs/typescript/no-import-equals-aliases.md) - Disallow import-equals declarations with a bare identifier 🔧
+
 ### For Vue
 
 - [`conventional-vue-keys-order`](./docs/vue/conventional-vue-keys-order.md) - Enforce properties in Vue component options to be sorted in conventional order 🔧

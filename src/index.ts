@@ -16,6 +16,7 @@ import noUnsafeWindowOpen from './rules/no-unsafe-window-open'
 import nonControlStatementCurly from './rules/non-control-statement-curly'
 import validIndexofReturn from './rules/valid-indexof-return'
 import noAsAny from './typescript/no-as-any'
+import noImportEqualsAliases from './typescript/no-import-equals-aliases'
 import type { Rule } from './utils'
 import { getRuleBasename, getRuleName } from './utils'
 import conventionalVueKeysOrder from './vue/conventional-vue-keys-order'
@@ -82,6 +83,7 @@ const baseRules = [
 ]
 const tsRules = [
   noAsAny,
+  noImportEqualsAliases,
 ]
 const vueRules = [
   conventionalVueKeysOrder,
